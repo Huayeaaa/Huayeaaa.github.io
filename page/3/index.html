@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Python历程</title><meta name="author" content="HuaYe"><meta name="copyright" content="HuaYe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Good Luck!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Python历程">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="Python历程">
+<meta property="og:description" content="Good Luck!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/img.jpg">
+<meta property="article:author" content="HuaYe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/img.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python历程',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-07-08 20:45:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/img.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/img/banner.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Python历程"><span class="site-name">Python历程</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Python历程</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/30/Django%E5%9B%BE%E4%B9%A6%E7%AE%A1%E7%90%86%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/" title="ORM案例及多对多关系创建"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ORM案例及多对多关系创建"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/30/Django%E5%9B%BE%E4%B9%A6%E7%AE%A1%E7%90%86%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/" title="ORM案例及多对多关系创建">ORM案例及多对多关系创建</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-30T12:01:54.000Z" title="发表于 2022-06-30 20:01:54">2022-06-30</time></span></div><div class="content">图书管理的增删改查12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455from django.shortcuts import render,redirect,HttpResponsefrom app01 import models# 首页def home(request):    return render(request,&#x27;home.html&#x27;)# 先查询出所有的书籍信息 传递给html页面def book_list(request):    book_queryset = models.Book.objects.all()    return render(request,&#x27;book_list.html&#x27;,locals())def book_add(request):    if request.method == &#x27;POST&#x27;:        # 获取前端提交过来的所有数 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/26/Django%E6%A8%A1%E5%9E%8B%E5%B1%82/" title="Django模型层"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django模型层"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/26/Django%E6%A8%A1%E5%9E%8B%E5%B1%82/" title="Django模型层">Django模型层</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-26T14:39:20.000Z" title="发表于 2022-06-26 22:39:20">2022-06-26</time></span></div><div class="content">单表查询与外键操作单表操作12345678910111213141516171819202122232425262728# django自带的sqlite3数据库对日期格式不是很敏感 处理的时候容易出错# 增    # res = models.User.objects.create(name=&#x27;jason&#x27;,age=18,register_time=&#x27;2002-1-21&#x27;)        # import datetime    # ctime = datetime.datetime.now()    # user_obj = models.User(name=&#x27;keven&#x27;,age=84,register_time=ctime)    # user_obj.save()    # 删    # res = models.User.objects.filter(pk=2).delete()    # print(res)    &quot;&quot;&quot;    pk会自动查找到当前表的主键字段 指代的就是当前表的主 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/23/Django%E6%A8%A1%E6%9D%BF%E5%B1%82/" title="Django模板层"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django模板层"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/23/Django%E6%A8%A1%E6%9D%BF%E5%B1%82/" title="Django模板层">Django模板层</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-23T13:59:57.000Z" title="发表于 2022-06-23 21:59:57">2022-06-23</time></span></div><div class="content">模版语法传值1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859在模板会经常看到这两个：&#123;&#123;&#125;&#125;:变量相关；&#123;%%&#125;:逻辑相关 django取值是 .取值def index(request):    # 模版语法可以传递的后端python数据类型    n = 123    f = 11.11    s = &#x27;我也想睡觉&#x27;    b = True    l = [&#x27;小红&#x27;,&#x27;姗姗&#x27;,&#x27;花花&#x27;,&#x27;茹茹&#x27;]    t = (111,222,333,444)    d = &#123;&#x27;username&#x27;:&#x27;jason&#x27;,&#x27;age&#x27;:18,&#x27;info&#x27;:&#x27;这个人有点意思&#x27;& ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/19/Django%E8%A7%86%E5%9B%BE%E5%B1%82/" title="Django视图层"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django视图层"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/19/Django%E8%A7%86%E5%9B%BE%E5%B1%82/" title="Django视图层">Django视图层</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-19T14:59:19.000Z" title="发表于 2022-06-19 22:59:19">2022-06-19</time></span></div><div class="content">三板斧1234567891011121314151617&quot;&quot;&quot;HttpResponse	返回字符串类型render	返回html页面 并且在返回给浏览器之前还可以给html文件传值redirect	重定向&quot;&quot;&quot;# 视图函数必须要返回一个HttpResponse对象  正确   研究三者的源码即可得处结论# render简单内部原理	from django.template import Template,Context    res = Template(&#x27;&lt;h1&gt;&#123;&#123; user &#125;&#125;&lt;/h1&gt;&#x27;)    con = Context(&#123;&#x27;user&#x27;:&#123;&#x27;username&#x27;:&#x27;jason&#x27;,&#x27;password&#x27;:123&#125;&#125;)    ret = res.render(con)    print(ret)    return Htt ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/17/Django%E8%B7%AF%E7%94%B1%E5%B1%82/" title="Django路由层"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django路由层"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/17/Django%E8%B7%AF%E7%94%B1%E5%B1%82/" title="Django路由层">Django路由层</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-17T11:58:48.000Z" title="发表于 2022-06-17 19:58:48">2022-06-17</time></span></div><div class="content">路由匹配123456789101112131415161718192021222324# 路由匹配url(r&#x27;test&#x27;,views.test),url(r&#x27;testadd&#x27;,views.testadd)&quot;&quot;&quot;url方法第一个参数是正则表达式(1.x)只要第一个参数正则表达式能够匹配到内容 那么就会立刻停止往下匹配直接执行对应的视图函数你在输入url的时候会默认加斜杠	django内部帮你做到重定向,一次匹配不行,url后面加斜杠再来一次&quot;&quot;&quot;# 取消自动加斜杠APPEND_SLASH = False/True	# 默认是自动加斜杠的urlpatterns = [    url(r&#x27;^admin/&#x27;, admin.site.urls),    # 首页    url(r&#x27;^$&#x27;,views.home),    # 路由匹配    url(r&#x27;^test/$&#x27;,views.test),    url(r&#x27;^testadd ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/12/Django%E4%BD%BF%E7%94%A8/" title="Django初使用"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django初使用"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/12/Django%E4%BD%BF%E7%94%A8/" title="Django初使用">Django初使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-12T09:56:34.000Z" title="发表于 2022-06-12 17:56:34">2022-06-12</time></span></div><div class="content">静态文件配置1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283&quot;&quot;&quot;我们将html文件默认都放在templates文件夹下我们将网站所使用的静态文件默认都放在static文件夹下静态文件:前端已经写好了的 能够直接调用使用的文件		网站写好的js文件		网站写好的css文件		网站用到的图片文件		第三方前端框架&quot;&quot;&quot;# django默认是不会自动帮你创建static文件夹 需要你自己手动创建一般情况下我们在static文件夹内还会做进一步的划分处理	-static  	--js    --css    --img    其他第三方文件&quot;&quot;&quot;在浏览器中输入url能够看到对应的资源是因为后端提前开设了该资源的接口STATIC_URL = & ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/06/09/Django%E6%A1%86%E6%9E%B6%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/" title="Django框架前置知识"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django框架前置知识"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/06/09/Django%E6%A1%86%E6%9E%B6%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/" title="Django框架前置知识">Django框架前置知识</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-06-09T10:54:38.000Z" title="发表于 2022-06-09 18:54:38">2022-06-09</time></span></div><div class="content">Django前置知识软件开发架构12cs架构bs架构(本质bs也是cs)
+
+HTTP协议12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849&quot;&quot;&quot;网络协议    HTTP协议				数据传输是明文    HTTPS协议				数据传输是密文    websocket协议		      数据传输是密文四大特性	1.基于请求响应	2.基于TCP、IP作用于应用层之上的协议	3.无状态	4.短/无链接数据格式	请求首行	请求头	此处为/r/n	请求体响应状态码	1XX	2XX			200	3XX				4XX			403 404	5XX			500&quot;&quot;&quot;# 简单服务端撰写import socketserver = socket.socket()server.bind((&#x27;127.0.0.1&#x27;, 8080))server.listen(5)while True:    conn, addr  ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/05/15/Python%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" title="Python发送邮件"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python发送邮件"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/05/15/Python%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" title="Python发送邮件">Python发送邮件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-05-15T12:38:10.000Z" title="发表于 2022-05-15 20:38:10">2022-05-15</time></span></div><div class="content">使用SMTP模块发送邮件123456789101112131415161718192021222324252627282930313233import smtplibfrom email.mime.text import MIMETextfrom email.header import Headermsg_from = &#x27;***@qq.com&#x27;  # 发送方邮箱passwd = &#x27;****&#x27;  # 填入发送方邮箱的授权码(填入自己的授权码，相当于邮箱密码)msg_to = [&#x27;****@qq.com&#x27;,&#x27;**@163.com&#x27;,&#x27;*****@163.com&#x27;]  # 收件人邮箱# msg_to = &#x27;616564099@qq.com&#x27;  # 收件人邮箱subject = &quot;邮件标题&quot;  # 主题content = &quot;邮件内容，我是邮件内容，哈哈哈&quot;# 生成一个MIMEText对象（还有一些其它参数）msg = MIMEText( ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/05/08/%E5%86%8D%E8%AE%BA%E5%85%83%E7%B1%BB/" title="再论元类"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="再论元类"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/05/08/%E5%86%8D%E8%AE%BA%E5%85%83%E7%B1%BB/" title="再论元类">再论元类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-05-08T12:27:44.000Z" title="发表于 2022-05-08 20:27:44">2022-05-08</time></span></div><div class="content">元类介绍什么是元类呢？一切源自于一句话：python中一切皆为对象。让我们先定义一个类，然后逐步分析
+123456789class StanfordTeacher(object):    school=&#x27;Stanford&#x27;     def __init__(self,name,age):        self.name=name        self.age=age     def say(self):        print(&#x27;%s says welcome to the Stanford to learn Python&#x27; %self.name)
+
+所有的对象都是实例化或者说调用类而得到的（调用类的过程称为类的实例化），比如对象t1是调用类StanfordTeacher得到的
+12t1=StanfordTeacher(&#x27;lili&#x27;,18)print(type(t1)) #查看对象t1的类是&lt;class &#x27;__main__.StanfordTeacher&#x27;&gt;
+
+如果一切皆为对象，那么类St ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/04/08/%E5%85%83%E7%B1%BB/" title="元类"><img class="post-bg" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="元类"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/04/08/%E5%85%83%E7%B1%BB/" title="元类">元类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-04-08T01:32:16.000Z" title="发表于 2022-04-08 09:32:16">2022-04-08</time></span></div><div class="content">元类基于python的宗旨:一切皆对象。而对象都是由类实例化得到的
+12345678class JasonBroTeacher(object):    school = &#x27;JasonBro&#x27;    def __init__(self,name):        self.name = name    def run(self):        print(&#x27;%s is running&#x27;%self.name)t1 = JasonBroTeacher(&#x27;jason&#x27;)# 对象t1是由类JasonBroTeacher实例化得到
+
+那么类也是对象，它又是谁实例化得到的呢？
+1234567# 分别查看对象t1和JasonBroTeacher的类型print(type(t1))print(type(JasonBroTeacher))# 结果为:&lt;class &#x27;__main__.JasonBroTeacher&#x27;&gt;&lt;class &#x27;type&#x27;&gt;
+
+结论1：元类就是产生类的类，默认情 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/img.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">HuaYe</div><div class="author-info__description">Good Luck!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/django/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/08/31/DRF/" title="DRF"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DRF"/></a><div class="content"><a class="title" href="/2023/08/31/DRF/" title="DRF">DRF</a><time datetime="2023-08-31T11:50:41.000Z" title="发表于 2023-08-31 19:50:41">2023-08-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/06/Centos%E9%83%A8%E7%BD%B2DRF-NGINX-UWSGI/" title="Centos部署DRF+NGINX+UWSGI"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Centos部署DRF+NGINX+UWSGI"/></a><div class="content"><a class="title" href="/2022/10/06/Centos%E9%83%A8%E7%BD%B2DRF-NGINX-UWSGI/" title="Centos部署DRF+NGINX+UWSGI">Centos部署DRF+NGINX+UWSGI</a><time datetime="2022-10-06T11:01:33.000Z" title="发表于 2022-10-06 19:01:33">2022-10-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/28/DRF%E7%BB%9F%E7%AD%B9/" title="DRF统筹-简略版"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DRF统筹-简略版"/></a><div class="content"><a class="title" href="/2022/08/28/DRF%E7%BB%9F%E7%AD%B9/" title="DRF统筹-简略版">DRF统筹-简略版</a><time datetime="2022-08-28T15:07:02.000Z" title="发表于 2022-08-28 23:07:02">2022-08-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/26/DRF-JWT-%E5%9F%BA%E4%BA%8EJWT%E8%AE%A4%E8%AF%81/" title="DRF-JWT-基于JWT认证"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DRF-JWT-基于JWT认证"/></a><div class="content"><a class="title" href="/2022/08/26/DRF-JWT-%E5%9F%BA%E4%BA%8EJWT%E8%AE%A4%E8%AF%81/" title="DRF-JWT-基于JWT认证">DRF-JWT-基于JWT认证</a><time datetime="2022-08-26T13:49:53.000Z" title="发表于 2022-08-26 21:49:53">2022-08-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/24/redis%E6%93%8D%E4%BD%9C/" title="redis操作"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis操作"/></a><div class="content"><a class="title" href="/2022/08/24/redis%E6%93%8D%E4%BD%9C/" title="redis操作">redis操作</a><time datetime="2022-08-24T13:06:24.000Z" title="发表于 2022-08-24 21:06:24">2022-08-24</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Django/" style="font-size: 1.5em; color: #99a9bf">Django</a> <a href="/tags/Python/" style="font-size: 1.23em; color: #999ea6">Python</a> <a href="/tags/Nginx-UWSGI/" style="font-size: 1.1em; color: #999">Nginx,UWSGI</a> <a href="/tags/DRF/" style="font-size: 1.37em; color: #99a4b2">DRF</a> <a href="/tags/redis/" style="font-size: 1.1em; color: #999">redis</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/08/"><span class="card-archive-list-date">八月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">9</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">9</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span class="card-archive-list-date">六月 2022</span><span class="card-archive-list-count">7</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/05/"><span class="card-archive-list-date">五月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/03/"><span class="card-archive-list-date">三月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">31</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-07-08T12:45:58.507Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By HuaYe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: (str) => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: (subtitleType) => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["爱回忆的人不快乐!","云在青天水在瓶","还记得你说家是唯一的城堡,随着稻香河流继续奔跑,微微笑,小时候的梦我知道."])
+  } else {
+    document.getElementById("subtitle").textContent = "爱回忆的人不快乐!"
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
