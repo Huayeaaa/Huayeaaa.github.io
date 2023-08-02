@@ -1,0 +1,913 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MySQL调优实践 | Python历程</title><meta name="author" content="HuaYe"><meta name="copyright" content="HuaYe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="索引 什么是索引​	提到索引,我们想到的是查询慢了设置索引呗！但是索引为什么起作用？设置了索引为什么还是慢我们其实不是很清楚。在关系数据库中,索引是一种数据结构,他将数据提前按照一定的规则进行排序和组织,能够帮助快速定位到数据记录的数据,加快数据库表中数据的查找和访问速度。像书籍的目录、文件夹、标签 、序列号….  都可以帮助我们快速定位，都可以视为索引。能实现快速定位数据的一种存储结构，其设计思">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL调优实践">
+<meta property="og:url" content="http://example.com/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Python历程">
+<meta property="og:description" content="索引 什么是索引​	提到索引,我们想到的是查询慢了设置索引呗！但是索引为什么起作用？设置了索引为什么还是慢我们其实不是很清楚。在关系数据库中,索引是一种数据结构,他将数据提前按照一定的规则进行排序和组织,能够帮助快速定位到数据记录的数据,加快数据库表中数据的查找和访问速度。像书籍的目录、文件夹、标签 、序列号….  都可以帮助我们快速定位，都可以视为索引。能实现快速定位数据的一种存储结构，其设计思">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/earth.jpg">
+<meta property="article:published_time" content="2099-01-01T13:46:34.000Z">
+<meta property="article:modified_time" content="2023-08-01T06:01:19.717Z">
+<meta property="article:author" content="HuaYe">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/earth.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL调优实践',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-01 14:01:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/img.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/earth.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Python历程"><span class="site-name">Python历程</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL调优实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2099-01-01T13:46:34.000Z" title="发表于 2099-01-01 21:46:34">2099-01-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL调优实践"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/1.jpg" alt="1"></p>
+<h2 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h2><p>​	提到索引,我们想到的是查询慢了设置索引呗！但是索引为什么起作用？设置了索引为什么还是慢我们其实不是很清楚。在关系数据库中,索引是一种数据结构,他将数据提前按照一定的规则进行排序和组织,能够帮助快速定位到数据记录的数据,加快数据库表中数据的查找和访问速度。像书籍的目录、文件夹、标签 、序列号….  都可以帮助我们快速定位，都可以视为索引。能实现快速定位数据的一种存储结构，其设计思想是以空间换时间。	</p>
+<h2 id="索引的种类"><a href="#索引的种类" class="headerlink" title="索引的种类"></a>索引的种类</h2><pre><code>在MySQL中索引是在存储引擎层实现的，而不是在服务器层实现的，所以不同存储引擎具有不同的索引类型和实现。常见的索引分类如下：
+● 按数据结构分类：B+tree索引、Hash索引、Full-text索引。
+● 按物理存储分类：聚集索引、非聚集索引。
+● 按字段特性分类：主键索引(PRIMARY KEY)、唯一索引(UNIQUE)、普通索引(INDEX)、全文索引(FULLTEXT)。
+● 按字段个数分类：单列索引、联合索引（也叫复合索引、组合索引）。
+</code></pre>
+<h2 id="常见索引数据结构和区别"><a href="#常见索引数据结构和区别" class="headerlink" title="常见索引数据结构和区别"></a>常见索引数据结构和区别</h2><p>○ 二叉树、红黑树、B树 、B+树<br>○ 区别：树的高度影响获取数据的性能（每一个树节点都是一次磁盘I&#x2F;O)</p>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p>特点：每个节点最多有两个子节,大在右,小在左,数据随机性情况下树杈越明显。</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/2.png" alt="2"><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/3.png" alt="3"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">如果数据是按顺序依次进入：</span><br><span class="line">	树的高度则会很高(相当于一个链表结构),此时元素的查找效率就等于链表查询O(n),数据检索效率将极为低下.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/4.png" alt="4"><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/5.png" alt="5"></p>
+<p>极端的情况下 就是一个链表结构（如图），此时元素的查找效率就等于链表查询O(n)。</p>
+<h3 id="红黑树-平衡二叉树"><a href="#红黑树-平衡二叉树" class="headerlink" title="红黑树(平衡二叉树)"></a>红黑树(平衡二叉树)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">虽通过自旋平衡，子节点会自动分叉为2个分支，从而减少树的高度，当数据有序插入时比二叉树数据检索性能更佳.     </span><br><span class="line">但是如果数据量过大，节点个数就越多，树高度也会增高（也就是树的深度越深），增加磁盘I/O次数，影响查询效率.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/6.gif" alt="6"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/7.png" alt="7"></p>
+<h3 id="B-树"><a href="#B-树" class="headerlink" title="B-树"></a>B-树</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B树的出现可以解决树高度的问题。之所以是B树,而并不是名称中&quot;xxx二叉树&quot;，就是它不再限制一个父节点中只能有两个子节点,而是允许 M 个子节点（M &gt; 2）。不仅如此，B树的一个节点可以存储多个元素，相比较于前面的那些二叉树数据结构又将整体的树高度降低了。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/8.png" alt="8"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B 树的节点可以包含有多个子节点，所以 B树是一棵多叉树，它的每一个节点包含的最多子节点数量的称为B树的阶。如下图是一颗3阶的B树。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/9.gif" alt="9"></p>
+<p><strong>当一颗3阶的B树查找 7这个的元素时的流程是怎么样的？</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">先从根节点出发,判断7在4和8之间,根据P2存储指针6的节点,判断7大于6最后指针找到叶子节点.也就找到有匹配7的键值</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/10.gif" alt="10"></p>
+<p>​	可以发现一颗3阶的B树在查找叶子节点时,由于树高度只有 3,所以查找过程最多只需要3次的磁盘I&#x2F;O操作.数据量不大时可能不太真切.但当数据量大时，节点也会随着增多;此时如果还是前面的自平衡二叉树的场景下,由于二叉树只能最多2个叶子节点的约束,也只能纵向去的去扩展子节点,树的高度会很高，意味着需要更多的操作磁盘I&#x2F;O次数.而B树则可以通过横向扩展节点从而降低树的高度,所以效率自然要比二叉树效率更高.(直白说就是变矮胖了).</p>
+<p>​	看到这,相信你也知道如果B树这么适合,也就没有接下来B+树的什么事了。接着,那为什么不用B树,而用了B+树呢？你看啊,B树其实已经满足了我们最前面所要满足的条件,减少磁盘I&#x2F;O操作,同时支持按区间查找。但注意，虽然B树支持按区间查找,但并不高效。例如上面的例子中，B树能高效的通过等值查询 15 这个值，但不方便查询出一个区间内3 ~ 10区间内所有数的结果。因为当B树做范围查询时需要使用中序遍历，那么父节点和子节点也就需要不断的来回切换涉及了多个节点会给磁盘I&#x2F;O带来很多负担。</p>
+<h3 id="B-树-B-tree"><a href="#B-树-B-tree" class="headerlink" title="B+树(B+tree)"></a>B+树(B+tree)</h3><p><strong>在MySQL中为什么会选用B+tree做索引结构呢？</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B+tree 是在B树基础上的一种优化，其更适合做存储索引结构。在 B+tree 中,非叶子节点上仅存储键值，不存储数据；而所有数据记录均存储在叶子节点上，并且数据是按照顺序排列的。此外在 B+tree 中各个数据页之间是通过双向链表连接的。B+tree 的结构图如下：</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/11.png" alt="11"></p>
+<p><strong>B树和B+树的区别，Mysql为什么要选择B+树作为默认索引的数据结构</strong></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/12.png" alt="12"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/13.png" alt="13"></p>
+<p>B+tree 结构实现数据索引具有如下优点：</p>
+<p>​	<strong>a. 非叶子节点上可以存储更多的键值，相应的树的阶数（节点的子节点树）就会更大，树也就会变得更矮更胖。这样一来我们查找数据进行磁盘I&#x2F;O的次数就会大大减少，数据查询的效率也会更快。</strong></p>
+<p>​	<strong>b. 所有数据记录都有序存储在叶子节点上，就会使得范围查找，排序查找，分组查找以及去重查找变得异常简单。</strong></p>
+<p>​	<strong>c. 数据页之间、数据记录之间都是通过链表链接的，有了这个结构的支持就可以方便的在数据查询后进行升序或者降序操作。</strong></p>
+<h3 id="Hash索引"><a href="#Hash索引" class="headerlink" title="Hash索引"></a>Hash索引</h3><p>​	Hash索引其实用的不多，最主要是因为最常见的存储引擎InnoDB不支持显示地创建Hash索引，只支持自适应Hash索引。虽然可以使用sql语句在InnoDB显示声明Hash索引，但是其实是不生效的。</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/14.png" alt="14"></p>
+<p>对name字段建立Hash索引，但是通过show index from 表名就会发现实际还是B+树</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/15.png" alt="15"></p>
+<p>​	在存储引擎中，Memory引擎支持Hash索引;Hash索引其实有点像Java中的HashMap底层的数据结构，他也有很多的槽，存的也是键值对，键值为索引列，值为数据的这条数据的行指针，通过行指针就可以找到数据;假设现在user表用Memory存储引擎，对name字段建立Hash索引，表中插入三条数据:</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/16.png"></p>
+<p>Hash索引会对索引列name的值进行Hash计算，然后找到对应的槽下面，如下图所示:</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/17.png" alt="17"></p>
+<p>​	当遇到name字段的Hash值相同时,也就是Hash冲突，就会形成一个链表，比如有name&#x3D;张三有两条数据，就会形成一个链表。之后如果要查name&#x3D;李四的数据，只需要对李四进行Hash计算，找到对应的槽，遍历链表，取出name&#x3D;李四对应的行指针，然后根据行指针去查找对应的数据。</p>
+<p><strong>Hash索引优缺点</strong></p>
+<ul>
+<li>hash索引只能用于等值比较，所以查询效率非常高</li>
+<li>不支持范围查询，也不支持排序，因为索引列的分布是无序的</li>
+</ul>
+<h2 id="什么是聚簇索引与非聚集索引和区别？"><a href="#什么是聚簇索引与非聚集索引和区别？" class="headerlink" title="什么是聚簇索引与非聚集索引和区别？"></a>什么是聚簇索引与非聚集索引和区别？</h2><p>按物理存储分类：InnoDB的存储方式是聚集索引，MyISAM的存储方式是非聚集索引。</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/18.png" alt="18"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/19.png" alt="19"></p>
+<h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><ol>
+<li>聚簇索引将数据存储在索引树的叶子节点上。</li>
+<li>聚簇索引可以减少一次查询，因为查询索引树的同时就能获取到数据。</li>
+<li>聚簇索引的缺点是，对数据进行修改或删除操作时需要更新索引树，会增加系统的开销。</li>
+<li>聚簇索引通常用于数据库系统中，主要用于提高查询效率。</li>
+</ol>
+<h3 id="非聚簇索引（又称二级索引-x2F-辅助索引）"><a href="#非聚簇索引（又称二级索引-x2F-辅助索引）" class="headerlink" title="非聚簇索引（又称二级索引 &#x2F;  辅助索引）"></a>非聚簇索引（又称二级索引 &#x2F;  辅助索引）</h3><ol>
+<li>非聚簇索引不将数据存储在索引树的叶子节点上，而是存储在数据页中。</li>
+<li>非聚簇索引在查询数据时需要两次查询，一次查询索引树，获取数据页的地址，再通过数据页的地址查询数据（<strong>通常情况下来说是的，但如果索引覆盖的话实际上是不用回表的</strong>）。</li>
+<li>非聚簇索引的优点是，对数据进行修改或删除操作时不需要更新索引树，减少了系统的开销。</li>
+<li>非聚簇索引通常用于数据库系统中，主要用于提高数据更新和删除操作的效率。</li>
+</ol>
+<h2 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h2><p>​	在MySQL中，创建一张表时会默认为主键创建聚簇索引，B+树将表中所有的数据组织起来，即数据就是索引主键所以在InnoDB里，主键索引也被称为聚簇索引，索引的叶子节点存的是整行数据。而除了聚簇索引以外的所有索引都称为二级索引，二级索引的叶子节点内容是主键的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">例如创建如下一张表:</span><br><span class="line"></span><br><span class="line">CREATE TABLE users(</span><br><span class="line">  id INT NOT NULL,</span><br><span class="line">  name VARCHAR(20) NOT NULL,</span><br><span class="line">  age INT NOT NULL,</span><br><span class="line">  PRIMARY KEY(id)</span><br><span class="line">);</span><br><span class="line">新建一个以age字段的二级索引:</span><br><span class="line"></span><br><span class="line">ALTER TABLE users ADD INDEX index_age(age);</span><br><span class="line">MySQL会分别创建主键id的聚簇索引和age的二级索引:</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/20.png" alt="20"></p>
+<p>在MySQL中主键索引的叶子节点存的是整行数据，而二级索引叶子节点内容是主键的值.</p>
+<h2 id="回表"><a href="#回表" class="headerlink" title="回表"></a>回表</h2><p>​	讲完二级索引，接下来讲一讲如何使用二级索引查找数据。这里假设对name字段创建了一个索引，并且表里就存了上面示例中的几条数据，这里我再把图拿过来例如执行下面这条sql 则需要进行回表:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM users WHERE age=35;</span><br><span class="line">SELECT * FROM users WHERE name=&#x27;jason&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/21.png" alt="21"></p>
+<p>由于查询条件是name &#x3D; ‘jason’; age&#x3D;’35’，所以会走name&#x2F;age索引;</p>
+<p>整个过程大致分为以下几个步骤：</p>
+<ul>
+<li>从根节点开始，21&lt;35  定位右边存储指针，</li>
+<li>在索引叶子节点找到35的第一条记录，也就是id&#x3D;9的那条</li>
+<li>由于是select <em>，还要查其它字段，此时就会根据id&#x3D;9到聚簇索引（主键索引）中查找其它字段数据，这个查找过程前面说了很多次了，这个根据id&#x3D;9到聚簇索引中查找数据的过程就被称为*<em>回表</em></em></li>
+</ul>
+<h2 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>​	上一小节说当执行select *  from <code>user</code> where age &#x3D; 35;这条sql的时候，会先从索引页中查出来age &#x3D; 35;对应的主键id，之后再回表，到聚簇索引中查询其它字段的值。</p>
+<p>那么当执行下面这条sql，又会怎样呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id from `user` where age = 35;</span><br></pre></td></tr></table></figure>
+
+<p>这次查询字段从select *变成select id，查询条件不变，所以也会走age索引</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/22.png" alt="22"></p>
+<p>​	所以还是跟前面一样了，先从索引页中查出来age &#x3D; 35;对应的主键id之后，惊讶的发现，sql中需要查询字段的id值已经查到了，那次此时压根就不需要回表了，已经查到id了，还回什么表。</p>
+<p>​	而这种需要查询的字段都在索引列中的情况就被称为<strong>覆盖索引</strong>，索引列覆盖了查询字段的意思。当使用覆盖索引时会减少回表的次数，这样查询速度更快，性能更高。所以，在日常开发中，尽量不要select * ，需要什么查什么，如果出现覆盖索引的情况，查询会快很多。</p>
+<h2 id="单列索引"><a href="#单列索引" class="headerlink" title="单列索引"></a>单列索引</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `test`.`user`  ADD INDEX(`name`);</span><br></pre></td></tr></table></figure>
+
+<p>​	假设，我们现在对name字段加了一个普通非唯一索引，那么name就是索引列，同时name这个索引也就是单列索引;此时如果往表中插入三条数据，那么name索引的叶子节点存的数据就如下图所示</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/23.png" alt="23"></p>
+<p>​	<strong>mysql会根据name字段的值进行排序，这里我假设张三排在李四前面，当索引列的值相同时，就会根据id排序，所以索引实际上已经根据索引列的值排好序了。</strong></p>
+<p>​	这里肯定有小伙伴疑问，name字段存储的中文也可以排序么？答案是可以的，并且mysql支持很多种排序规则，我们在建数据库或者是建表的时候等都可以指定排序规则，<strong>并且后面文章涉及到的字符串排序都是随便排的，实际情况可能不一样</strong>。</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/24.png" alt="24"></p>
+<p>​	对于单个索引列数据查找也是跟前面说的聚簇索引一样，也会对数据分组，之后可以根据二分查找在单个索引列来查找数据。当数据不断增多，一个索引页存储不下数据的时候，也会用多个索引页来存储，并且索引页直接也会形成双向链表;</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/25.png" alt="25"></p>
+<p>​	当索引页不断增多时，为了方便在不同索引页中查找数据，也就会抽取一个索引页，除了存页中id，同时也会存储这个id对应的索引列的值;</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/26.png" alt="26"></p>
+<h2 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `test`.`user` ADD INDEX(`name`, `age`, `id`);</span><br></pre></td></tr></table></figure>
+
+<p>​	除了单列索引，联合索引其实也是一样的，只不过索引页存的数据就多了一些索引列;比如，在name和age上建立一个联合索引，此时单个索引页就如图所示:</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/27.png" alt="27"></p>
+<p><strong>先以name排序，name相同时再以age排序，如果再有其它列，依次类推，最后再以id排序。</strong></p>
+<p>相比于只有name一个字段的索引来说，索引页就多存了一个索引列。最后形成的B+树简化为如下图:</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/28.png" alt="28"></p>
+<h3 id="最左前缀原则"><a href="#最左前缀原则" class="headerlink" title="最左前缀原则"></a>最左前缀原则</h3><p>​	顾名思义是最左优先，以最左边的为起点任何连续的索引都能匹配上。如果没有第一列的话，直接访问第二列，那第二列肯定是无序的，直接访问后面的列就用不到索引了当创建(a,b,c)复合索引时，想要索引生效的话，只能使用 a和ab、ac和abc三种组合！</p>
+<h2 id="单列索引联合索引分别什么场景创建，优势是什么"><a href="#单列索引联合索引分别什么场景创建，优势是什么" class="headerlink" title="单列索引联合索引分别什么场景创建，优势是什么"></a>单列索引联合索引分别什么场景创建，优势是什么</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>当只需要查询某个字段的时候可建立单列索引，加快查询速度.而当查询的字段较多的情况下，使用联合索引</p>
+<h3 id="联合索引的优势"><a href="#联合索引的优势" class="headerlink" title="联合索引的优势"></a>联合索引的优势</h3><p><strong>1.减少开销</strong></p>
+<p>建一个联合索引(a,b,c),实际相当于建了(a),(a,b),(a,b,c)三个索引.每多一个索引,都会增加写操作的开销和磁盘空间的开销.对于大量数据的表,使用联合索引会大大的减少开销!</p>
+<p><strong>2.覆盖索引</strong></p>
+<p>对联合索引(a,b,c),如果有如下sql的</p>
+<p>select a,b,c from table where a&#x3D;’xxx’ and b&#x3D;’xx’;</p>
+<p>那么mysql可以直接通过遍历索引取得数据,而无需回表,这减少了很多的随机io操作.减少io操作,特别是随机io其实DBA主要的优化策略.所以,在真正的实际应用中,覆盖索引是主要的提升性能的优化手段之一.</p>
+<p><strong>3.效率高</strong></p>
+<p>索引列多,通过联合索引筛选出的数据越少.比如有1000w条数据的表,有如下sql:</p>
+<p>select col1,col2,col3 from table where col1&#x3D;1 and col2&#x3D;2 and col3&#x3D;3;</p>
+<p>假设:假设每个条件可以筛选出10%的数据</p>
+<p>A:如果只有单列索引,那么通过该索引能筛选出1000w*10%&#x3D;100w条数据,然后再回表从100w调数据中找到符合col2&#x3D;2 and col3&#x3D;3的数据,然后再排序,再分页,以此类推(递归);</p>
+<p>B:如果是(col1,col2,col3)联合索引,通过三列索引筛选出1000w*10%*10%*10%&#x3D;1w,效率提升可想而知;</p>
+<h2 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h2><p>​	索引下推（INDEX CONDITION PUSHDOWN，简称 ICP）是在 MySQL 5.6 针对<strong>扫描二级索引</strong>的一项优化改进。 用来在范围查询时减少回表的次数 。ICP 适用于 MYISAM 和 INNODB。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `test`.`user`  ADD INDEX (`name`,`age`)</span><br></pre></td></tr></table></figure>
+
+<p>不使用索引下推实现</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/29.png" alt="29"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Explain SELECT * FROM user1 WHERE name LIKE &#x27;A%&#x27; and age = 40;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/30.png" alt="30"></p>
+<p>使用索引下推实现</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/31.png" alt="31"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Explain SELECT * FROM user1 WHERE name LIKE &#x27;A%&#x27; and age = 40;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/32.png" alt="32"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/33.png" alt="33"></p>
+<p>接下来要执行如下的sql:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where name &gt; &#x27;王五&#x27; and age &gt; 22;</span><br></pre></td></tr></table></figure>
+
+<p>在MySQL5.6(不包括5.6)之前，整个sql大致执行步骤如下：</p>
+<ul>
+<li>先根据二分查找，定位到name &gt; ‘王五’的第一条数据，也就是id&#x3D;4的那个赵六</li>
+<li>之后就会根据id&#x3D;4进行回表操作，到聚簇索引中查找id&#x3D;4其它字段的数据，然后判断数据中的age是否大于22，是的话就说明是我们需要查找的数据，否则就不是</li>
+<li>之后顺着链表，继续遍历，然后找到一条记录就回一次表，然后判断age，如此反复下去，直至结束</li>
+</ul>
+<p>所以对于图上所示，整个搜索过程会经历5次回表操作，两个赵六，两个刘七，一个王九，最后符合条件的也就是id&#x3D;6的赵六那条数据，其余age不符和。</p>
+<p>虽然这么执行没什么问题，但是不知有没有发现其实没必要进行那么多次回表，因为光从上面的索引图示就可以看出，符合name &gt; ‘王五’ and age &gt; 22的数据就id&#x3D;6的赵六那条数据</p>
+<p>所以在MySQL5.6之后，对上面的age &gt; 22判断逻辑进行了优化</p>
+<p>前面还是一样，定位查找到id&#x3D;4的那个赵六，之后就<strong>不回表</strong>来判断age了，因为索引列有age的值了，那么直接根据索引中age判断是否大于22，如果大于的话，再回表查询剩余的字段数据（因为是select *），然后再顺序链表遍历，直至结束</p>
+<p>所以这样优化之后，回表次数就成1了，相比于前面的5次，大大减少了回表的次数。</p>
+<p>而这个优化，就被称为<strong>索引下推</strong>，就是为了减少回表的次数。</p>
+<p>之所以这个优化叫索引下推，其实是跟判断age &gt; 22逻辑执行的地方有关，这里就不过多赘述了。</p>
+<h2 id="索引合并"><a href="#索引合并" class="headerlink" title="索引合并"></a>索引合并</h2><p>索引合并（index merge）是从MySQL5.1开始引入的索引优化机制，在之前的MySQL版本中，一条sql多个查询条件只能使用一个索引，但是引入了索引合并机制之后，MySQL在<strong>某些特殊</strong>的情况下会扫描多个索引，然后将扫描结果进行合并</p>
+<p>结果合并会为下面三种情况：</p>
+<ul>
+<li>取交集（intersect）</li>
+<li>取并集（union）</li>
+<li>排序后取并集（sort-union）</li>
+</ul>
+<p>为了不耽误演示，删除之前所有的索引，然后为name和age各自分别创建一个二级索引idx_name和idx_age</p>
+<h3 id="取交集（intersect）"><a href="#取交集（intersect）" class="headerlink" title="取交集（intersect）"></a>取交集（intersect）</h3><p>当执行下面这条sql就会出现取交集的情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where name = &#x27;赵六&#x27; and age= 22;</span><br></pre></td></tr></table></figure>
+
+<p>查看执行计划</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/34.png" alt="34"></p>
+<p>​	type是index_merge，并且possible_key和key都是idx_name和idx_age，说明使用了索引合并，并且Extra有Using intersect(idx_age,idx_name)，intersect就是交集的意思。</p>
+<p>​	整个过程大致是这样的,分别根据idx_name和idx_age取出对应的主键id,之后将主键id取交集,那么这部分交集的id一定同时满足查询name &#x3D; ‘赵六’ and age&#x3D; 22的查询条件（仔细想想）,之后再根据交集的id回表;不过要想使用取交集的联合索引,需要满足各自索引查出来的主键id是排好序的,这是为了方便可以快速的取交集;比如下面这条sql就无法使用联合索引;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where name = &#x27;赵六&#x27; and age &gt; 22;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/35.png" alt="35"></p>
+<p>​	只能用name这个索引，因为age &gt; 22查出来的id是无序的，前面在讲索引的时候有说过索引列的排序规则</p>
+<p>由此可以看出，使用联合索引条件还是比较苛刻的。</p>
+<h3 id="取并集（union）"><a href="#取并集（union）" class="headerlink" title="取并集（union）"></a>取并集（union）</h3><p>取并集就是将前面例子中的and换成or</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where name = &#x27;赵六&#x27; or age = 22;</span><br></pre></td></tr></table></figure>
+
+<p>​	前面执行的情况都一样,根据条件到各自的索引上去查,之后对查询的id取并集去重，之后再回表;同样地,取并集也要求各自索引查出来的主键id是排好序的,如果查询条件换成age &gt; 22时就无法使用取并集的索引合并。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where name = &#x27;赵六&#x27; or age &gt; 22;</span><br></pre></td></tr></table></figure>
+
+<h3 id="排序后取并集（sort-union）"><a href="#排序后取并集（sort-union）" class="headerlink" title="排序后取并集（sort-union）"></a>排序后取并集（sort-union）</h3><p>虽然取并集要求各自索引查出来的主键id是排好序的，但是如果遇到没排好序的情况，mysql会自动对这种情况进行优化，会先对主键id排序，然后再取并集，这种情况就叫 排序后取并集（sort-union）。</p>
+<p>比如上面提到的无法直接取并集的sql就符合排序后取并集（sort-union）这种情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from `user` where name = &#x27;赵六&#x27; or age &gt; 22;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么Mysql默认-InnoDB-而不是-MyISAM-？"><a href="#为什么Mysql默认-InnoDB-而不是-MyISAM-？" class="headerlink" title="为什么Mysql默认 InnoDB, 而不是 MyISAM ？"></a>为什么Mysql默认 InnoDB, 而不是 MyISAM ？</h2><p><strong>MyISAM 与 InnoDB</strong></p>
+<p>众所周知，MySQL 有两种常见的存储引擎。一种是 MyISAM，一种是 InnoDB。</p>
+<p><strong>一、它们是什么？</strong></p>
+<p>先来看看官网对 MyISAM 的描述，只有一句话，看来官方也不想多加解释。</p>
+<p>​	MyISAM is based on the older (and no longer available) ISAM storage engine but has many useful extensions.</p>
+<p>大意：MyISAM 是一款青出于蓝而胜于蓝的存储引擎，它在 ISAM 基础上作了一些扩展和加工。关于 ISAM ，我只告诉你它是 Indexed Sequential Access Method 的缩写，翻译为“有索引的顺序访问方法”。</p>
+<p>而对 <a href="https://link.juejin.cn/?target=https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html">InnoDB</a> 的描述，就更 professional 一些了。</p>
+<p>​	InnoDB is a general-purpose storage engine that balances high reliability and high performance. In MySQL 8.0, InnoDB is the default MySQL storage engine. Unless you have configured a different default storage engine, issuing a CREATE TABLE statement without an ENGINE&#x3D; clause creates an InnoDB table.</p>
+<p>大意：InnoDB 是一种通用的存储引擎，在高可靠和高性能上作了均衡。MySQL 8.0 中，它是默认的存储引擎（其实在5.5之后的版本就是了），当你执行 CREATE TABLE 建表语句并且不带 “ENGINE &#x3D; ”子句时，默认帮你创建的就是 InnoDB 表了。</p>
+<p><strong>二、两者有什么区别？</strong></p>
+<p>拿官网两者的 Features 来作一个分析对比吧：</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/36.png" alt="36"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/37.png" alt="37"></p>
+<p>1、InnoDB 是聚集索引，数据文件是和索引绑在一起的，必须要有主键，通过主键索引效率很高，但是辅助索引需要两次查询，先查询到主键，然后再通过主键查询到数据。因此，主键不应该过大，否则其他索引也会很大。而 MyISAM 是非聚集索引，数据文件是分离的，索引保存的是数据文件的指针，主键索引和辅助索引是独立的。</p>
+<p>2、InnoDB 支持外键，而 MyISAM 不支持。对一个包含外键的 InnoDB 表转为 MYISAM 会失败。</p>
+<p>3、InnoDB 在 MySQL 5.6 之前不支持全文索引，而 MyISAM 一直都支持，如果你用的是老版本，查询效率上 MyISAM 要高。</p>
+<p>4、InnoDB 锁粒度是行锁，而 MyISAM 是表锁。</p>
+<p>5、InnoDB 支持事务，MyISAM 不支持，对于 InnoDB 每一条 SQL 语言都默认封装成事务，自动提交，这样会影响速度，所以最好把多条 SQL 语言放在 begin 和 commit 之间，组成一个事务。</p>
+<p>6、InnoDB 不保存表的具体行数，执行 select count(*) from table 时需要全表扫描。而 MyISAM 用一个变量保存了整个表的行数，执行上述语句时只需要读出该变量即可，速度很快，但如果上述语句还包含了 where 子句，那么两者执行效率是一样的。</p>
+<p><a target="_blank" rel="noopener" href="https://blogs.oracle.com/mysql/post/still-using-myisam-it-is-time-to-switch-to-innodb">https://blogs.oracle.com/mysql/post/still-using-myisam-it-is-time-to-switch-to-innodb</a></p>
+<p><a target="_blank" rel="noopener" href="https://tecadmin.net/choosing-between-innodb-myisam-and-memory-storage-engines/">https://tecadmin.net/choosing-between-innodb-myisam-and-memory-storage-engines/</a></p>
+<p><a target="_blank" rel="noopener" href="http://dimitrik.free.fr/blog/archives/2015/12/mysql-performance-revisiting-innodb-vs-myisam-with-mysql-57.html">http://dimitrik.free.fr/blog/archives/2015/12/mysql-performance-revisiting-innodb-vs-myisam-with-mysql-57.html</a></p>
+<h2 id="如果一个表没有主键索引那还会创建B-树吗？"><a href="#如果一个表没有主键索引那还会创建B-树吗？" class="headerlink" title="如果一个表没有主键索引那还会创建B+树吗？"></a>如果一个表没有主键索引那还会创建B+树吗？</h2><p><strong>答案是会的！！！</strong></p>
+<p>​	InnoDB是MySQL中的一种存储引擎，它会为每个表创建一个主键索引。如果表没有明确的主键索引，InnoDB会使用一个隐藏的、自动生成的主键来创建索引。这个隐藏的主键索引使用的就是B+树结构。因此，在InnoDB中，即使表没有明确的主键索引，也会创建一个B+树索引。</p>
+<h2 id="索引的优缺点，什么时候该用和不该用"><a href="#索引的优缺点，什么时候该用和不该用" class="headerlink" title="索引的优缺点，什么时候该用和不该用"></a>索引的优缺点，什么时候该用和不该用</h2><p><strong>优点：</strong></p>
+<ol>
+<li><p><strong>提高检索效率</strong></p>
+</li>
+<li><p><strong>降低排序成本，索引对应的字段是会有一个自动排序功能的，默认是升序asc</strong>。</p>
+</li>
+</ol>
+<p><strong>缺点:</strong></p>
+<ol>
+<li><strong>创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加。</strong></li>
+<li><strong>索引需要占用物理空间，数据量越大，占用空间越大</strong></li>
+<li><strong>会降低表的增删改的效率，因为每次增删改索引，都需要进行动态维护</strong></li>
+</ol>
+<h3 id="既然索引有坏有好-什么时候需要索引-什么时候不需要？"><a href="#既然索引有坏有好-什么时候需要索引-什么时候不需要？" class="headerlink" title="既然索引有坏有好,什么时候需要索引,什么时候不需要？"></a>既然索引有坏有好,什么时候需要索引,什么时候不需要？</h3><p><strong>适合：</strong></p>
+<ol>
+<li><strong>较频繁的作为查询条件的字段应该创建索引</strong></li>
+</ol>
+<p><strong>不适合：</strong></p>
+<ol>
+<li><p><strong>字段值的唯一性太差不适合单独做索引</strong></p>
+</li>
+<li><p><strong>更新非常频繁的字段不适合</strong></p>
+</li>
+<li><p><strong>不会出现在where句中的字段不适合。</strong></p>
+</li>
+</ol>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><h2 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h2><p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/38.png" alt="38"></p>
+<p>关于SQL优化方法，包括5点</p>
+<p>​	1）创建索引减少扫描量；</p>
+<p>​	2）调整索引减少计算量；</p>
+<p>​	3）索引覆盖（减少不必访问的列，避免回表查询）； </p>
+<p>​	4）干预执行计划；  </p>
+<p>​	5）SQL改写；</p>
+<h2 id="通过Explain干预执行计划"><a href="#通过Explain干预执行计划" class="headerlink" title="通过Explain干预执行计划"></a>通过Explain干预执行计划</h2><p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/39.jpg" alt="39"></p>
+<h3 id="Explain含义"><a href="#Explain含义" class="headerlink" title="Explain含义"></a>Explain含义</h3><p>​	Explain是 SQL 分析工具中非常重要的一个功能，它可以模拟优化器执行查询语句，帮助我们理解查询是如何执行的；分析查询执行计划可以帮助我们发现查询瓶颈，优化查询性能。</p>
+<h3 id="Explain作用"><a href="#Explain作用" class="headerlink" title="Explain作用"></a>Explain作用</h3><ul>
+<li>表的读取顺序</li>
+<li>SQL执行时查询操作类型</li>
+<li>可以使用哪些索引</li>
+<li>实际使用哪些索引</li>
+<li>每张表有多少行记录被扫描</li>
+<li><strong>SQL语句性能分析</strong></li>
+</ul>
+<h3 id="Explain用法"><a href="#Explain用法" class="headerlink" title="Explain用法"></a>Explain用法</h3><p>数据准备</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">drop table orders;</span><br><span class="line">drop table products;</span><br><span class="line">drop table users;</span><br><span class="line">CREATE TABLE users (  </span><br><span class="line">  id INT PRIMARY KEY AUTO_INCREMENT,  </span><br><span class="line">  name VARCHAR(50) NOT NULL,  </span><br><span class="line">  email VARCHAR(100) NOT NULL,  </span><br><span class="line">  password VARCHAR(100) NOT NULL  </span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">CREATE TABLE products (  </span><br><span class="line">  id INT PRIMARY KEY AUTO_INCREMENT,  </span><br><span class="line">  name VARCHAR(50) NOT NULL,  </span><br><span class="line">  price FLOAT NOT NULL  </span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">CREATE TABLE orders (  </span><br><span class="line">  id INT PRIMARY KEY AUTO_INCREMENT,  </span><br><span class="line">  user_id INT NOT NULL,  </span><br><span class="line">  order_date DATETIME NOT NULL,  </span><br><span class="line">  total_price FLOAT NOT NULL,  </span><br><span class="line">  product_id INT NOT NULL,  </span><br><span class="line">  FOREIGN KEY (user_id) REFERENCES users(id),  </span><br><span class="line">  FOREIGN KEY (product_id) REFERENCES products(id)  </span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">alter table users add index index_name_email (name,email);</span><br><span class="line"></span><br><span class="line">INSERT INTO users (name, email, password)     </span><br><span class="line">VALUES (&#x27;张三&#x27;, &#x27;zhangsan@example.com&#x27;, &#x27;password123&#x27;),     </span><br><span class="line">(&#x27;李四&#x27;, &#x27;lisi@example.com&#x27;, &#x27;password123&#x27;),     </span><br><span class="line">(&#x27;王五&#x27;, &#x27;wangwu@example.com&#x27;, &#x27;password123&#x27;),     </span><br><span class="line">(&#x27;赵六&#x27;, &#x27;zhaoli@example.com&#x27;, &#x27;password123&#x27;),     </span><br><span class="line">(&#x27;钱七&#x27;, &#x27;qianqi@example.com&#x27;, &#x27;password123&#x27;);   </span><br><span class="line"></span><br><span class="line">INSERT INTO products (name, price)     </span><br><span class="line">VALUES (&#x27;产品 1&#x27;, 10.00),     </span><br><span class="line">(&#x27;产品 2&#x27;, 15.00),     </span><br><span class="line">(&#x27;产品 3&#x27;, 20.00),     </span><br><span class="line">(&#x27;产品 4&#x27;, 12.00),     </span><br><span class="line">(&#x27;产品 5&#x27;, 18.00); </span><br><span class="line"></span><br><span class="line">INSERT INTO orders (user_id, order_date, total_price, product_id)     </span><br><span class="line">VALUES (1, &#x27;2023-02-18 10:00:00&#x27;, 100.00, 1),     </span><br><span class="line">(2, &#x27;2023-02-18 11:00:00&#x27;, 50.00, 2),     </span><br><span class="line">(3, &#x27;2023-02-18 12:00:00&#x27;, 20.00, 3),     </span><br><span class="line">(4, &#x27;2023-02-18 13:00:00&#x27;, 15.00, 4),     </span><br><span class="line">(5, &#x27;2023-02-18 14:00:00&#x27;, 25.00, 5); </span><br></pre></td></tr></table></figure>
+
+<p>MySQL5.7版本之前，使用Explain Extended在Explain的基础上额外多返回filtered列与extra列；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Explain Extended select * from users;</span><br></pre></td></tr></table></figure>
+
+<p>MySQL5.7版本之前，使用Explain Partitions在Explain的基础上额外多返回partitions列；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Explain Partitions select * from users;</span><br></pre></td></tr></table></figure>
+
+<p>MySQL5.7版本引入了这两个特性,直接使用Explain关键字可以将partitions列、filtered列,extra列直接查询出来。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Explain select * from users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/40.png" alt="40"></p>
+<p>Explain语句返回列的各列含义：</p>
+<table>
+<thead>
+<tr>
+<th><strong>列名</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>每个select都有一个对应的id号，并且是从1开始自增的</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td>查询语句执行的查询操作类型</td>
+</tr>
+<tr>
+<td>table</td>
+<td>表名</td>
+</tr>
+<tr>
+<td>partitions</td>
+<td>表分区情况</td>
+</tr>
+<tr>
+<td>type</td>
+<td>查询所用的访问类型</td>
+</tr>
+<tr>
+<td>possible_keys</td>
+<td>可能用到的索引</td>
+</tr>
+<tr>
+<td>key</td>
+<td>实际查询用到的索引</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td>所使用到的索引长度</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>使用到索引时，与索引进行等值匹配的列或者常量</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>预计扫描的行数（索引行数或者表记录行数）</td>
+</tr>
+<tr>
+<td>filtered</td>
+<td>表示符合查询条件的数据百分比</td>
+</tr>
+<tr>
+<td>Extra</td>
+<td>SQL执行的额外信息</td>
+</tr>
+</tbody></table>
+<h3 id="Explain返回列详解"><a href="#Explain返回列详解" class="headerlink" title="Explain返回列详解"></a>Explain返回列详解</h3><h4 id="id列：每个select都有一个对应的id号，并且是从1开始自增的"><a href="#id列：每个select都有一个对应的id号，并且是从1开始自增的" class="headerlink" title="id列：每个select都有一个对应的id号，并且是从1开始自增的"></a>id列：每个select都有一个对应的id号，并且是从1开始自增的</h4><ul>
+<li>如果id序号相同，从上往下执行。</li>
+<li>如果id序号不同，序号大先执行。</li>
+<li>如果两种都存在，先执行序号大，在同级从上往下执行。</li>
+<li>如果显示NULL，最后执行。表示结果集，并且不需要使用它来进行查询。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- id序号相同</span><br><span class="line">explain </span><br><span class="line">SELECT users.name, orders.total_price, products.price    </span><br><span class="line">FROM users    </span><br><span class="line">INNER JOIN orders ON users.id = orders.user_id    </span><br><span class="line">INNER JOIN products ON orders.product_id = products.id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/41.png" alt="41"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- id序号不同</span><br><span class="line">explain</span><br><span class="line">select * from orders where product_id = (select id from products where products.price = 10);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/42.png" alt="42"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 两种都存在</span><br><span class="line">set session optimizer_switch=&#x27;derived_merge=off&#x27;; #关闭MySQL5.7对衍生表合并优化</span><br><span class="line"></span><br><span class="line">explain </span><br><span class="line">select orders.* </span><br><span class="line">from (select id from products) as temp inner join orders on temp.id = orders.product_id;</span><br><span class="line"></span><br><span class="line">set session optimizer_switch=&#x27;derived_merge=on&#x27;; #还原配置</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/43.png" alt="43"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- 显示NULL</span><br><span class="line">explain</span><br><span class="line">select id from users</span><br><span class="line">union</span><br><span class="line">select id from products;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/44.png" alt="44"></p>
+<p>优化器会针对子查询进行一定的优化重写SQL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from users WHERE id in (select user_id from orders where id = 1);</span><br><span class="line">show WARNINGS;</span><br></pre></td></tr></table></figure>
+
+<h4 id="select-type列：表示查询语句执行的查询操作类型"><a href="#select-type列：表示查询语句执行的查询操作类型" class="headerlink" title="select_type列：表示查询语句执行的查询操作类型"></a>select_type列：表示查询语句执行的查询操作类型</h4><h5 id="simple：简单select，不包括union与子查询"><a href="#simple：简单select，不包括union与子查询" class="headerlink" title="simple：简单select，不包括union与子查询"></a>simple：简单select，不包括union与子查询</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Explain select * from users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/45.png" alt="45"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 连接查询</span><br><span class="line">Explain select * from users inner join orders on users.id = orders.user_id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/46.png" alt="46"></p>
+<h5 id="primary：复杂查询中最外层查询，比如使用union或union-all时，id为1的记录select-type通常是primary"><a href="#primary：复杂查询中最外层查询，比如使用union或union-all时，id为1的记录select-type通常是primary" class="headerlink" title="primary：复杂查询中最外层查询，比如使用union或union all时，id为1的记录select_type通常是primary"></a>primary：复杂查询中最外层查询，比如使用union或union all时，id为1的记录select_type通常是primary</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select id from users</span><br><span class="line">union</span><br><span class="line">select id from products;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/47.png" alt="47"></p>
+<h5 id="subquery：指在-select-语句中出现的子查询语句-结果不依赖于外部查询（不在from语句中）"><a href="#subquery：指在-select-语句中出现的子查询语句-结果不依赖于外部查询（不在from语句中）" class="headerlink" title="subquery：指在 select 语句中出现的子查询语句,结果不依赖于外部查询（不在from语句中）"></a>subquery：指在 select 语句中出现的子查询语句,结果不依赖于外部查询（不在from语句中）</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select orders.*,(select name from products where id = 1) from orders;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/48.png" alt="48"></p>
+<h5 id="dependent-subquery：指在-select-语句中出现的查询语句，结果依赖于外部查询"><a href="#dependent-subquery：指在-select-语句中出现的查询语句，结果依赖于外部查询" class="headerlink" title="dependent subquery：指在 select 语句中出现的查询语句，结果依赖于外部查询"></a>dependent subquery：指在 select 语句中出现的查询语句，结果依赖于外部查询</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select orders.*,(select name from products where products.id = orders.user_id) from orders;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/49.png" alt="49"></p>
+<h5 id="derived：派生表-在FROM子句的查询语句-表示从外部数据源中推导出来的-而不是从-SELECT-语句中的其他列中选择出来的"><a href="#derived：派生表-在FROM子句的查询语句-表示从外部数据源中推导出来的-而不是从-SELECT-语句中的其他列中选择出来的" class="headerlink" title="derived：派生表,在FROM子句的查询语句,表示从外部数据源中推导出来的,而不是从 SELECT 语句中的其他列中选择出来的"></a>derived：派生表,在FROM子句的查询语句,表示从外部数据源中推导出来的,而不是从 SELECT 语句中的其他列中选择出来的</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">set session optimizer_switch=&#x27;derived_merge=off&#x27;; #关闭MySQL5.7对衍生表合并优化</span><br><span class="line"></span><br><span class="line">explain</span><br><span class="line">select * from (select user_id from orders where id = 1) as temp;</span><br><span class="line"></span><br><span class="line">set session optimizer_switch=&#x27;derived_merge=on&#x27;; #还原配置</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/50.png" alt="50"></p>
+<h5 id="union-分union与union-all两种-若第二个select出现在union之后-则被标记为union-如果union被from子句的子查询包含-则第一个select会被标记为derived-union会针对相同的结果集进行去重-union-all不会进行去重处理"><a href="#union-分union与union-all两种-若第二个select出现在union之后-则被标记为union-如果union被from子句的子查询包含-则第一个select会被标记为derived-union会针对相同的结果集进行去重-union-all不会进行去重处理" class="headerlink" title="union:分union与union all两种,若第二个select出现在union之后,则被标记为union;如果union被from子句的子查询包含,则第一个select会被标记为derived;union会针对相同的结果集进行去重,union all不会进行去重处理"></a>union:分union与union all两种,若第二个select出现在union之后,则被标记为union;如果union被from子句的子查询包含,则第一个select会被标记为derived;union会针对相同的结果集进行去重,union all不会进行去重处理</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- union</span><br><span class="line">explain </span><br><span class="line">select * from (</span><br><span class="line">select id from products where price = 10</span><br><span class="line">union</span><br><span class="line">select id from orders where user_id in (1,2)</span><br><span class="line">union </span><br><span class="line">select id from users where name = &#x27;张三&#x27; ) as temp;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/51.png" alt="51"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- union all</span><br><span class="line">explain </span><br><span class="line">select * from (</span><br><span class="line">select id from products where price = 10</span><br><span class="line">union all</span><br><span class="line">select id from orders where user_id in (1,2)</span><br><span class="line">union all</span><br><span class="line">select id from users where name = &#x27;张三&#x27; ) as temp;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/52.png" alt="52"></p>
+<h5 id="dependent-union：当union作为子查询时，其中第一个union为dependent-subquery，第二个union为dependent-union"><a href="#dependent-union：当union作为子查询时，其中第一个union为dependent-subquery，第二个union为dependent-union" class="headerlink" title="dependent union：当union作为子查询时，其中第一个union为dependent subquery，第二个union为dependent union"></a>dependent union：当union作为子查询时，其中第一个union为dependent subquery，第二个union为dependent union</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">explain </span><br><span class="line">select * from orders where id in (</span><br><span class="line">select id from products where price = 10</span><br><span class="line">union</span><br><span class="line">select id from orders where user_id = 2</span><br><span class="line">union </span><br><span class="line">select id from users where name = &#x27;张三&#x27; );</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/53.png" alt="53"></p>
+<h5 id="union-result：如果两个查询中有相同的列，则会对这些列进行重复删除，只保留一个表中的列"><a href="#union-result：如果两个查询中有相同的列，则会对这些列进行重复删除，只保留一个表中的列" class="headerlink" title="union result：如果两个查询中有相同的列，则会对这些列进行重复删除，只保留一个表中的列"></a>union result：如果两个查询中有相同的列，则会对这些列进行重复删除，只保留一个表中的列</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select id from users</span><br><span class="line">union</span><br><span class="line">select id from products;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/54.png" alt="54"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/55.png" alt="55"></p>
+<h4 id="table列：查询所涉及的表名。如果有多个表，将显示多行记录"><a href="#table列：查询所涉及的表名。如果有多个表，将显示多行记录" class="headerlink" title="table列：查询所涉及的表名。如果有多个表，将显示多行记录"></a>table列：查询所涉及的表名。如果有多个表，将显示多行记录</h4><h4 id="partitions列：表分区情况"><a href="#partitions列：表分区情况" class="headerlink" title="partitions列：表分区情况"></a>partitions列：表分区情况</h4><p>​	查询语句所涉及的表的分区情况。具体来说，它会显示出查询语句在哪些分区上执行，以及是否使用了分区裁剪等信息。如果没有分区，该项为NULL。</p>
+<h4 id="type列：查询所使用的访问类型"><a href="#type列：查询所使用的访问类型" class="headerlink" title="type列：查询所使用的访问类型"></a>type列：查询所使用的访问类型</h4><p>​	效率从高到低分别为：<strong>system &gt; const &gt; eq_ref &gt; ref</strong> &gt; fulltext &gt; ref_or_null <strong>&gt; range &gt; index &gt; ALL，</strong>一般来说保证range级别，最好能达到ref级别</p>
+<h5 id="system-const类型的一种特殊场景-查询的表只有一行记录的情况-并且该表使用的存储引擎的统计数据是精确的"><a href="#system-const类型的一种特殊场景-查询的表只有一行记录的情况-并且该表使用的存储引擎的统计数据是精确的" class="headerlink" title="system:const类型的一种特殊场景,查询的表只有一行记录的情况,并且该表使用的存储引擎的统计数据是精确的"></a>system:const类型的一种特殊场景,查询的表只有一行记录的情况,并且该表使用的存储引擎的统计数据是精确的</h5><p>InnoDb存储引擎的统计数据不是精确的，虽然只有一条数据但是type类型为ALL；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE t;</span><br><span class="line">CREATE TABLE t(i INT) ENGINE=InnoDb;</span><br><span class="line">INSERT INTO t VALUES(1);</span><br><span class="line">explain select * from t;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/56.png" alt="56"></p>
+<p>Memory存储引擎的统计数据是精确的，所以当只有一条记录的时候type类型为system。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE tt;</span><br><span class="line">CREATE TABLE tt(i INT) ENGINE=memory;</span><br><span class="line">INSERT INTO tt VALUES(1);</span><br><span class="line">explain select * from tt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/57.png" alt="57"></p>
+<h5 id="const：基于主键或唯一索引查看一行，当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问转换成常量查询，效率高"><a href="#const：基于主键或唯一索引查看一行，当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问转换成常量查询，效率高" class="headerlink" title="const：基于主键或唯一索引查看一行，当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问转换成常量查询，效率高"></a>const：基于主键或唯一索引查看一行，当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问转换成常量查询，效率高</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select * from orders where id = 1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/58.png" alt="58"></p>
+<h5 id="eq-ref：基于主键或唯一索引连接两个表，对于每个索引键值，只有一条匹配记录，被驱动表的类型为’eq-ref’"><a href="#eq-ref：基于主键或唯一索引连接两个表，对于每个索引键值，只有一条匹配记录，被驱动表的类型为’eq-ref’" class="headerlink" title="eq_ref：基于主键或唯一索引连接两个表，对于每个索引键值，只有一条匹配记录，被驱动表的类型为’eq_ref’"></a>eq_ref：基于主键或唯一索引连接两个表，对于每个索引键值，只有一条匹配记录，被驱动表的类型为’eq_ref’</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select users.* from users inner join orders on users.id = orders.id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/59.png" alt="59"></p>
+<h5 id="ref：基于非唯一索引连接两个表或通过二级索引列与常量进行等值匹配，可能会存在多条匹配记录"><a href="#ref：基于非唯一索引连接两个表或通过二级索引列与常量进行等值匹配，可能会存在多条匹配记录" class="headerlink" title="ref：基于非唯一索引连接两个表或通过二级索引列与常量进行等值匹配，可能会存在多条匹配记录"></a>ref：基于非唯一索引连接两个表或通过二级索引列与常量进行等值匹配，可能会存在多条匹配记录</h5><p>1.关联查询，使用非唯一索引进行匹配。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select users.* from users inner join orders on users.id = orders.user_id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/60.png" alt="60"></p>
+<p>2.简单查询，使用二级索引列匹配。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select * from orders where user_id = 1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/61.png" alt="61"></p>
+<h5 id="range：使用非唯一索引扫描部分索引，比如使用索引获取某些范围区间的记录"><a href="#range：使用非唯一索引扫描部分索引，比如使用索引获取某些范围区间的记录" class="headerlink" title="range：使用非唯一索引扫描部分索引，比如使用索引获取某些范围区间的记录"></a>range：使用非唯一索引扫描部分索引，比如使用索引获取某些范围区间的记录</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select * from orders where user_id &gt; 3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/62.png" alt="62"></p>
+<h5 id="index：扫描整个索引就能拿到结果，一般是二级索引，这种查询一般为使用覆盖索引（需优化，缩小数据范围）"><a href="#index：扫描整个索引就能拿到结果，一般是二级索引，这种查询一般为使用覆盖索引（需优化，缩小数据范围）" class="headerlink" title="index：扫描整个索引就能拿到结果，一般是二级索引，这种查询一般为使用覆盖索引（需优化，缩小数据范围）"></a>index：扫描整个索引就能拿到结果，一般是二级索引，这种查询一般为使用覆盖索引（需优化，缩小数据范围）</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select user_id from orders;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/63.png" alt="63"></p>
+<h5 id="all：扫描整个表进行匹配，即扫描聚簇索引树（需优化，添加索引优化）"><a href="#all：扫描整个表进行匹配，即扫描聚簇索引树（需优化，添加索引优化）" class="headerlink" title="all：扫描整个表进行匹配，即扫描聚簇索引树（需优化，添加索引优化）"></a>all：扫描整个表进行匹配，即扫描聚簇索引树（需优化，添加索引优化）</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select * from users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/64.png" alt="64"></p>
+<h5 id="NULL：MySQL在优化过程中分解语句就已经可以获取到结果，执行时甚至不用访问表或索引。"><a href="#NULL：MySQL在优化过程中分解语句就已经可以获取到结果，执行时甚至不用访问表或索引。" class="headerlink" title="NULL：MySQL在优化过程中分解语句就已经可以获取到结果，执行时甚至不用访问表或索引。"></a>NULL：MySQL在优化过程中分解语句就已经可以获取到结果，执行时甚至不用访问表或索引。</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain </span><br><span class="line">select min(id) from users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/65.png" alt="65"></p>
+<h4 id="possible-keys列：表示在查询中可能使用到某个索引或多个索引；如果没有选择索引，显示NULL"><a href="#possible-keys列：表示在查询中可能使用到某个索引或多个索引；如果没有选择索引，显示NULL" class="headerlink" title="possible_keys列：表示在查询中可能使用到某个索引或多个索引；如果没有选择索引，显示NULL"></a>possible_keys列：表示在查询中可能使用到某个索引或多个索引；如果没有选择索引，显示NULL</h4><h4 id="key列：表示在查询中实际使用的索引，如果没有使用索引，显示NULL。"><a href="#key列：表示在查询中实际使用的索引，如果没有使用索引，显示NULL。" class="headerlink" title="key列：表示在查询中实际使用的索引，如果没有使用索引，显示NULL。"></a>key列：表示在查询中实际使用的索引，如果没有使用索引，显示NULL。</h4><h4 id="key-len列：表示当优化器决定使用某个索引执行查询时，该索引记录的最大长度（主要使用在联合索引）"><a href="#key-len列：表示当优化器决定使用某个索引执行查询时，该索引记录的最大长度（主要使用在联合索引）" class="headerlink" title="key_len列：表示当优化器决定使用某个索引执行查询时，该索引记录的最大长度（主要使用在联合索引）"></a>key_len列：表示当优化器决定使用某个索引执行查询时，该索引记录的最大长度（主要使用在联合索引）</h4><p>联合索引可以通过这个值算出具体使用了索引中的哪些列。</p>
+<p>使用单例索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain  </span><br><span class="line">select * from users where id = 1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/66.png" alt="66"></p>
+<p>使用联合索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain </span><br><span class="line">select * from users where name = &#x27;张三&#x27; and email = &#x27;zhangsan@example.com&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/67.png" alt="67"></p>
+<p>计算规则：</p>
+<ul>
+<li><p>字符串：</p>
+<p>char(n)：n个字节 </p>
+<p>varchar(n)：如果是uft-8：3n+2字节，加的2个字节存储字符串长度。如果是utf8mb4：4n+2字节。</p>
+</li>
+<li><p>数值类型：</p>
+<p>tinyint：1字节</p>
+<p>smaillint：2字节</p>
+<p>int：4字节</p>
+<p>bigint：8字节</p>
+</li>
+<li><p>时间类型：</p>
+<p>date：3字节</p>
+<p>timestamp：4字节</p>
+<p>datetime：8字节<br>字段如果为NULL，需要1个字节记录是否为NULL</p>
+</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/68.png" alt="68"></p>
+<h4 id="ref列：表示将哪个字段或常量和key列所使用的字段进行比较。"><a href="#ref列：表示将哪个字段或常量和key列所使用的字段进行比较。" class="headerlink" title="ref列：表示将哪个字段或常量和key列所使用的字段进行比较。"></a>ref列：表示将哪个字段或常量和key列所使用的字段进行比较。</h4><p>当使用索引列等值查询时，与索引列进行等值匹配的对象信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 1.常量：</span><br><span class="line">explain </span><br><span class="line">select * from users where name = &#x27;张三&#x27; and email = &#x27;zhangsan@example.com&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/69.png" alt="69"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 2.字段:</span><br><span class="line">explain</span><br><span class="line">select users.* from users inner join orders on users.id = orders.id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/70.png" alt="70"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 3.函数:</span><br><span class="line">explain</span><br><span class="line">select users.* from users inner join orders on users.id = trim(orders.id);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/71.png" alt="71"></p>
+<h4 id="rows列：全表扫描时表示需要扫描表的行数估计值；索引扫描时表示扫描索引的行数估计值；值越小越好（不是结果集中的行数）"><a href="#rows列：全表扫描时表示需要扫描表的行数估计值；索引扫描时表示扫描索引的行数估计值；值越小越好（不是结果集中的行数）" class="headerlink" title="rows列：全表扫描时表示需要扫描表的行数估计值；索引扫描时表示扫描索引的行数估计值；值越小越好（不是结果集中的行数）"></a>rows列：全表扫描时表示需要扫描表的行数估计值；索引扫描时表示扫描索引的行数估计值；值越小越好（不是结果集中的行数）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 1.全表扫描</span><br><span class="line">explain</span><br><span class="line">select * from orders where user_id &gt;= 3 and total_price = 25;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/72.png" alt="72"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 2.索引扫描</span><br><span class="line">explain</span><br><span class="line">select * from orders where user_id &gt; 3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/73.png" alt="73"></p>
+<h4 id="filtered列：表示符合查询条件的数据百分比。可以使用rows-filtered-x2F-100计算出与explain前一个表进行连接的行数。"><a href="#filtered列：表示符合查询条件的数据百分比。可以使用rows-filtered-x2F-100计算出与explain前一个表进行连接的行数。" class="headerlink" title="filtered列：表示符合查询条件的数据百分比。可以使用rows * filtered&#x2F;100计算出与explain前一个表进行连接的行数。"></a>filtered列：表示符合查询条件的数据百分比。可以使用rows * filtered&#x2F;100计算出与<strong>explain</strong>前一个表进行连接的行数。</h4><p>前一个表指 explain 中的id值比当前表id值小的表，id相同的时候指后执行的表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select users.* from users inner join orders on users.id = orders.id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/74.png" alt="74"></p>
+<h4 id="Extra列：SQL执行查询的一些额外信息"><a href="#Extra列：SQL执行查询的一些额外信息" class="headerlink" title="Extra列：SQL执行查询的一些额外信息"></a>Extra列：SQL执行查询的一些额外信息</h4><h5 id="Using-Index：使用非主键索引树就可以查询所需要的数据。一般是覆盖索引，即查询列都包含在辅助索引树叶子节点中，不需要回表查询。"><a href="#Using-Index：使用非主键索引树就可以查询所需要的数据。一般是覆盖索引，即查询列都包含在辅助索引树叶子节点中，不需要回表查询。" class="headerlink" title="Using Index：使用非主键索引树就可以查询所需要的数据。一般是覆盖索引，即查询列都包含在辅助索引树叶子节点中，不需要回表查询。"></a>Using Index：使用非主键索引树就可以查询所需要的数据。一般是覆盖索引，即查询列都包含在辅助索引树叶子节点中，不需要回表查询。</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select user_id,id from orders where user_id = 1;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/75.png" alt="75"></p>
+<h5 id="Using-where：不通过索引查询所需要的数据"><a href="#Using-where：不通过索引查询所需要的数据" class="headerlink" title="Using where：不通过索引查询所需要的数据"></a>Using where：不通过索引查询所需要的数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select * from orders where total_price = 100;</span><br><span class="line"></span><br><span class="line">explain</span><br><span class="line">select * from orders where user_id = 1 and total_price = 100;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/76.png" alt="76"></p>
+<h5 id="Using-index-condition：表示查询列不被索引覆盖，where-条件中是一个索引范围查找，过滤完索引后回表找到所有符合条件的数据行。"><a href="#Using-index-condition：表示查询列不被索引覆盖，where-条件中是一个索引范围查找，过滤完索引后回表找到所有符合条件的数据行。" class="headerlink" title="Using index condition：表示查询列不被索引覆盖，where 条件中是一个索引范围查找，过滤完索引后回表找到所有符合条件的数据行。"></a>Using index condition：表示查询列不被索引覆盖，where 条件中是一个索引范围查找，过滤完索引后回表找到所有符合条件的数据行。</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select * from orders where user_id &gt; 3;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/77.png" alt="77"></p>
+<h5 id="Using-temporary：表示需要使用临时表来处理查询；"><a href="#Using-temporary：表示需要使用临时表来处理查询；" class="headerlink" title="Using temporary：表示需要使用临时表来处理查询；"></a>Using temporary：表示需要使用临时表来处理查询；</h5><p>1.total_price列无索引，需要创建一张临时表进行去重</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select distinct total_price from orders;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/78.png" alt="78"></p>
+<p>2.name列有联合索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select distinct name from users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/79.png" alt="79"></p>
+<h5 id="Using-filesort：当查询中包含-order-by-操作而且无法利用索引完成的排序操作，数据较少时从内存排序，如果数据较多需要在磁盘中排序-需优化成索引排序。"><a href="#Using-filesort：当查询中包含-order-by-操作而且无法利用索引完成的排序操作，数据较少时从内存排序，如果数据较多需要在磁盘中排序-需优化成索引排序。" class="headerlink" title="Using filesort：当查询中包含 order by 操作而且无法利用索引完成的排序操作，数据较少时从内存排序，如果数据较多需要在磁盘中排序;需优化成索引排序。"></a>Using filesort：当查询中包含 order by 操作而且无法利用索引完成的排序操作，数据较少时从内存排序，如果数据较多需要在磁盘中排序;需优化成索引排序。</h5><p>1.total_price列无索引，无法通过索引进行排序。需要先保存total_price与对应的主键id，然后在排序total_price查找数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select total_price from orders order by total_price;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/80.png" alt="80"></p>
+<p>2.name列有索引，因索引已经是排好序的所以直接读取就可以了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain</span><br><span class="line">select name from users order by name;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/81.png" alt="81"></p>
+<h5 id="Select-tables-optimized-away：使用某些聚合函数（min-max）来访问某个索引值。"><a href="#Select-tables-optimized-away：使用某些聚合函数（min-max）来访问某个索引值。" class="headerlink" title="Select tables optimized away：使用某些聚合函数（min,max）来访问某个索引值。"></a>Select tables optimized away：使用某些聚合函数（min,max）来访问某个索引值。</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">explain </span><br><span class="line">select min(id) from users;</span><br><span class="line"></span><br><span class="line">explain </span><br><span class="line">select min(password) from users;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/82.png" alt="82"></p>
+<h3 id="索引优化最佳实践"><a href="#索引优化最佳实践" class="headerlink" title="索引优化最佳实践"></a>索引优化最佳实践</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">-- 示例表</span><br><span class="line">CREATE TABLE `employees` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `name` varchar(24) NOT NULL DEFAULT &#x27;&#x27; COMMENT &#x27;姓名&#x27;,</span><br><span class="line">  `age` int(11) NOT NULL DEFAULT &#x27;0&#x27; COMMENT &#x27;年龄&#x27;,</span><br><span class="line">  `position` varchar(20) NOT NULL DEFAULT &#x27;&#x27; COMMENT &#x27;职位&#x27;,</span><br><span class="line">  `hire_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#x27;入职时间&#x27;,</span><br><span class="line">  `remark` varchar(255) DEFAULT NULL COMMENT &#x27;备注&#x27;,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `idx_name_age_position` (`name`,`age`,`position`) USING BTREE</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT=&#x27;员工记录表&#x27;;</span><br><span class="line"></span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (2, &#x27;张三&#x27;, 18, &#x27;beijing&#x27;, &#x27;2023-06-11 20:51:35&#x27;, &#x27;测试&#x27;);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (3, &#x27;张三&#x27;, 23, &#x27;shanghai&#x27;, &#x27;2023-06-11 20:51:35&#x27;, &#x27;测试2&#x27;);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (1, &#x27;李四&#x27;, 20, &#x27;shanghai&#x27;, &#x27;2023-06-11 20:51:35&#x27;, &#x27;测试3&#x27;);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (5, &#x27;王五&#x27;, 19, &#x27;beijing&#x27;, &#x27;2023-06-12 14:32:15&#x27;, NULL);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (4, &#x27;赵六&#x27;, 22, &#x27;shenzheng&#x27;, &#x27;2023-06-12 14:33:00&#x27;, NULL);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (6, &#x27;赵六&#x27;, 24, &#x27;beijing&#x27;, &#x27;2023-06-12 14:37:50&#x27;, NULL);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (7, &#x27;刘七&#x27;, 20, &#x27;shanghai&#x27;, &#x27;2023-06-12 14:38:27&#x27;, NULL);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (8, &#x27;刘七&#x27;, 22, &#x27;beijing&#x27;, &#x27;2023-06-12 14:38:41&#x27;, NULL);</span><br><span class="line">INSERT INTO `test`.`employees`(`id`, `name`, `age`, `position`, `hire_time`, `remark`) VALUES (9, &#x27;王九&#x27;, 9, &#x27;shanghai &#x27;, &#x27;2023-06-12 14:40:17&#x27;, NULL);</span><br></pre></td></tr></table></figure>
+
+<h4 id="全值匹配"><a href="#全值匹配" class="headerlink" title="全值匹配"></a>全值匹配</h4><p>索引长度计算公式</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/calculate.png" alt="calculate"></p>
+<p>MySQL全值匹配是指在使用复合索引时，查询条件要包含索引的所有列，才能最大程度地利用索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p>查看索引长度是74&#x3D;(3*24+2),可以算出联合索引中只使用了name前缀索引. </p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/83.png" alt="83"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27; AND age = 18; </span><br></pre></td></tr></table></figure>
+
+<p>查看索引长度是78&#x3D;(3*24+2)+4,可以算出联合索引中只使用了name和age前缀索引.</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/84.png" alt="84"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27; AND age = 18 AND position =&#x27;beijing&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p>查看索引长度是140&#x3D;(3x24+2)+4+(3x20+2),可以算出联合索引中只使用了完整的联合索引</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/85.png" alt="85"></p>
+<h4 id="最左前缀法则"><a href="#最左前缀法则" class="headerlink" title="最左前缀法则"></a>最左前缀法则</h4><p> 如果索引使用了多列，要遵守最左前缀法则。指的是查询从索引的最左前列开始并且不跳过索引中的列。</p>
+<p><strong>——带头大哥不能死，中间兄弟不能断；</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- name 74   +age 78 + position 140</span><br><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27; and age = 18 AND position = &#x27;beijing&#x27; ; </span><br><span class="line">-- 带头大哥不能死</span><br><span class="line">EXPLAIN SELECT * FROM employees WHERE age = 18 AND position = &#x27;beijing&#x27;;</span><br><span class="line">-- 中间兄弟不能断</span><br><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27; AND position = &#x27;beijing&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/86.png" alt="86"></p>
+<h4 id="不在索引列上做任何操作-计算-函数-自动or手动-类型转换-导致索引失效而转向全表扫描"><a href="#不在索引列上做任何操作-计算-函数-自动or手动-类型转换-导致索引失效而转向全表扫描" class="headerlink" title="不在索引列上做任何操作(计算,函数,(自动or手动)类型转换),导致索引失效而转向全表扫描"></a>不在索引列上做任何操作(计算,函数,(自动or手动)类型转换),导致索引失效而转向全表扫描</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name = &#x27;张三&#x27;;</span><br><span class="line">EXPLAIN SELECT * FROM employees WHERE left(name,3) = &#x27;张三&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/87.png" alt="87"></p>
+<p>给hire_time增加一个普通索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `employees` ADD INDEX `idx_hire_time` (`hire_time`) USING BTREE ; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from employees where date(hire_time) =&#x27;2018-09-30&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/88.png" alt="88"></p>
+<p>转化为日期范围查询，有可能会走索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from employees where hire_time &gt;=&#x27;2018-09-30 00:00:00&#x27; and hire_time &lt;=&#x27;2018-09-30 23:59:59&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/89.png" alt="89"></p>
+<p>还原最初索引状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `employees` DROP INDEX `idx_hire_time`; </span><br></pre></td></tr></table></figure>
+
+<h4 id="存储引擎不能使用索引中范围条件右边的列"><a href="#存储引擎不能使用索引中范围条件右边的列" class="headerlink" title="存储引擎不能使用索引中范围条件右边的列"></a>存储引擎不能使用索引中范围条件右边的列</h4><p>范围查询会使<strong>后面字段无序，</strong>造成部分索引失效。</p>
+<p><strong>—— 范围之后全失效 ;</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27; AND age = 18 AND position =&#x27;beijing&#x27;;</span><br><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;张三&#x27; AND age &gt; 18 AND position =&#x27;beijing&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/90.png" alt="90"></p>
+<h4 id="尽量使用覆盖索引（只访问索引的查询（索引列包含查询列）），减少-select-语句"><a href="#尽量使用覆盖索引（只访问索引的查询（索引列包含查询列）），减少-select-语句" class="headerlink" title="尽量使用覆盖索引（只访问索引的查询（索引列包含查询列）），减少 select * 语句"></a>尽量使用覆盖索引（只访问索引的查询（索引列包含查询列）），减少 select * 语句</h4><p><strong>—— 覆盖索引不写星;</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT name,age FROM employees WHERE name= &#x27;张三&#x27; AND age = 18 AND position =&#x27;beijing&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/91.png" alt="91"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name= &#x27;LiLei&#x27; AND age = 23 AND position =&#x27;manager&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/92.png" alt="92"></p>
+<h4 id="不等空值还有or，索引失效要少用"><a href="#不等空值还有or，索引失效要少用" class="headerlink" title="不等空值还有or，索引失效要少用"></a>不等空值还有or，索引失效要少用</h4><p><strong>mysql在使用不等于（！&#x3D;或者&lt;&gt;），not in ，not exists 的时候无法使用索引会导致全表扫描</strong></p>
+<p><strong>&lt; 、 &gt; 、 &lt;&#x3D;、&gt;&#x3D; 这些;mysql内部优化器会根据检索比例、表大小等多个因素整体评估是否使用索引</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name != &#x27;张三&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/93.png" alt="93"></p>
+<p><strong>is null,is not null 一般情况下也无法使用索引</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name is null </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/94.png" alt="94"></p>
+<p><strong>少用or或in，用它查询时，mysql不一定使用索引，mysql内部优化器会根据检索比例、表大小等多个因素整体评估是否使用索引，详见范围查询优化</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name = &#x27;LiLei&#x27; or name = &#x27;HanMeimei&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/95.png" alt="95"></p>
+<h4 id="Like百分写最右"><a href="#Like百分写最右" class="headerlink" title="Like百分写最右"></a>Like百分写最右</h4><p><strong>—— Like百分写最右</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name like &#x27;%三&#x27; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/96.png" alt="96"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name like &#x27;张%&#x27; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/97.png" alt="97"></p>
+<p>问题：解决like’%字符串%’索引不被使用的方法？</p>
+<p>a）使用覆盖索引，查询字段必须是建立覆盖索引字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT name,age,position FROM employees WHERE name like &#x27;%Lei%&#x27;; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/98.png" alt="98"></p>
+<p>b）如果不能使用覆盖索引则可能需要借助搜索引擎</p>
+<h4 id="字符串不加单引号索引失效"><a href="#字符串不加单引号索引失效" class="headerlink" title="字符串不加单引号索引失效"></a>字符串不加单引号索引失效</h4><p><strong>—— VAR引号不可丢</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM employees WHERE name = &#x27;1000&#x27;; </span><br><span class="line">EXPLAIN SELECT * FROM employees WHERE name = 1000; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/99.png" alt="99"></p>
+<h4 id="范围查询优化"><a href="#范围查询优化" class="headerlink" title="范围查询优化"></a>范围查询优化</h4><p>给年龄添加单值索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `employees` ADD INDEX `idx_age` (`age`) USING BTREE ; </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from employees where age &gt;=1 and age &lt;=2000; </span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/100.png" alt="100"></p>
+<p>​	没走索引原因：mysql内部优化器会根据检索比例、表大小等多个因素整体评估是否使用索引。比如这个例子，可能是由于单次数据量查询过大导致优化器最终选择不走索引;</p>
+<p>优化方法：可以将大的范围拆分成多个小范围</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">explain select * from employees where age &gt;=1 and age &lt;=1000;</span><br><span class="line">explain select * from employees where age &gt;=1001 and age &lt;=2000;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/101.png" alt="101"></p>
+<p>还原最初索引状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `employees` DROP INDEX `idx_age`; </span><br></pre></td></tr></table></figure>
+
+<h4 id="索引使用总结："><a href="#索引使用总结：" class="headerlink" title="索引使用总结："></a>索引使用总结：</h4><p><strong>全值匹配我最爱，最左前缀要遵守；</strong></p>
+<p><strong>带头大哥不能死，中间兄弟不能断；</strong></p>
+<p><strong>索引列上少计算，范围之后全失效；</strong></p>
+<p><strong>Like百分写最右，覆盖索引不写星；</strong></p>
+<p><strong>不等空值还有or，索引失效要少用；</strong></p>
+<p><strong>VAR引号不可丢，SQL高级也不难！</strong></p>
+<h3 id="trace工具用法"><a href="#trace工具用法" class="headerlink" title="trace工具用法"></a>trace工具用法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br></pre></td><td class="code"><pre><span class="line">trace工具用法：</span><br><span class="line">mysql&gt; set session optimizer_trace=&quot;enabled=on&quot;,end_markers_in_json=on;  --开启trace</span><br><span class="line">mysql&gt; select * from employees where name &gt; &#x27;a&#x27; order by position;</span><br><span class="line">mysql&gt; SELECT * FROM information_schema.OPTIMIZER_TRACE;</span><br><span class="line"></span><br><span class="line">查看trace字段：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;steps&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;join_preparation&quot;: &#123;    --第一阶段：SQL准备阶段，格式化sql</span><br><span class="line">        &quot;select#&quot;: 1,</span><br><span class="line">        &quot;steps&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;expanded_query&quot;: &quot;/* select#1 */ select `employees`.`id` AS `id`,`employees`.`name` AS `name`,`employees`.`age` AS `age`,`employees`.`position` AS `position`,`employees`.`hire_time` AS `hire_time` from `employees` where (`employees`.`name` &gt; &#x27;a&#x27;) order by `employees`.`position`&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        ] /* steps */</span><br><span class="line">      &#125; /* join_preparation */</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;join_optimization&quot;: &#123;    --第二阶段：SQL优化阶段</span><br><span class="line">        &quot;select#&quot;: 1,</span><br><span class="line">        &quot;steps&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;condition_processing&quot;: &#123;    --条件处理</span><br><span class="line">              &quot;condition&quot;: &quot;WHERE&quot;,</span><br><span class="line">              &quot;original_condition&quot;: &quot;(`employees`.`name` &gt; &#x27;a&#x27;)&quot;,</span><br><span class="line">              &quot;steps&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;transformation&quot;: &quot;equality_propagation&quot;,</span><br><span class="line">                  &quot;resulting_condition&quot;: &quot;(`employees`.`name` &gt; &#x27;a&#x27;)&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;transformation&quot;: &quot;constant_propagation&quot;,</span><br><span class="line">                  &quot;resulting_condition&quot;: &quot;(`employees`.`name` &gt; &#x27;a&#x27;)&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;transformation&quot;: &quot;trivial_condition_removal&quot;,</span><br><span class="line">                  &quot;resulting_condition&quot;: &quot;(`employees`.`name` &gt; &#x27;a&#x27;)&quot;</span><br><span class="line">                &#125;</span><br><span class="line">              ] /* steps */</span><br><span class="line">            &#125; /* condition_processing */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;substitute_generated_columns&quot;: &#123;</span><br><span class="line">            &#125; /* substitute_generated_columns */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;table_dependencies&quot;: [    --表依赖详情</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;table&quot;: &quot;`employees`&quot;,</span><br><span class="line">                &quot;row_may_be_null&quot;: false,</span><br><span class="line">                &quot;map_bit&quot;: 0,</span><br><span class="line">                &quot;depends_on_map_bits&quot;: [</span><br><span class="line">                ] /* depends_on_map_bits */</span><br><span class="line">              &#125;</span><br><span class="line">            ] /* table_dependencies */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;ref_optimizer_key_uses&quot;: [</span><br><span class="line">            ] /* ref_optimizer_key_uses */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;rows_estimation&quot;: [    --预估表的访问成本</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;table&quot;: &quot;`employees`&quot;,</span><br><span class="line">                &quot;range_analysis&quot;: &#123;</span><br><span class="line">                  &quot;table_scan&quot;: &#123;     --全表扫描情况</span><br><span class="line">                    &quot;rows&quot;: 10123,    --扫描行数</span><br><span class="line">                    &quot;cost&quot;: 2054.7    --查询成本</span><br><span class="line">                  &#125; /* table_scan */,</span><br><span class="line">                  &quot;potential_range_indexes&quot;: [    --查询可能使用的索引</span><br><span class="line">                    &#123;</span><br><span class="line">                      &quot;index&quot;: &quot;PRIMARY&quot;,    --主键索引</span><br><span class="line">                      &quot;usable&quot;: false,</span><br><span class="line">                      &quot;cause&quot;: &quot;not_applicable&quot;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    &#123;</span><br><span class="line">                      &quot;index&quot;: &quot;idx_name_age_position&quot;,    --辅助索引</span><br><span class="line">                      &quot;usable&quot;: true,</span><br><span class="line">                      &quot;key_parts&quot;: [</span><br><span class="line">                        &quot;name&quot;,</span><br><span class="line">                        &quot;age&quot;,</span><br><span class="line">                        &quot;position&quot;,</span><br><span class="line">                        &quot;id&quot;</span><br><span class="line">                      ] /* key_parts */</span><br><span class="line">                    &#125;</span><br><span class="line">                  ] /* potential_range_indexes */,</span><br><span class="line">                  &quot;setup_range_conditions&quot;: [</span><br><span class="line">                  ] /* setup_range_conditions */,</span><br><span class="line">                  &quot;group_index_range&quot;: &#123;</span><br><span class="line">                    &quot;chosen&quot;: false,</span><br><span class="line">                    &quot;cause&quot;: &quot;not_group_by_or_distinct&quot;</span><br><span class="line">                  &#125; /* group_index_range */,</span><br><span class="line">                  &quot;analyzing_range_alternatives&quot;: &#123;    --分析各个索引使用成本</span><br><span class="line">                    &quot;range_scan_alternatives&quot;: [</span><br><span class="line">                      &#123;</span><br><span class="line">                        &quot;index&quot;: &quot;idx_name_age_position&quot;,</span><br><span class="line">                        &quot;ranges&quot;: [</span><br><span class="line">                          &quot;a &lt; name&quot;      --索引使用范围</span><br><span class="line">                        ] /* ranges */,</span><br><span class="line">                        &quot;index_dives_for_eq_ranges&quot;: true,</span><br><span class="line">                        &quot;rowid_ordered&quot;: false,    --使用该索引获取的记录是否按照主键排序</span><br><span class="line">                        &quot;using_mrr&quot;: false,</span><br><span class="line">                        &quot;index_only&quot;: false,       --是否使用覆盖索引</span><br><span class="line">                        &quot;rows&quot;: 5061,              --索引扫描行数</span><br><span class="line">                        &quot;cost&quot;: 6074.2,            --索引使用成本</span><br><span class="line">                        &quot;chosen&quot;: false,           --是否选择该索引</span><br><span class="line">                        &quot;cause&quot;: &quot;cost&quot;</span><br><span class="line">                      &#125;</span><br><span class="line">                    ] /* range_scan_alternatives */,</span><br><span class="line">                    &quot;analyzing_roworder_intersect&quot;: &#123;</span><br><span class="line">                      &quot;usable&quot;: false,</span><br><span class="line">                      &quot;cause&quot;: &quot;too_few_roworder_scans&quot;</span><br><span class="line">                    &#125; /* analyzing_roworder_intersect */</span><br><span class="line">                  &#125; /* analyzing_range_alternatives */</span><br><span class="line">                &#125; /* range_analysis */</span><br><span class="line">              &#125;</span><br><span class="line">            ] /* rows_estimation */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;considered_execution_plans&quot;: [</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;plan_prefix&quot;: [</span><br><span class="line">                ] /* plan_prefix */,</span><br><span class="line">                &quot;table&quot;: &quot;`employees`&quot;,</span><br><span class="line">                &quot;best_access_path&quot;: &#123;    --最优访问路径</span><br><span class="line">                  &quot;considered_access_paths&quot;: [   --最终选择的访问路径</span><br><span class="line">                    &#123;</span><br><span class="line">                      &quot;rows_to_scan&quot;: 10123,</span><br><span class="line">                      &quot;access_type&quot;: &quot;scan&quot;,     --访问类型：为scan，全表扫描</span><br><span class="line">                      &quot;resulting_rows&quot;: 10123,</span><br><span class="line">                      &quot;cost&quot;: 2052.6,</span><br><span class="line">                      &quot;chosen&quot;: true,            --确定选择</span><br><span class="line">                      &quot;use_tmp_table&quot;: true</span><br><span class="line">                    &#125;</span><br><span class="line">                  ] /* considered_access_paths */</span><br><span class="line">                &#125; /* best_access_path */,</span><br><span class="line">                &quot;condition_filtering_pct&quot;: 100,</span><br><span class="line">                &quot;rows_for_plan&quot;: 10123,</span><br><span class="line">                &quot;cost_for_plan&quot;: 2052.6,</span><br><span class="line">                &quot;sort_cost&quot;: 10123,</span><br><span class="line">                &quot;new_cost_for_plan&quot;: 12176,</span><br><span class="line">                &quot;chosen&quot;: true</span><br><span class="line">              &#125;</span><br><span class="line">            ] /* considered_execution_plans */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;attaching_conditions_to_tables&quot;: &#123;</span><br><span class="line">              &quot;original_condition&quot;: &quot;(`employees`.`name` &gt; &#x27;a&#x27;)&quot;,</span><br><span class="line">              &quot;attached_conditions_computation&quot;: [</span><br><span class="line">              ] /* attached_conditions_computation */,</span><br><span class="line">              &quot;attached_conditions_summary&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;table&quot;: &quot;`employees`&quot;,</span><br><span class="line">                  &quot;attached&quot;: &quot;(`employees`.`name` &gt; &#x27;a&#x27;)&quot;</span><br><span class="line">                &#125;</span><br><span class="line">              ] /* attached_conditions_summary */</span><br><span class="line">            &#125; /* attaching_conditions_to_tables */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;clause_processing&quot;: &#123;</span><br><span class="line">              &quot;clause&quot;: &quot;ORDER BY&quot;,</span><br><span class="line">              &quot;original_clause&quot;: &quot;`employees`.`position`&quot;,</span><br><span class="line">              &quot;items&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                  &quot;item&quot;: &quot;`employees`.`position`&quot;</span><br><span class="line">                &#125;</span><br><span class="line">              ] /* items */,</span><br><span class="line">              &quot;resulting_clause_is_simple&quot;: true,</span><br><span class="line">              &quot;resulting_clause&quot;: &quot;`employees`.`position`&quot;</span><br><span class="line">            &#125; /* clause_processing */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;reconsidering_access_paths_for_index_ordering&quot;: &#123;</span><br><span class="line">              &quot;clause&quot;: &quot;ORDER BY&quot;,</span><br><span class="line">              &quot;steps&quot;: [</span><br><span class="line">              ] /* steps */,</span><br><span class="line">              &quot;index_order_summary&quot;: &#123;</span><br><span class="line">                &quot;table&quot;: &quot;`employees`&quot;,</span><br><span class="line">                &quot;index_provides_order&quot;: false,</span><br><span class="line">                &quot;order_direction&quot;: &quot;undefined&quot;,</span><br><span class="line">                &quot;index&quot;: &quot;unknown&quot;,</span><br><span class="line">                &quot;plan_changed&quot;: false</span><br><span class="line">              &#125; /* index_order_summary */</span><br><span class="line">            &#125; /* reconsidering_access_paths_for_index_ordering */</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;refine_plan&quot;: [</span><br><span class="line">              &#123;</span><br><span class="line">                &quot;table&quot;: &quot;`employees`&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            ] /* refine_plan */</span><br><span class="line">          &#125;</span><br><span class="line">        ] /* steps */</span><br><span class="line">      &#125; /* join_optimization */</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;join_execution&quot;: &#123;    --第三阶段：SQL执行阶段</span><br><span class="line">        &quot;select#&quot;: 1,</span><br><span class="line">        &quot;steps&quot;: [</span><br><span class="line">        ] /* steps */</span><br><span class="line">      &#125; /* join_execution */</span><br><span class="line">    &#125;</span><br><span class="line">  ] /* steps */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">结论：全表扫描的成本低于索引扫描，所以mysql最终选择全表扫描</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from employees where name &gt; &#x27;zzz&#x27; order by position;</span><br><span class="line">mysql&gt; SELECT * FROM information_schema.OPTIMIZER_TRACE;</span><br><span class="line"></span><br><span class="line">查看trace字段可知索引扫描的成本低于全表扫描，所以mysql最终选择索引扫描</span><br><span class="line"></span><br><span class="line">mysql&gt; set session optimizer_trace=&quot;enabled=off&quot;;    --关闭trace</span><br></pre></td></tr></table></figure>
+
+<h2 id="SQL改写"><a href="#SQL改写" class="headerlink" title="SQL改写"></a>SQL改写</h2><p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/102.jpg" alt="102"></p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><h4 id="创建student表"><a href="#创建student表" class="headerlink" title="创建student表"></a>创建student表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS student;</span><br><span class="line">CREATE TABLE student (</span><br><span class="line">  id int(10) NOT NULL AUTO_INCREMENT COMMENT &#x27;序号&#x27;,</span><br><span class="line">  student_id INT NOT NULL COMMENT &#x27;学号&#x27;,</span><br><span class="line">  name varchar(20) COMMENT &#x27;姓名&#x27;,</span><br><span class="line">  department varchar(20) COMMENT &#x27;院系&#x27;,</span><br><span class="line">  remarks varchar(400) COMMENT &#x27;备注&#x27;,</span><br><span class="line">  PRIMARY KEY (id)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建scores表"><a href="#创建scores表" class="headerlink" title="创建scores表"></a>创建scores表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS scores;</span><br><span class="line">CREATE TABLE scores (</span><br><span class="line">   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT &#x27;序号&#x27;,</span><br><span class="line">   student_id INT NOT NULL COMMENT &#x27;学号&#x27;,</span><br><span class="line">   course_name VARCHAR(50) NOT NULL COMMENT &#x27;课程名称&#x27;,</span><br><span class="line">   score INT NOT NULL COMMENT &#x27;分数&#x27;,</span><br><span class="line">   remarks varchar(400) COMMENT &#x27;备注&#x27;</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</span><br></pre></td></tr></table></figure>
+
+<h4 id="添加索引"><a href="#添加索引" class="headerlink" title="添加索引"></a>添加索引</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE student ADD index idx_name_department (name, department);</span><br></pre></td></tr></table></figure>
+
+<h4 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;刘零&#x27;,1,&#x27;美术&#x27;,&#x27;备注0&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;郑一&#x27;,2,&#x27;土木&#x27;,&#x27;备注1&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;吴二&#x27;,3,&#x27;数学&#x27;,&#x27;备注2&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;张三&#x27;,4,&#x27;中文&#x27;,&#x27;备注3&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;李四&#x27;,5,&#x27;英语&#x27;,&#x27;备注4&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;王五&#x27;,6,&#x27;美术&#x27;,&#x27;备注5&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;钱六&#x27;,7,&#x27;土木&#x27;,&#x27;备注6&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;孙七&#x27;,8,&#x27;数学&#x27;,&#x27;备注7&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;赵八&#x27;,9,&#x27;英语&#x27;,&#x27;备注8&#x27;);</span><br><span class="line">INSERT INTO `student` (`name`,`student_id`,`department`,`remarks`) values (&#x27;周九&#x27;,10,&#x27;数学&#x27;,&#x27;备注9&#x27;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">-- 批量导数</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE v_name VARCHAR(20);</span><br><span class="line">  DECLARE v_department VARCHAR(200);</span><br><span class="line">	DECLARE i INT DEFAULT 0;</span><br><span class="line">	DECLARE n INT DEFAULT 100000;</span><br><span class="line">	DECLARE v_max_id INT DEFAULT 1;</span><br><span class="line">	set autocommit = 0;</span><br><span class="line">	select max(id) into v_max_id from student;</span><br><span class="line">	REPEAT</span><br><span class="line">		set i = i + 1;</span><br><span class="line">		set v_max_id = v_max_id + 1;</span><br><span class="line">		set v_name = CONCAT(&#x27;mock_name&#x27;,i);</span><br><span class="line">		set v_department = CONCAT(&#x27;mock_department&#x27;,i);</span><br><span class="line">		INSERT INTO `student` (`student_id`,`name`,`department`,`remarks`) values (v_max_id,v_name,v_department,&#x27;mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks&#x27;);</span><br><span class="line"></span><br><span class="line">		INSERT INTO `scores` (`student_id`,`course_name`,`score`,`remarks`) values (v_max_id,CONCAT(&#x27;mock_Chinese&#x27;,i),RAND()*(100-50)+50,&#x27;mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks&#x27;);</span><br><span class="line">		INSERT INTO `scores` (`student_id`,`course_name`,`score`,`remarks`) values (v_max_id,CONCAT(&#x27;mock_Math&#x27;,i),RAND()*(100-50)+50,&#x27;mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks&#x27;);</span><br><span class="line">		INSERT INTO `scores` (`student_id`,`course_name`,`score`,`remarks`) values (v_max_id,CONCAT(&#x27;mock_English&#x27;,i),RAND()*(100-50)+50,&#x27;mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks_mock_remarks&#x27;);</span><br><span class="line"></span><br><span class="line">		UNTIL i = n</span><br><span class="line">	END REPEAT;</span><br><span class="line">	COMMIT;</span><br><span class="line">	set autocommit = 1;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+
+<h3 id="SQL优化最佳实践"><a href="#SQL优化最佳实践" class="headerlink" title="SQL优化最佳实践"></a>SQL优化最佳实践</h3><h4 id="避免使用select"><a href="#避免使用select" class="headerlink" title="避免使用select *"></a>避免使用select *</h4><p>阿里规范</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/103.png" alt="103"></p>
+<p>原因分析：查看执行计划，select * 走全表扫描，没有用到任何索引，查询效率非常低；查询列都是索引列那么这些列被称为覆盖索引。这种情况下查询的相关字段都能走索引，索引查询的效率相对较高。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from student where name like &#x27;mock_name%&#x27;;--不走索引</span><br><span class="line">EXPLAIN select name, department from student where name like &#x27;mock_name%&#x27;;--走索引</span><br></pre></td></tr></table></figure>
+
+<p>通过show warnings语句查看查询列*号替换成表所有字段。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from student where name like &#x27;mock_name%&#x27;;--替换成表对应的字段</span><br><span class="line">SHOW WARNINGS;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/104.png" alt="104"></p>
+<p>总结：</p>
+<ul>
+<li>查询时需要先将星号解析成表的所有字段然后在查询，<strong>增加查询解析器的成本</strong>；</li>
+<li>select  * 查询一般<strong>不走覆盖索引</strong>会产生大量的回表查询；</li>
+<li>在实际应用中我们通常只需要使用某几个字段，其他不需要使用的字段也查出来<strong>浪费CPU、内存资源</strong>；</li>
+<li>文本数据、大字段数据数据传输<strong>增加网络消耗</strong>。</li>
+</ul>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/105.jpg" alt="105"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/106.jpg" alt="106"></p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/107.jpg" alt="107"></p>
+<h4 id="小表驱动大表"><a href="#小表驱动大表" class="headerlink" title="小表驱动大表"></a>小表驱动大表</h4><p>​	小表驱动大表就是指用数据量较小、索引比较完备的表，然后使用其索引和条件对大表进行数据筛选，从而减少数据计算量，提高查询效率。比如说student表有30条数据，scores表有80w条数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 小表驱动大表</span><br><span class="line">EXPLAIN</span><br><span class="line">select * from student left join scores on student.id = scores.student_id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/108.png" alt="108"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- 大表驱动小表</span><br><span class="line">EXPLAIN</span><br><span class="line">select * from scores left join student on student.id = scores.student_id;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/109.png" alt="109"></p>
+<p>​	Join Buffer（连接缓冲区）是优化器用于处理连接查询操作时的临时缓冲区。简单来说当我们需要比较两个或多个表的数据进行Join操作时，Join Buffer可以帮助MySQL临时存储结果，以减少磁盘读取和CPU负担，提高查询效率。需要注意的是每个join都有一个单独的缓冲区。</p>
+<p>​	Block nested-loop join（BNL算法）会将驱动表数据加载到join buffer里面，然后再批量与非驱动表进行匹配；如果驱动表数据量较大，join buffer无法一次性装载驱动表的结果集，将会分阶段与被驱动表进行批量数据匹配，会增加被驱动表的扫描次数，从而降低查询效率。所以开发中要遵守小表驱动大表的原则。</p>
+<p>分阶段匹配过程如下：</p>
+<p>1、先把student表前15条数据读到join buffer中。</p>
+<p>2、然后用scores表去匹配join buffer中的前15条。</p>
+<p>3、记录下匹配结果。</p>
+<p>4、清空join buffer。</p>
+<p>5、再把student表后15条读取join buffer中。</p>
+<p>6、然后用scores表去匹配join buffer中的后15条。</p>
+<p>7、记录下匹配结果。</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/110.jpg" alt="110"></p>
+<h4 id="用连接查询代替子查询"><a href="#用连接查询代替子查询" class="headerlink" title="用连接查询代替子查询"></a>用连接查询代替子查询</h4><p>mysql需要在两张表以上获取数据的方式有两种：第一种通过连表查询获取，第二种通过子查询获取。</p>
+<p>模拟一个真实场景,student表有30条数据,scores表有80w条数据,我们想查看学号小于15的学员各科分数信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE scores ADD index idx_student_id (student_id);</span><br><span class="line"></span><br><span class="line">EXPLAIN</span><br><span class="line">SELECT</span><br><span class="line">	(SELECT student.NAME FROM student WHERE student.id = scores.student_id),</span><br><span class="line">	scores.course_name,</span><br><span class="line">	scores.score</span><br><span class="line">FROM</span><br><span class="line">	scores;</span><br></pre></td></tr></table></figure>
+
+<p>​	因为子查询需要执行两次数据库查询，一次是外部查询，一次是嵌套子查询。因此，使用连接查询可以减少数据库查询的次数，提高查询的效率。</p>
+<p>​	连接查询可以更好地利用数据库索引，提高查询的性能。子查询通常会使用临时表或内存表，而连接查询可以直接利用表上的索引。这意味着连接查询可以更快地访问表中的数据，减少查询的资源消耗。</p>
+<p>​	对于大型数据集，使用连接查询通常比使用子查询更高效。子查询通常需要扫描整个表，而连接查询可以利用索引加速读取操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN</span><br><span class="line">SELECT</span><br><span class="line">	student.NAME,</span><br><span class="line">	scores.course_name,</span><br><span class="line">	scores.score</span><br><span class="line">FROM</span><br><span class="line">	student inner JOIN scores ON student.id = scores.student_id;</span><br></pre></td></tr></table></figure>
+
+<p>使用连接查询可以更快地执行查询操作，减少数据库的负载，提高查询的性能和效率。</p>
+<h4 id="提升group-by的效率"><a href="#提升group-by的效率" class="headerlink" title="提升group by的效率"></a>提升group by的效率</h4><p>​	创建索引：如果你使用group by的列没有索引，那么查询可能会变得很慢。因此，可以创建一个或多个适当的索引来加速查询。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select remarks from scores group by remarks;</span><br></pre></td></tr></table></figure>
+
+<p>添加索引前：</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/111.png" alt="111"></p>
+<p>添加索引后：</p>
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/112.png" alt="112"></p>
+<p>调整查询：查询的写法也会影响group by的效率。可以尝试不使用子查询或临时表，或者可以使用JOIN或EXISTS来代替IN子查询。</p>
+<p>限制结果集的数量：如果你只需要查看一小部分结果,可以在查询中添加LIMIT子句,以便只返回一定数量的结果。</p>
+<h4 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h4><p>​	批量插入或批量删除数据，比如说现在需要将1w+数据插入到数据库，大家是一条一条处理还是批量操作呢？建议是批量操作，逐个处理会频繁的与数据库交互，损耗性能。</p>
+<p>反例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Order order: list)&#123;   </span><br><span class="line"> </span><br><span class="line">     orderMapper.insert(order):</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	在循环中逐条插入数据。该操作需要多次请求数据库,才能完成这批数据的插入。众所周知，我们在代码中，每次远程请求数据库，是会消耗一定性能的。而如果我们的代码需要请求多次数据库才能完成本次业务功能,势必会消耗更多的性能。那么如何优化呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正解</span></span><br><span class="line">orderMapper.insertBatch(List&lt;User&gt; users): </span><br></pre></td></tr></table></figure>
+
+<p>提供一个批量插入数据的方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into order(id,code,user_id)  values(123,&#x27;001&#x27;,100),(124,&#x27;002&#x27;,100),(125,&#x27;003&#x27;,101);</span><br></pre></td></tr></table></figure>
+
+<p>这样只需要远程请求一次数据库，sql性能会得到提升，数据量越多，提升越大。</p>
+<p>​	但需要注意的是，不建议一次批量操作太多的数据，如果数据太多数据库响应也会很慢。批量操作需要把握一个度，建议每批数据尽量控制在500以内。如果数据多于500，则分多批次处理。</p>
+<h4 id="使用limit"><a href="#使用limit" class="headerlink" title="使用limit"></a>使用limit</h4><ul>
+<li>提高查询效率：一个查询返回成千上万的数据行，不仅占用了大量的系统资源，也会占用更多的网络带宽，影响查询效率。使用LIMIT可以限制返回的数据行数，减轻了系统负担，提高了查询效率。</li>
+<li>避免过度提取数据：对于大型数据库系统，从数据库中提取大量的数据可能会导致系统崩溃。使用LIMIT可以限制提取的数据量，避免过度提取数据，保护系统不受影响。</li>
+<li>优化分页查询：分页查询需要查询所有的数据才能进行分页处理，这会浪费大量的系统资源和时间。使用LIMIT优化分页查询可以只查询需要的数据行，缩短查询时间，减少资源的浪费。</li>
+<li>简化查询结果：有时我们只需要一小部分数据来得出决策，而不是整个数据集。使用LIMIT可以使结果集更加精简和易于阅读和理解。</li>
+</ul>
+<p>限制行数非常有用，因为它可以提高查询性能、减少处理需要的时间，并且只返回我们关心的列。</p>
+<p><strong>百万级表Limit翻页越往后越慢咋办</strong></p>
+<p>为什么 offset 偏大之后 limit 查找会变慢？这需要了解 limit 操作是如何运作的，以下面这句查询为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from table_name limit 10000,10</span><br></pre></td></tr></table></figure>
+
+<p>这句 SQL 的执行逻辑是</p>
+<ul>
+<li>1.从数据表中读取第N条数据添加到数据集中</li>
+<li>2.重复第一步直到 N &#x3D; 10000 + 10</li>
+<li>3.根据 offset 抛弃前面 10000 条数</li>
+<li>4.返回剩余的 10 条数据</li>
+</ul>
+<p><strong>第一次优化</strong></p>
+<p>根据数据库这种查找的特性，就有了一种想当然的方法，利用自增索引（假设为id）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from table_name where (id &gt;= 10000) limit 10</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二次优化</strong></p>
+<p>​	说起数据库查询优化，第一时间想到的就是索引，所以便有了第二次优化：先查找出需要数据的索引列（假设为 id），再通过索引列查找出需要的数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Select * From table_name Where id in (Select id From table_name where ( user = xxx )) limit 10000, 10;</span><br><span class="line"></span><br><span class="line">select * from table_name where( user = xxx ) limit 10000,10</span><br></pre></td></tr></table></figure>
+
+<p>相比较结果是（500w条数据）：第一条花费平均耗时约为第二条的 1&#x2F;3 左右。</p>
+<p>同样是较大的 offset，第一条的查询更为复杂，为什么性能反而得到了提升？</p>
+<p>这涉及到 mysql 主索引的数据结构 b+Tree ，这里不展开，基本原理就是：</p>
+<ul>
+<li>子查询只用到了索引列，没有取实际的数据，所以不涉及到磁盘IO，所以即使是比较大的 offset 查询速度也不会太差。</li>
+<li>利用子查询的方式，把原来的基于 user 的搜索转化为基于主键（id）的搜索，主查询因为已经获得了准确的索引值，所以查询过程也相对较快。</li>
+</ul>
+<p><strong>第三次优化</strong></p>
+<p>在数据量大的时候 in 操作的效率就不怎么样了，我们需要把 in 操作替换掉，使用 join 就是一个不错的选择。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from table_name inner join ( select id from table_name where (user = xxx) limit 10000,10) b using (id)</span><br></pre></td></tr></table></figure>
+
+<h4 id="用union-all代替union"><a href="#用union-all代替union" class="headerlink" title="用union all代替union"></a>用union all代替union</h4><ul>
+<li>union all：获取所有数据但是数据不去重，包含重复数据；</li>
+<li>union：获取所有数据且数据去重，不包含重复数据；</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select id,name,department from student</span><br><span class="line">union all</span><br><span class="line">select id,student_id,score from scores</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/113.png" alt="113"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select id,name,department from student</span><br><span class="line">union</span><br><span class="line">select id,student_id,score from scores</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-original="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/114.png" alt="114"></p>
+<p>​	那么union all与union如果当然它业务数据容许出现重复的记录，我们更推荐使用union all，因为union去重数据需要遍历、排序和比较，它更耗时，更消耗cpu资源，但是数据结果最完整;</p>
+<h4 id="join的表不宜过多"><a href="#join的表不宜过多" class="headerlink" title="join的表不宜过多"></a>join的表不宜过多</h4><ul>
+<li>查询效率下降：多表JOIN查询数据对比时间边长</li>
+<li>系统负载增加：JOIN操作需要进行大量的计算，因此会导致系统负载增加。</li>
+<li>维护难度加大：在一个连接了多个表的查询中，如果需要修改其中一个表的结构或内容，就可能会需要同时修改其他表的结构或内容。</li>
+</ul>
+<p>因此,在数据库设计时,应该尽量减少JOIN操作的使用频率,并且简化表之间的关系，以提高查询效率和系统的性能。</p>
+<p>除上述优化之外，通常在建表还需要注意以下内容：</p>
+<ul>
+<li>控制索引数量</li>
+<li>选择合理的字段类型</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>SQL优化是提高数据库性能的重要方法，在实际开发中我们的SQL要尽量遵守以下几点原则，避免留下技术债：</p>
+<ol>
+<li>减少数据扫描</li>
+<li>返回更少数据</li>
+<li>减少交互次数</li>
+<li>减少服务器CPU及内存开销</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">HuaYe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/">http://example.com/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Python历程</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></div><div class="post_share"><div class="social-share" data-image="/img/earth.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/" title="八股文面试题"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">八股文面试题</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/01/07/Redis%E4%B8%8EMysql%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88/" title="Redis与Mysql双写一致性方案"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-07</div><div class="title">Redis与Mysql双写一致性方案</div></div></a></div><div><a href="/2023/01/02/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" title="事务隔离级别"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-02</div><div class="title">事务隔离级别</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/img.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">HuaYe</div><div class="author-info__description">Good Luck!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/django/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">1.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B4%A2%E5%BC%95"><span class="toc-number">1.1.</span> <span class="toc-text">什么是索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">索引的种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">常见索引数据结构和区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.2.</span> <span class="toc-text">红黑树(平衡二叉树)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91"><span class="toc-number">1.3.3.</span> <span class="toc-text">B-树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91-B-tree"><span class="toc-number">1.3.4.</span> <span class="toc-text">B+树(B+tree)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash%E7%B4%A2%E5%BC%95"><span class="toc-number">1.3.5.</span> <span class="toc-text">Hash索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E4%B8%8E%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E5%92%8C%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">1.4.</span> <span class="toc-text">什么是聚簇索引与非聚集索引和区别？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-number">1.4.1.</span> <span class="toc-text">聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%EF%BC%88%E5%8F%88%E7%A7%B0%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95-x2F-%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-number">1.4.2.</span> <span class="toc-text">非聚簇索引（又称二级索引 &#x2F;  辅助索引）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95"><span class="toc-number">1.5.</span> <span class="toc-text">二级索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">回表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-number">1.7.</span> <span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95"><span class="toc-number">1.8.</span> <span class="toc-text">单列索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-number">1.9.</span> <span class="toc-text">联合索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E5%8E%9F%E5%88%99"><span class="toc-number">1.9.1.</span> <span class="toc-text">最左前缀原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E5%88%86%E5%88%AB%E4%BB%80%E4%B9%88%E5%9C%BA%E6%99%AF%E5%88%9B%E5%BB%BA%EF%BC%8C%E4%BC%98%E5%8A%BF%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.10.</span> <span class="toc-text">单列索引联合索引分别什么场景创建，优势是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.10.1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.10.2.</span> <span class="toc-text">联合索引的优势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8"><span class="toc-number">1.11.</span> <span class="toc-text">索引下推</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%90%88%E5%B9%B6"><span class="toc-number">1.12.</span> <span class="toc-text">索引合并</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E4%BA%A4%E9%9B%86%EF%BC%88intersect%EF%BC%89"><span class="toc-number">1.12.1.</span> <span class="toc-text">取交集（intersect）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E5%B9%B6%E9%9B%86%EF%BC%88union%EF%BC%89"><span class="toc-number">1.12.2.</span> <span class="toc-text">取并集（union）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E5%90%8E%E5%8F%96%E5%B9%B6%E9%9B%86%EF%BC%88sort-union%EF%BC%89"><span class="toc-number">1.12.3.</span> <span class="toc-text">排序后取并集（sort-union）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Mysql%E9%BB%98%E8%AE%A4-InnoDB-%E8%80%8C%E4%B8%8D%E6%98%AF-MyISAM-%EF%BC%9F"><span class="toc-number">1.13.</span> <span class="toc-text">为什么Mysql默认 InnoDB, 而不是 MyISAM ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%80%E4%B8%AA%E8%A1%A8%E6%B2%A1%E6%9C%89%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%E9%82%A3%E8%BF%98%E4%BC%9A%E5%88%9B%E5%BB%BAB-%E6%A0%91%E5%90%97%EF%BC%9F"><span class="toc-number">1.14.</span> <span class="toc-text">如果一个表没有主键索引那还会创建B+树吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%8C%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%AF%A5%E7%94%A8%E5%92%8C%E4%B8%8D%E8%AF%A5%E7%94%A8"><span class="toc-number">1.15.</span> <span class="toc-text">索引的优缺点，什么时候该用和不该用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A2%E7%84%B6%E7%B4%A2%E5%BC%95%E6%9C%89%E5%9D%8F%E6%9C%89%E5%A5%BD-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E7%B4%A2%E5%BC%95-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%B8%8D%E9%9C%80%E8%A6%81%EF%BC%9F"><span class="toc-number">1.15.1.</span> <span class="toc-text">既然索引有坏有好,什么时候需要索引,什么时候不需要？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">优化方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87Explain%E5%B9%B2%E9%A2%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92"><span class="toc-number">2.2.</span> <span class="toc-text">通过Explain干预执行计划</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Explain%E5%90%AB%E4%B9%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">Explain含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Explain%E4%BD%9C%E7%94%A8"><span class="toc-number">2.2.2.</span> <span class="toc-text">Explain作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Explain%E7%94%A8%E6%B3%95"><span class="toc-number">2.2.3.</span> <span class="toc-text">Explain用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Explain%E8%BF%94%E5%9B%9E%E5%88%97%E8%AF%A6%E8%A7%A3"><span class="toc-number">2.2.4.</span> <span class="toc-text">Explain返回列详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#id%E5%88%97%EF%BC%9A%E6%AF%8F%E4%B8%AAselect%E9%83%BD%E6%9C%89%E4%B8%80%E4%B8%AA%E5%AF%B9%E5%BA%94%E7%9A%84id%E5%8F%B7%EF%BC%8C%E5%B9%B6%E4%B8%94%E6%98%AF%E4%BB%8E1%E5%BC%80%E5%A7%8B%E8%87%AA%E5%A2%9E%E7%9A%84"><span class="toc-number">2.2.4.1.</span> <span class="toc-text">id列：每个select都有一个对应的id号，并且是从1开始自增的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#select-type%E5%88%97%EF%BC%9A%E8%A1%A8%E7%A4%BA%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.4.2.</span> <span class="toc-text">select_type列：表示查询语句执行的查询操作类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#simple%EF%BC%9A%E7%AE%80%E5%8D%95select%EF%BC%8C%E4%B8%8D%E5%8C%85%E6%8B%ACunion%E4%B8%8E%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.2.4.2.1.</span> <span class="toc-text">simple：简单select，不包括union与子查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#primary%EF%BC%9A%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2%E4%B8%AD%E6%9C%80%E5%A4%96%E5%B1%82%E6%9F%A5%E8%AF%A2%EF%BC%8C%E6%AF%94%E5%A6%82%E4%BD%BF%E7%94%A8union%E6%88%96union-all%E6%97%B6%EF%BC%8Cid%E4%B8%BA1%E7%9A%84%E8%AE%B0%E5%BD%95select-type%E9%80%9A%E5%B8%B8%E6%98%AFprimary"><span class="toc-number">2.2.4.2.2.</span> <span class="toc-text">primary：复杂查询中最外层查询，比如使用union或union all时，id为1的记录select_type通常是primary</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#subquery%EF%BC%9A%E6%8C%87%E5%9C%A8-select-%E8%AF%AD%E5%8F%A5%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E5%AD%90%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5-%E7%BB%93%E6%9E%9C%E4%B8%8D%E4%BE%9D%E8%B5%96%E4%BA%8E%E5%A4%96%E9%83%A8%E6%9F%A5%E8%AF%A2%EF%BC%88%E4%B8%8D%E5%9C%A8from%E8%AF%AD%E5%8F%A5%E4%B8%AD%EF%BC%89"><span class="toc-number">2.2.4.2.3.</span> <span class="toc-text">subquery：指在 select 语句中出现的子查询语句,结果不依赖于外部查询（不在from语句中）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dependent-subquery%EF%BC%9A%E6%8C%87%E5%9C%A8-select-%E8%AF%AD%E5%8F%A5%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%EF%BC%8C%E7%BB%93%E6%9E%9C%E4%BE%9D%E8%B5%96%E4%BA%8E%E5%A4%96%E9%83%A8%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.2.4.2.4.</span> <span class="toc-text">dependent subquery：指在 select 语句中出现的查询语句，结果依赖于外部查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#derived%EF%BC%9A%E6%B4%BE%E7%94%9F%E8%A1%A8-%E5%9C%A8FROM%E5%AD%90%E5%8F%A5%E7%9A%84%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5-%E8%A1%A8%E7%A4%BA%E4%BB%8E%E5%A4%96%E9%83%A8%E6%95%B0%E6%8D%AE%E6%BA%90%E4%B8%AD%E6%8E%A8%E5%AF%BC%E5%87%BA%E6%9D%A5%E7%9A%84-%E8%80%8C%E4%B8%8D%E6%98%AF%E4%BB%8E-SELECT-%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84%E5%85%B6%E4%BB%96%E5%88%97%E4%B8%AD%E9%80%89%E6%8B%A9%E5%87%BA%E6%9D%A5%E7%9A%84"><span class="toc-number">2.2.4.2.5.</span> <span class="toc-text">derived：派生表,在FROM子句的查询语句,表示从外部数据源中推导出来的,而不是从 SELECT 语句中的其他列中选择出来的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#union-%E5%88%86union%E4%B8%8Eunion-all%E4%B8%A4%E7%A7%8D-%E8%8B%A5%E7%AC%AC%E4%BA%8C%E4%B8%AAselect%E5%87%BA%E7%8E%B0%E5%9C%A8union%E4%B9%8B%E5%90%8E-%E5%88%99%E8%A2%AB%E6%A0%87%E8%AE%B0%E4%B8%BAunion-%E5%A6%82%E6%9E%9Cunion%E8%A2%ABfrom%E5%AD%90%E5%8F%A5%E7%9A%84%E5%AD%90%E6%9F%A5%E8%AF%A2%E5%8C%85%E5%90%AB-%E5%88%99%E7%AC%AC%E4%B8%80%E4%B8%AAselect%E4%BC%9A%E8%A2%AB%E6%A0%87%E8%AE%B0%E4%B8%BAderived-union%E4%BC%9A%E9%92%88%E5%AF%B9%E7%9B%B8%E5%90%8C%E7%9A%84%E7%BB%93%E6%9E%9C%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%8E%BB%E9%87%8D-union-all%E4%B8%8D%E4%BC%9A%E8%BF%9B%E8%A1%8C%E5%8E%BB%E9%87%8D%E5%A4%84%E7%90%86"><span class="toc-number">2.2.4.2.6.</span> <span class="toc-text">union:分union与union all两种,若第二个select出现在union之后,则被标记为union;如果union被from子句的子查询包含,则第一个select会被标记为derived;union会针对相同的结果集进行去重,union all不会进行去重处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dependent-union%EF%BC%9A%E5%BD%93union%E4%BD%9C%E4%B8%BA%E5%AD%90%E6%9F%A5%E8%AF%A2%E6%97%B6%EF%BC%8C%E5%85%B6%E4%B8%AD%E7%AC%AC%E4%B8%80%E4%B8%AAunion%E4%B8%BAdependent-subquery%EF%BC%8C%E7%AC%AC%E4%BA%8C%E4%B8%AAunion%E4%B8%BAdependent-union"><span class="toc-number">2.2.4.2.7.</span> <span class="toc-text">dependent union：当union作为子查询时，其中第一个union为dependent subquery，第二个union为dependent union</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#union-result%EF%BC%9A%E5%A6%82%E6%9E%9C%E4%B8%A4%E4%B8%AA%E6%9F%A5%E8%AF%A2%E4%B8%AD%E6%9C%89%E7%9B%B8%E5%90%8C%E7%9A%84%E5%88%97%EF%BC%8C%E5%88%99%E4%BC%9A%E5%AF%B9%E8%BF%99%E4%BA%9B%E5%88%97%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%A4%8D%E5%88%A0%E9%99%A4%EF%BC%8C%E5%8F%AA%E4%BF%9D%E7%95%99%E4%B8%80%E4%B8%AA%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%88%97"><span class="toc-number">2.2.4.2.8.</span> <span class="toc-text">union result：如果两个查询中有相同的列，则会对这些列进行重复删除，只保留一个表中的列</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#table%E5%88%97%EF%BC%9A%E6%9F%A5%E8%AF%A2%E6%89%80%E6%B6%89%E5%8F%8A%E7%9A%84%E8%A1%A8%E5%90%8D%E3%80%82%E5%A6%82%E6%9E%9C%E6%9C%89%E5%A4%9A%E4%B8%AA%E8%A1%A8%EF%BC%8C%E5%B0%86%E6%98%BE%E7%A4%BA%E5%A4%9A%E8%A1%8C%E8%AE%B0%E5%BD%95"><span class="toc-number">2.2.4.3.</span> <span class="toc-text">table列：查询所涉及的表名。如果有多个表，将显示多行记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#partitions%E5%88%97%EF%BC%9A%E8%A1%A8%E5%88%86%E5%8C%BA%E6%83%85%E5%86%B5"><span class="toc-number">2.2.4.4.</span> <span class="toc-text">partitions列：表分区情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#type%E5%88%97%EF%BC%9A%E6%9F%A5%E8%AF%A2%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E8%AE%BF%E9%97%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.4.5.</span> <span class="toc-text">type列：查询所使用的访问类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#system-const%E7%B1%BB%E5%9E%8B%E7%9A%84%E4%B8%80%E7%A7%8D%E7%89%B9%E6%AE%8A%E5%9C%BA%E6%99%AF-%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%A1%A8%E5%8F%AA%E6%9C%89%E4%B8%80%E8%A1%8C%E8%AE%B0%E5%BD%95%E7%9A%84%E6%83%85%E5%86%B5-%E5%B9%B6%E4%B8%94%E8%AF%A5%E8%A1%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%BB%9F%E8%AE%A1%E6%95%B0%E6%8D%AE%E6%98%AF%E7%B2%BE%E7%A1%AE%E7%9A%84"><span class="toc-number">2.2.4.5.1.</span> <span class="toc-text">system:const类型的一种特殊场景,查询的表只有一行记录的情况,并且该表使用的存储引擎的统计数据是精确的</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#const%EF%BC%9A%E5%9F%BA%E4%BA%8E%E4%B8%BB%E9%94%AE%E6%88%96%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E6%9F%A5%E7%9C%8B%E4%B8%80%E8%A1%8C%EF%BC%8C%E5%BD%93MySQL%E5%AF%B9%E6%9F%A5%E8%AF%A2%E6%9F%90%E9%83%A8%E5%88%86%E8%BF%9B%E8%A1%8C%E4%BC%98%E5%8C%96%EF%BC%8C%E5%B9%B6%E8%BD%AC%E6%8D%A2%E4%B8%BA%E4%B8%80%E4%B8%AA%E5%B8%B8%E9%87%8F%E6%97%B6%EF%BC%8C%E4%BD%BF%E7%94%A8%E8%BF%99%E4%BA%9B%E7%B1%BB%E5%9E%8B%E8%AE%BF%E9%97%AE%E8%BD%AC%E6%8D%A2%E6%88%90%E5%B8%B8%E9%87%8F%E6%9F%A5%E8%AF%A2%EF%BC%8C%E6%95%88%E7%8E%87%E9%AB%98"><span class="toc-number">2.2.4.5.2.</span> <span class="toc-text">const：基于主键或唯一索引查看一行，当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问转换成常量查询，效率高</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#eq-ref%EF%BC%9A%E5%9F%BA%E4%BA%8E%E4%B8%BB%E9%94%AE%E6%88%96%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E8%BF%9E%E6%8E%A5%E4%B8%A4%E4%B8%AA%E8%A1%A8%EF%BC%8C%E5%AF%B9%E4%BA%8E%E6%AF%8F%E4%B8%AA%E7%B4%A2%E5%BC%95%E9%94%AE%E5%80%BC%EF%BC%8C%E5%8F%AA%E6%9C%89%E4%B8%80%E6%9D%A1%E5%8C%B9%E9%85%8D%E8%AE%B0%E5%BD%95%EF%BC%8C%E8%A2%AB%E9%A9%B1%E5%8A%A8%E8%A1%A8%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%BA%E2%80%99eq-ref%E2%80%99"><span class="toc-number">2.2.4.5.3.</span> <span class="toc-text">eq_ref：基于主键或唯一索引连接两个表，对于每个索引键值，只有一条匹配记录，被驱动表的类型为’eq_ref’</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ref%EF%BC%9A%E5%9F%BA%E4%BA%8E%E9%9D%9E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E8%BF%9E%E6%8E%A5%E4%B8%A4%E4%B8%AA%E8%A1%A8%E6%88%96%E9%80%9A%E8%BF%87%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%E5%88%97%E4%B8%8E%E5%B8%B8%E9%87%8F%E8%BF%9B%E8%A1%8C%E7%AD%89%E5%80%BC%E5%8C%B9%E9%85%8D%EF%BC%8C%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%AD%98%E5%9C%A8%E5%A4%9A%E6%9D%A1%E5%8C%B9%E9%85%8D%E8%AE%B0%E5%BD%95"><span class="toc-number">2.2.4.5.4.</span> <span class="toc-text">ref：基于非唯一索引连接两个表或通过二级索引列与常量进行等值匹配，可能会存在多条匹配记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#range%EF%BC%9A%E4%BD%BF%E7%94%A8%E9%9D%9E%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E6%89%AB%E6%8F%8F%E9%83%A8%E5%88%86%E7%B4%A2%E5%BC%95%EF%BC%8C%E6%AF%94%E5%A6%82%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E8%8E%B7%E5%8F%96%E6%9F%90%E4%BA%9B%E8%8C%83%E5%9B%B4%E5%8C%BA%E9%97%B4%E7%9A%84%E8%AE%B0%E5%BD%95"><span class="toc-number">2.2.4.5.5.</span> <span class="toc-text">range：使用非唯一索引扫描部分索引，比如使用索引获取某些范围区间的记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#index%EF%BC%9A%E6%89%AB%E6%8F%8F%E6%95%B4%E4%B8%AA%E7%B4%A2%E5%BC%95%E5%B0%B1%E8%83%BD%E6%8B%BF%E5%88%B0%E7%BB%93%E6%9E%9C%EF%BC%8C%E4%B8%80%E8%88%AC%E6%98%AF%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%9F%A5%E8%AF%A2%E4%B8%80%E8%88%AC%E4%B8%BA%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%EF%BC%88%E9%9C%80%E4%BC%98%E5%8C%96%EF%BC%8C%E7%BC%A9%E5%B0%8F%E6%95%B0%E6%8D%AE%E8%8C%83%E5%9B%B4%EF%BC%89"><span class="toc-number">2.2.4.5.6.</span> <span class="toc-text">index：扫描整个索引就能拿到结果，一般是二级索引，这种查询一般为使用覆盖索引（需优化，缩小数据范围）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#all%EF%BC%9A%E6%89%AB%E6%8F%8F%E6%95%B4%E4%B8%AA%E8%A1%A8%E8%BF%9B%E8%A1%8C%E5%8C%B9%E9%85%8D%EF%BC%8C%E5%8D%B3%E6%89%AB%E6%8F%8F%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E6%A0%91%EF%BC%88%E9%9C%80%E4%BC%98%E5%8C%96%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%EF%BC%89"><span class="toc-number">2.2.4.5.7.</span> <span class="toc-text">all：扫描整个表进行匹配，即扫描聚簇索引树（需优化，添加索引优化）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#NULL%EF%BC%9AMySQL%E5%9C%A8%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%88%86%E8%A7%A3%E8%AF%AD%E5%8F%A5%E5%B0%B1%E5%B7%B2%E7%BB%8F%E5%8F%AF%E4%BB%A5%E8%8E%B7%E5%8F%96%E5%88%B0%E7%BB%93%E6%9E%9C%EF%BC%8C%E6%89%A7%E8%A1%8C%E6%97%B6%E7%94%9A%E8%87%B3%E4%B8%8D%E7%94%A8%E8%AE%BF%E9%97%AE%E8%A1%A8%E6%88%96%E7%B4%A2%E5%BC%95%E3%80%82"><span class="toc-number">2.2.4.5.8.</span> <span class="toc-text">NULL：MySQL在优化过程中分解语句就已经可以获取到结果，执行时甚至不用访问表或索引。</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#possible-keys%E5%88%97%EF%BC%9A%E8%A1%A8%E7%A4%BA%E5%9C%A8%E6%9F%A5%E8%AF%A2%E4%B8%AD%E5%8F%AF%E8%83%BD%E4%BD%BF%E7%94%A8%E5%88%B0%E6%9F%90%E4%B8%AA%E7%B4%A2%E5%BC%95%E6%88%96%E5%A4%9A%E4%B8%AA%E7%B4%A2%E5%BC%95%EF%BC%9B%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E9%80%89%E6%8B%A9%E7%B4%A2%E5%BC%95%EF%BC%8C%E6%98%BE%E7%A4%BANULL"><span class="toc-number">2.2.4.6.</span> <span class="toc-text">possible_keys列：表示在查询中可能使用到某个索引或多个索引；如果没有选择索引，显示NULL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#key%E5%88%97%EF%BC%9A%E8%A1%A8%E7%A4%BA%E5%9C%A8%E6%9F%A5%E8%AF%A2%E4%B8%AD%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B4%A2%E5%BC%95%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%EF%BC%8C%E6%98%BE%E7%A4%BANULL%E3%80%82"><span class="toc-number">2.2.4.7.</span> <span class="toc-text">key列：表示在查询中实际使用的索引，如果没有使用索引，显示NULL。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#key-len%E5%88%97%EF%BC%9A%E8%A1%A8%E7%A4%BA%E5%BD%93%E4%BC%98%E5%8C%96%E5%99%A8%E5%86%B3%E5%AE%9A%E4%BD%BF%E7%94%A8%E6%9F%90%E4%B8%AA%E7%B4%A2%E5%BC%95%E6%89%A7%E8%A1%8C%E6%9F%A5%E8%AF%A2%E6%97%B6%EF%BC%8C%E8%AF%A5%E7%B4%A2%E5%BC%95%E8%AE%B0%E5%BD%95%E7%9A%84%E6%9C%80%E5%A4%A7%E9%95%BF%E5%BA%A6%EF%BC%88%E4%B8%BB%E8%A6%81%E4%BD%BF%E7%94%A8%E5%9C%A8%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-number">2.2.4.8.</span> <span class="toc-text">key_len列：表示当优化器决定使用某个索引执行查询时，该索引记录的最大长度（主要使用在联合索引）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ref%E5%88%97%EF%BC%9A%E8%A1%A8%E7%A4%BA%E5%B0%86%E5%93%AA%E4%B8%AA%E5%AD%97%E6%AE%B5%E6%88%96%E5%B8%B8%E9%87%8F%E5%92%8Ckey%E5%88%97%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E5%AD%97%E6%AE%B5%E8%BF%9B%E8%A1%8C%E6%AF%94%E8%BE%83%E3%80%82"><span class="toc-number">2.2.4.9.</span> <span class="toc-text">ref列：表示将哪个字段或常量和key列所使用的字段进行比较。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rows%E5%88%97%EF%BC%9A%E5%85%A8%E8%A1%A8%E6%89%AB%E6%8F%8F%E6%97%B6%E8%A1%A8%E7%A4%BA%E9%9C%80%E8%A6%81%E6%89%AB%E6%8F%8F%E8%A1%A8%E7%9A%84%E8%A1%8C%E6%95%B0%E4%BC%B0%E8%AE%A1%E5%80%BC%EF%BC%9B%E7%B4%A2%E5%BC%95%E6%89%AB%E6%8F%8F%E6%97%B6%E8%A1%A8%E7%A4%BA%E6%89%AB%E6%8F%8F%E7%B4%A2%E5%BC%95%E7%9A%84%E8%A1%8C%E6%95%B0%E4%BC%B0%E8%AE%A1%E5%80%BC%EF%BC%9B%E5%80%BC%E8%B6%8A%E5%B0%8F%E8%B6%8A%E5%A5%BD%EF%BC%88%E4%B8%8D%E6%98%AF%E7%BB%93%E6%9E%9C%E9%9B%86%E4%B8%AD%E7%9A%84%E8%A1%8C%E6%95%B0%EF%BC%89"><span class="toc-number">2.2.4.10.</span> <span class="toc-text">rows列：全表扫描时表示需要扫描表的行数估计值；索引扫描时表示扫描索引的行数估计值；值越小越好（不是结果集中的行数）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#filtered%E5%88%97%EF%BC%9A%E8%A1%A8%E7%A4%BA%E7%AC%A6%E5%90%88%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E7%99%BE%E5%88%86%E6%AF%94%E3%80%82%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8rows-filtered-x2F-100%E8%AE%A1%E7%AE%97%E5%87%BA%E4%B8%8Eexplain%E5%89%8D%E4%B8%80%E4%B8%AA%E8%A1%A8%E8%BF%9B%E8%A1%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A1%8C%E6%95%B0%E3%80%82"><span class="toc-number">2.2.4.11.</span> <span class="toc-text">filtered列：表示符合查询条件的数据百分比。可以使用rows * filtered&#x2F;100计算出与explain前一个表进行连接的行数。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Extra%E5%88%97%EF%BC%9ASQL%E6%89%A7%E8%A1%8C%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E9%A2%9D%E5%A4%96%E4%BF%A1%E6%81%AF"><span class="toc-number">2.2.4.12.</span> <span class="toc-text">Extra列：SQL执行查询的一些额外信息</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Using-Index%EF%BC%9A%E4%BD%BF%E7%94%A8%E9%9D%9E%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%E6%A0%91%E5%B0%B1%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E6%95%B0%E6%8D%AE%E3%80%82%E4%B8%80%E8%88%AC%E6%98%AF%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%EF%BC%8C%E5%8D%B3%E6%9F%A5%E8%AF%A2%E5%88%97%E9%83%BD%E5%8C%85%E5%90%AB%E5%9C%A8%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95%E6%A0%91%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E4%B8%AD%EF%BC%8C%E4%B8%8D%E9%9C%80%E8%A6%81%E5%9B%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E3%80%82"><span class="toc-number">2.2.4.12.1.</span> <span class="toc-text">Using Index：使用非主键索引树就可以查询所需要的数据。一般是覆盖索引，即查询列都包含在辅助索引树叶子节点中，不需要回表查询。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Using-where%EF%BC%9A%E4%B8%8D%E9%80%9A%E8%BF%87%E7%B4%A2%E5%BC%95%E6%9F%A5%E8%AF%A2%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">2.2.4.12.2.</span> <span class="toc-text">Using where：不通过索引查询所需要的数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Using-index-condition%EF%BC%9A%E8%A1%A8%E7%A4%BA%E6%9F%A5%E8%AF%A2%E5%88%97%E4%B8%8D%E8%A2%AB%E7%B4%A2%E5%BC%95%E8%A6%86%E7%9B%96%EF%BC%8Cwhere-%E6%9D%A1%E4%BB%B6%E4%B8%AD%E6%98%AF%E4%B8%80%E4%B8%AA%E7%B4%A2%E5%BC%95%E8%8C%83%E5%9B%B4%E6%9F%A5%E6%89%BE%EF%BC%8C%E8%BF%87%E6%BB%A4%E5%AE%8C%E7%B4%A2%E5%BC%95%E5%90%8E%E5%9B%9E%E8%A1%A8%E6%89%BE%E5%88%B0%E6%89%80%E6%9C%89%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%95%B0%E6%8D%AE%E8%A1%8C%E3%80%82"><span class="toc-number">2.2.4.12.3.</span> <span class="toc-text">Using index condition：表示查询列不被索引覆盖，where 条件中是一个索引范围查找，过滤完索引后回表找到所有符合条件的数据行。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Using-temporary%EF%BC%9A%E8%A1%A8%E7%A4%BA%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%B4%E6%97%B6%E8%A1%A8%E6%9D%A5%E5%A4%84%E7%90%86%E6%9F%A5%E8%AF%A2%EF%BC%9B"><span class="toc-number">2.2.4.12.4.</span> <span class="toc-text">Using temporary：表示需要使用临时表来处理查询；</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Using-filesort%EF%BC%9A%E5%BD%93%E6%9F%A5%E8%AF%A2%E4%B8%AD%E5%8C%85%E5%90%AB-order-by-%E6%93%8D%E4%BD%9C%E8%80%8C%E4%B8%94%E6%97%A0%E6%B3%95%E5%88%A9%E7%94%A8%E7%B4%A2%E5%BC%95%E5%AE%8C%E6%88%90%E7%9A%84%E6%8E%92%E5%BA%8F%E6%93%8D%E4%BD%9C%EF%BC%8C%E6%95%B0%E6%8D%AE%E8%BE%83%E5%B0%91%E6%97%B6%E4%BB%8E%E5%86%85%E5%AD%98%E6%8E%92%E5%BA%8F%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%95%B0%E6%8D%AE%E8%BE%83%E5%A4%9A%E9%9C%80%E8%A6%81%E5%9C%A8%E7%A3%81%E7%9B%98%E4%B8%AD%E6%8E%92%E5%BA%8F-%E9%9C%80%E4%BC%98%E5%8C%96%E6%88%90%E7%B4%A2%E5%BC%95%E6%8E%92%E5%BA%8F%E3%80%82"><span class="toc-number">2.2.4.12.5.</span> <span class="toc-text">Using filesort：当查询中包含 order by 操作而且无法利用索引完成的排序操作，数据较少时从内存排序，如果数据较多需要在磁盘中排序;需优化成索引排序。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Select-tables-optimized-away%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%9F%90%E4%BA%9B%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%EF%BC%88min-max%EF%BC%89%E6%9D%A5%E8%AE%BF%E9%97%AE%E6%9F%90%E4%B8%AA%E7%B4%A2%E5%BC%95%E5%80%BC%E3%80%82"><span class="toc-number">2.2.4.12.6.</span> <span class="toc-text">Select tables optimized away：使用某些聚合函数（min,max）来访问某个索引值。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">2.2.5.</span> <span class="toc-text">索引优化最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%80%BC%E5%8C%B9%E9%85%8D"><span class="toc-number">2.2.5.1.</span> <span class="toc-text">全值匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E6%B3%95%E5%88%99"><span class="toc-number">2.2.5.2.</span> <span class="toc-text">最左前缀法则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E5%9C%A8%E7%B4%A2%E5%BC%95%E5%88%97%E4%B8%8A%E5%81%9A%E4%BB%BB%E4%BD%95%E6%93%8D%E4%BD%9C-%E8%AE%A1%E7%AE%97-%E5%87%BD%E6%95%B0-%E8%87%AA%E5%8A%A8or%E6%89%8B%E5%8A%A8-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-%E5%AF%BC%E8%87%B4%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E8%80%8C%E8%BD%AC%E5%90%91%E5%85%A8%E8%A1%A8%E6%89%AB%E6%8F%8F"><span class="toc-number">2.2.5.3.</span> <span class="toc-text">不在索引列上做任何操作(计算,函数,(自动or手动)类型转换),导致索引失效而转向全表扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%B8%AD%E8%8C%83%E5%9B%B4%E6%9D%A1%E4%BB%B6%E5%8F%B3%E8%BE%B9%E7%9A%84%E5%88%97"><span class="toc-number">2.2.5.4.</span> <span class="toc-text">存储引擎不能使用索引中范围条件右边的列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%BD%E9%87%8F%E4%BD%BF%E7%94%A8%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95%EF%BC%88%E5%8F%AA%E8%AE%BF%E9%97%AE%E7%B4%A2%E5%BC%95%E7%9A%84%E6%9F%A5%E8%AF%A2%EF%BC%88%E7%B4%A2%E5%BC%95%E5%88%97%E5%8C%85%E5%90%AB%E6%9F%A5%E8%AF%A2%E5%88%97%EF%BC%89%EF%BC%89%EF%BC%8C%E5%87%8F%E5%B0%91-select-%E8%AF%AD%E5%8F%A5"><span class="toc-number">2.2.5.5.</span> <span class="toc-text">尽量使用覆盖索引（只访问索引的查询（索引列包含查询列）），减少 select * 语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E7%AD%89%E7%A9%BA%E5%80%BC%E8%BF%98%E6%9C%89or%EF%BC%8C%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E8%A6%81%E5%B0%91%E7%94%A8"><span class="toc-number">2.2.5.6.</span> <span class="toc-text">不等空值还有or，索引失效要少用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Like%E7%99%BE%E5%88%86%E5%86%99%E6%9C%80%E5%8F%B3"><span class="toc-number">2.2.5.7.</span> <span class="toc-text">Like百分写最右</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8D%E5%8A%A0%E5%8D%95%E5%BC%95%E5%8F%B7%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="toc-number">2.2.5.8.</span> <span class="toc-text">字符串不加单引号索引失效</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="toc-number">2.2.5.9.</span> <span class="toc-text">范围查询优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">2.2.5.10.</span> <span class="toc-text">索引使用总结：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#trace%E5%B7%A5%E5%85%B7%E7%94%A8%E6%B3%95"><span class="toc-number">2.2.6.</span> <span class="toc-text">trace工具用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%94%B9%E5%86%99"><span class="toc-number">2.3.</span> <span class="toc-text">SQL改写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.3.1.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAstudent%E8%A1%A8"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">创建student表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAscores%E8%A1%A8"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">创建scores表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%B4%A2%E5%BC%95"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">添加索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">2.3.1.4.</span> <span class="toc-text">插入数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">2.3.2.</span> <span class="toc-text">SQL优化最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8select"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">避免使用select *</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%8F%E8%A1%A8%E9%A9%B1%E5%8A%A8%E5%A4%A7%E8%A1%A8"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">小表驱动大表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2%E4%BB%A3%E6%9B%BF%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">用连接查询代替子查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%8D%87group-by%E7%9A%84%E6%95%88%E7%8E%87"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">提升group by的效率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">2.3.2.5.</span> <span class="toc-text">批量操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8limit"><span class="toc-number">2.3.2.6.</span> <span class="toc-text">使用limit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8union-all%E4%BB%A3%E6%9B%BFunion"><span class="toc-number">2.3.2.7.</span> <span class="toc-text">用union all代替union</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#join%E7%9A%84%E8%A1%A8%E4%B8%8D%E5%AE%9C%E8%BF%87%E5%A4%9A"><span class="toc-number">2.3.2.8.</span> <span class="toc-text">join的表不宜过多</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.3.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/" title="MySQL调优实践"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL调优实践"/></a><div class="content"><a class="title" href="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/" title="MySQL调优实践">MySQL调优实践</a><time datetime="2099-01-01T13:46:34.000Z" title="发表于 2099-01-01 21:46:34">2099-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/" title="八股文面试题"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="八股文面试题"/></a><div class="content"><a class="title" href="/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/" title="八股文面试题">八股文面试题</a><time datetime="2077-07-06T23:07:07.000Z" title="发表于 2077-07-07 07:07:07">2077-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="排序算法"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="排序算法"/></a><div class="content"><a class="title" href="/2023/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="排序算法">排序算法</a><time datetime="2023-03-23T09:43:44.000Z" title="发表于 2023-03-23 17:43:44">2023-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/12/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="分布式锁"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="分布式锁"/></a><div class="content"><a class="title" href="/2023/01/12/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="分布式锁">分布式锁</a><time datetime="2023-01-12T13:15:16.000Z" title="发表于 2023-01-12 21:15:16">2023-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/07/Redis%E4%B8%8EMysql%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88/" title="Redis与Mysql双写一致性方案"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Redis与Mysql双写一致性方案"/></a><div class="content"><a class="title" href="/2023/01/07/Redis%E4%B8%8EMysql%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88/" title="Redis与Mysql双写一致性方案">Redis与Mysql双写一致性方案</a><time datetime="2023-01-07T12:14:28.000Z" title="发表于 2023-01-07 20:14:28">2023-01-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By HuaYe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>

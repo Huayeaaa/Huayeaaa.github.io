@@ -1,0 +1,515 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>八股文面试题 | Python历程</title><meta name="author" content="HuaYe"><meta name="copyright" content="HuaYe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基础篇is 和 &#x3D;&#x3D; 的区别123456789c &#x3D; d &#x3D; [1,2]e &#x3D; [1,2]print(c is d)print(c &#x3D;&#x3D; d)print(c is e)print(c &#x3D;&#x3D; e)output: True True False True    &#x3D;&#x3D; 是比较操作符,只是判断对象的值（value）是否一致，而is 则判断的是对象之间的身份（内存地址）是否一致.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="八股文面试题">
+<meta property="og:url" content="http://example.com/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="Python历程">
+<meta property="og:description" content="基础篇is 和 &#x3D;&#x3D; 的区别123456789c &#x3D; d &#x3D; [1,2]e &#x3D; [1,2]print(c is d)print(c &#x3D;&#x3D; d)print(c is e)print(c &#x3D;&#x3D; e)output: True True False True    &#x3D;&#x3D; 是比较操作符,只是判断对象的值（value）是否一致，而is 则判断的是对象之间的身份（内存地址）是否一致.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/earth.jpg">
+<meta property="article:published_time" content="2077-07-06T23:07:07.000Z">
+<meta property="article:modified_time" content="2023-08-02T10:36:01.751Z">
+<meta property="article:author" content="HuaYe">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/earth.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '八股文面试题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-02 18:36:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/loading.gif" data-original="/img/img.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/earth.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Python历程"><span class="site-name">Python历程</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">八股文面试题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2077-07-06T23:07:07.000Z" title="发表于 2077-07-07 07:07:07">2077-07-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="八股文面试题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h2><h3 id="is-和-x3D-x3D-的区别"><a href="#is-和-x3D-x3D-的区别" class="headerlink" title="is 和 &#x3D;&#x3D; 的区别"></a>is 和 &#x3D;&#x3D; 的区别</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">c = d = [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line">e = [<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"><span class="built_in">print</span>(c <span class="keyword">is</span> d)</span><br><span class="line"><span class="built_in">print</span>(c == d)</span><br><span class="line"><span class="built_in">print</span>(c <span class="keyword">is</span> e)</span><br><span class="line"><span class="built_in">print</span>(c == e)</span><br><span class="line"></span><br><span class="line">output: <span class="literal">True</span> <span class="literal">True</span> <span class="literal">False</span> <span class="literal">True</span>    </span><br><span class="line">== 是比较操作符,只是判断对象的值（value）是否一致，而<span class="keyword">is</span> 则判断的是对象之间的身份（内存地址）是否一致.   </span><br></pre></td></tr></table></figure>
+
+<h3 id="Python-的深浅拷贝"><a href="#Python-的深浅拷贝" class="headerlink" title="Python 的深浅拷贝"></a>Python 的深浅拷贝</h3><p>浅拷贝只成功”独立“拷贝了列表的外层，而列表的内层列表，还是共享的;<br>深拷贝使得两个列表完全独立开来，每一个列表的操作，都不会影响到另一个;</p>
+<h3 id="filter、map、reduce-的作用"><a href="#filter、map、reduce-的作用" class="headerlink" title="filter、map、reduce 的作用"></a>filter、map、reduce 的作用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">filter</span> 函数用于过滤序列，它接收一个函数和一个序列，把函数作用在序列的每个元素上.</span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">lst1 = <span class="built_in">list</span>(<span class="built_in">filter</span>(<span class="keyword">lambda</span> x: x&gt;<span class="number">2</span>, lst))</span><br><span class="line"></span><br><span class="line"><span class="built_in">map</span> 函数传入一个函数和一个序列，并把函数作用到序列的每个元素上，返回一个可迭代对象</span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line">lst1 = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: x*<span class="number">2</span>, lst))</span><br><span class="line"></span><br><span class="line">reduce 函数用于递归计算，同样需要传入一个函数和一个序列，并把函数和序列元素的计算结果与下一个元素进行计算</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line">reduce(<span class="keyword">lambda</span> x, y: x + y, <span class="built_in">range</span>(<span class="number">101</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="re中match和search的区别"><a href="#re中match和search的区别" class="headerlink" title="re中match和search的区别"></a>re中match和search的区别</h3><p>match()函数只检测要匹配的字符是不是在 string 的开始位置匹配，没匹配到返回None；search()会扫描整个 string 查找匹配；</p>
+<h3 id="面向对象中-new-和-init-区别"><a href="#面向对象中-new-和-init-区别" class="headerlink" title="面向对象中__new__ 和 __init__ 区别"></a>面向对象中<code>__new__</code> 和 <code>__init__</code> 区别</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__new__是在实例创建之前被调用的，因为它的任务就是创建实例然后返回该实例对象，是个静态方法。__init__是当实例对象创建完成后被调用的，然后设置对象属性的一些初始值，通常用在初始化一个类实例的时候，是一个实例方法</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、__new__至少要有一个参数 cls，代表当前类，此参数在实例化时由Python解释器自动识别。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、__new__必须要有返回值，返回实例化出来的实例，这点在自己实现__new__时要特别注意，可以 <span class="keyword">return</span> 父类（通过<span class="built_in">super</span>(当前类名, cls)）__new__出来的实例，或者直接是 <span class="built_in">object</span> 的__new__出来的实例。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、__init__有一个参数 self，就是这个__new__返回的实例，__init__在__new__的基础上可以完成一些其它初始化的动作，__init__不需要返回值。</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、如果__new__创建的是当前类的实例，会自动调用__init__函数，通过 <span class="keyword">return</span> 语句里面调用的__new__函数的第一个参数是 cls 来保证是当前类实例，如果是其他类的类名，；那么实际创建返回的就是其他类的实例，就不会调用当前类的__init__函数，也不会调用其他类的__init__函数;</span><br></pre></td></tr></table></figure>
+
+<h3 id="zip-函数用法"><a href="#zip-函数用法" class="headerlink" title="zip 函数用法"></a>zip 函数用法</h3><p>将可迭代的对象作为参数,将对象中对应的元素打包成一个个元组,然后返回由这些元组组成的zip对象;以最短的序列为界限；需要使用list（）转换；</p>
+<h3 id="列表推导式、字典推导式"><a href="#列表推导式、字典推导式" class="headerlink" title="列表推导式、字典推导式"></a>列表推导式、字典推导式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">列表推导式：[i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br><span class="line">字典推导式：[k: random.randint(<span class="number">0</span>,<span class="number">10</span>) <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br></pre></td></tr></table></figure>
+
+<p>迭代器和生成器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">迭代器：__iter__就是对象的一个特殊方法，它是迭代规则(iterator potocol)的基础。或者说，对象如果没有它，就不能返回迭代器，就没有<span class="built_in">next</span>()方法，就不能迭代。判断一个对象是否可迭代：</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Iterable </span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">isinstance</span>(obj, Iterable))</span><br><span class="line"></span><br><span class="line">生成器：(i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)) 可通过<span class="built_in">next</span>()取值实质上还是调用对象的__next__()方法</span><br></pre></td></tr></table></figure>
+
+<h3 id="read、readline、readlines-的区别"><a href="#read、readline、readlines-的区别" class="headerlink" title="read、readline、readlines 的区别"></a>read、readline、readlines 的区别</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">read 读取整个文件</span><br><span class="line">readline 读取下一行,使用生成器方法</span><br><span class="line">readlines 读取整个文件到一个迭代器以供我们遍历</span><br></pre></td></tr></table></figure>
+
+<h3 id="二分法查找函数判断是否在序列中"><a href="#二分法查找函数判断是否在序列中" class="headerlink" title="二分法查找函数判断是否在序列中"></a>二分法查找函数判断是否在序列中</h3><p>必须是有序序列才可以使用二分查找</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 递归算法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">binary_search</span>(<span class="params">data,item</span>):</span><br><span class="line">    n = <span class="built_in">len</span>(data)</span><br><span class="line">    <span class="keyword">if</span> n &gt; <span class="number">0</span>:</span><br><span class="line">        mid = n // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> data[mid] == item:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">elif</span> data[mid] &gt; item:</span><br><span class="line">            <span class="keyword">return</span> binary_search(data[:mid], item)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> binary_search(data[mid + <span class="number">1</span>:], item)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">lst = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">66</span>, <span class="number">78</span>, <span class="number">99</span>, <span class="number">100</span>, <span class="number">101</span>, <span class="number">233</span>, <span class="number">250</span>, <span class="number">444</span>, <span class="number">890</span>]</span><br><span class="line">binary_search(lst, <span class="number">99</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 非递归算法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">binary_search</span>(<span class="params">data, item</span>):</span><br><span class="line">    n = <span class="built_in">len</span>(data)</span><br><span class="line">    first = <span class="number">0</span></span><br><span class="line">    last = n - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> first &lt;= last:</span><br><span class="line">        mid = (first + last)//<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> data[mid] == item:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">elif</span> data[mid] &gt; item:</span><br><span class="line">            last = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            first = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实例方法、类方法和静态方法"><a href="#实例方法、类方法和静态方法" class="headerlink" title="实例方法、类方法和静态方法"></a>实例方法、类方法和静态方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">实例(对象的绑定方法)方法</span><br><span class="line">定义：第一个参数必须是实例对象，该参数名一般约定为“self”，通过它来传递实例的属性和方法（也可以传类的属性和方法）</span><br><span class="line">调用：只能由实例对象调用</span><br><span class="line"></span><br><span class="line">类方法</span><br><span class="line">定义：使用装饰器@classmethod。第一个参数必须是当前类对象，该参数名一般约定为“cls”，通过它来传递类的属性和方法（不能传实例的属性和方法）</span><br><span class="line">调用：实例对象和类对象都可以调用</span><br><span class="line"></span><br><span class="line">静态方法</span><br><span class="line">定义：使用装饰器@staticmethod。参数随意，没有“self”和“cls”参数，但是方法体中不能使用类或实例的任何属性和方法</span><br><span class="line">调用：实例对象和类对象都可以调用</span><br></pre></td></tr></table></figure>
+
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>反射就是通过字符串的形式，导入模块；通过字符串的形式，去模块寻找指定函数，并执行。<br>利用字符串的形式去对象（模块）中操作（查找&#x2F;获取&#x2F;删除&#x2F;添加）成员，一种基于字符串的事件驱动！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">people = NewClass(<span class="string">&#x27;tom&#x27;</span>, <span class="string">&#x27;boy&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hasattr</span>(people, <span class="string">&#x27;name&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">getattr</span>(people, <span class="string">&#x27;name&#x27;</span>))</span><br><span class="line"><span class="built_in">setattr</span>(people, <span class="string">&#x27;male&#x27;</span>, <span class="string">&#x27;girl&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">getattr</span>(people, <span class="string">&#x27;male&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="metaclass-元类"><a href="#metaclass-元类" class="headerlink" title="metaclass 元类"></a>metaclass 元类</h3><p>先定义元类， 根据 metaclass 创建出类，所以：先定义metaclass，然后创建类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyMetaclass</span>(<span class="title class_ inherited__">type</span>):</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__new__</span>(<span class="params">cls, class_name, class_parents, class_attr</span>):</span><br><span class="line">		class_attr[<span class="string">&#x27;print&#x27;</span>] = <span class="string">&quot;this is my metaclass&#x27;s subclass %s&quot;</span> %class_name</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">type</span>.__new__(cls, class_name, class_parents, class_attr)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyNewClass</span>(<span class="built_in">object</span>, metaclass=MyMetaclass):</span><br><span class="line">	<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sort-和-sorted-的区别"><a href="#sort-和-sorted-的区别" class="headerlink" title="sort 和 sorted 的区别"></a>sort 和 sorted 的区别</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sort() 是可变对象列表（<span class="built_in">list</span>）的方法，无参数，无返回值，sort() 会改变可变对象</span><br><span class="line"><span class="built_in">sorted</span>() 是产生一个新的对象。<span class="built_in">sorted</span>(L) 返回一个排序后的L,不改变原始的L，<span class="built_in">sorted</span>() 适用于任何可迭代容器</span><br></pre></td></tr></table></figure>
+
+<h3 id="any和all"><a href="#any和all" class="headerlink" title="any和all"></a>any和all</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">all</span> 如果存在 <span class="number">0</span> Null <span class="literal">False</span> 返回 <span class="literal">False</span>，否则返回 <span class="literal">True</span>；</span><br><span class="line"><span class="built_in">any</span> 如果都是<span class="number">0</span>，<span class="literal">None</span>，<span class="literal">False</span>，Null 时，否则返回 <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="闭包和装饰器"><a href="#闭包和装饰器" class="headerlink" title="闭包和装饰器"></a>闭包和装饰器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">如果在一个内部函数里,对在外部作用域(但不是在全局作用域)的变量进行引用,那么内部函数就被认为是闭包(closure)</span><br><span class="line">特点：</span><br><span class="line">	1.必须有一个内嵌函数</span><br><span class="line">	2.内嵌函数必须引用外部函数中的变量</span><br><span class="line">	3.外部函数的返回值必须是内嵌函数</span><br><span class="line"></span><br><span class="line">装饰器是一种特殊的闭包，就是在闭包的基础上传递了一个函数，然后覆盖原来函数的执行入口，以后调用这个函数的时候，就可以额外实现一些功能</span><br></pre></td></tr></table></figure>
+
+<h3 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h3><p>yield 是用来生成迭代器的语法，在函数中，如果包含了yield，那么这个函数就是一个迭代器。当代码执行至 yield时，就会中断代码执行，直到程序调用next() 函数时，才会在上次 yield 的地方继续执行;</p>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bubble_sort</span>(<span class="params">arr: <span class="built_in">list</span></span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(arr)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(arr) - i):</span><br><span class="line">            <span class="keyword">if</span> arr[j] &gt; arr[j + <span class="number">1</span>]:</span><br><span class="line">                arr[j], arr[j + <span class="number">1</span>] = arr[j + <span class="number">1</span>], arr[j]</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>快速排序的思想：首先任意选取一个数据（通常选用数组的第一个数）作为关键数据，然后将所有比它小的数都放到它前面，所有比它大的数都放到它后面，这个过程称为一趟快速排序，之后再递归排序两边的数据;<br>挑选基准值：从数列中挑出一个元素，称为”基准”（pivot）</p>
+<p>分割：重新排序数列，所有比基准值小的元素摆放在基准前面，所有比基准值大的元素摆在基准后面（与基准值相等的数可以到任何一边）；在这个分割结束之后，对基准值的排序就已经完成。<br>递归排序子序列：递归地将小于基准值元素的子序列和大于基准值元素的子序列排序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">partition</span>(<span class="params">arr, low, high</span>):</span><br><span class="line">    i = (low - <span class="number">1</span>)  <span class="comment"># 最小元素索引</span></span><br><span class="line">    pivot = arr[high]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(low, high):</span><br><span class="line">        <span class="comment"># 当前元素小于或等于pivot</span></span><br><span class="line">        <span class="keyword">if</span> arr[j] &lt;= pivot:</span><br><span class="line">            i = i + <span class="number">1</span></span><br><span class="line">            arr[i], arr[j] = arr[j], arr[i]</span><br><span class="line">    arr[i + <span class="number">1</span>], arr[high] = arr[high], arr[i + <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> i + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">quicksort</span>(<span class="params">arr, low, high</span>):</span><br><span class="line">    <span class="keyword">if</span> low &lt; high:</span><br><span class="line">        pi = partition(arr, low, high)</span><br><span class="line">        quicksort(arr, low, pi - <span class="number">1</span>)</span><br><span class="line">        quicksort(arr, pi + <span class="number">1</span>, high)</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">8</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">4</span>, <span class="number">12</span>, <span class="number">20</span>]        </span><br><span class="line">quicksort(list1, <span class="number">0</span>, <span class="built_in">len</span>(list1) - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(list1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate"></a>enumerate</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标，一般用在 for 循环当中</span><br><span class="line">data = [&#x27;one&#x27;, &#x27;two&#x27;, &#x27;three&#x27;, &#x27;four&#x27;]</span><br><span class="line">for i, enu in enumerate(data):</span><br><span class="line">	print(i, enu)</span><br></pre></td></tr></table></figure>
+
+<h3 id="json序列化时保留中文"><a href="#json序列化时保留中文" class="headerlink" title="json序列化时保留中文"></a>json序列化时保留中文</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json.dumps(dict_obj, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="简述断言"><a href="#简述断言" class="headerlink" title="简述断言"></a>简述断言</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Python 的断言就是检测一个条件，如果条件为真，它什么都不做；反之它触发一个带可选错误信息的AssertionError</span><br><span class="line">def testassert(n):</span><br><span class="line">	assert n == 2, &quot;n is not 2&quot;</span><br><span class="line">	print(&#x27;n is 2&#x27;)</span><br><span class="line">testassert(1)</span><br><span class="line"></span><br><span class="line">输出异常：AssertionError: n is not 2</span><br></pre></td></tr></table></figure>
+
+<h3 id="正则-re-complie-的作用"><a href="#正则-re-complie-的作用" class="headerlink" title="正则 re.complie 的作用"></a>正则 re.complie 的作用</h3><p>re.compile 是将正则表达式编译成一个对象，加快速度，并重复使用</p>
+<h2 id="综合网络篇"><a href="#综合网络篇" class="headerlink" title="综合网络篇"></a>综合网络篇</h2><h3 id="OSI七层协议"><a href="#OSI七层协议" class="headerlink" title="OSI七层协议"></a>OSI七层协议</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">七层分为:应用层、表示层、会话层、传输层、网络层、数据链路层、物理层</span><br><span class="line">五层分为:应用层、传输层、网络层、数据链路层、物理层</span><br><span class="line"></span><br><span class="line">物理层：网线，电缆等物理设备</span><br><span class="line">数据链路层：Mac 地址</span><br><span class="line">网络层：IP 地址</span><br><span class="line">传输层：TCP，UDP 协议</span><br><span class="line">应用层：FTP 协议，Email，WWW 等</span><br></pre></td></tr></table></figure>
+
+<h3 id="三次握手四次挥手"><a href="#三次握手四次挥手" class="headerlink" title="三次握手四次挥手"></a>三次握手四次挥手</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">都发生在传输层：TCP 标志位（位码）,有 6 种标示: SYN(synchronous 建立联机)、ACK(acknowledgement 确认) 、PSH(push 传送) 、FIN(finish 结束) 、RST(reset重置) 、URG(urgent 紧急) ;</span><br><span class="line">Sequence number(顺序号码)、 Acknowledge number(确认号码);</span><br><span class="line"></span><br><span class="line">第一次握手：主机 A 发送位码为 syn＝1,随机产生seqnumber=1234567 的数据包到服务器，并进入 SYN_SEND 状态，主机B由SYN=1 知道，A 要求建立联机；</span><br><span class="line"></span><br><span class="line">第二次握手：主机 B 收到请求后要确认联机信息，向A 发送ack number=(主机 A 的 seq+1),syn=1,ack=1,随机产生 seq=7654321 的包，并进入SYN_RECV状态；</span><br><span class="line"></span><br><span class="line">第三次握手：主机 A 收到后检查 ack number 是否正确，即第一次发送的seqnumber+1,以及位码 ack 是否为 1，若正确，主机 A 会再发送ack number=(主机 B 的 seq+1),ack=1，主机 B 收到后确认 seq 值与ack=1 则连接建立成功，两个主机均进入 ESTABLISHED 状态</span><br><span class="line"></span><br><span class="line">四次挥手：因为 TCP 连接是全双工的，因此每个方向都必须单独进行关闭。这个原则是当一方完成它的数据发送任务后就能发送一个 FIN 来终止这个方向的连接。收到一个 FIN 只意味着这一方向上没有数据流动，一个 TCP 连接在收到一个FIN后仍能发送数据。首先进行关闭的一方将执行主动关闭，而另一方执行被动关闭服务器 A 发送一个 FIN，用来关闭 A 到服务器 B 的数据传送。服务器B收到这个 FIN，它发回一个 ACK，确认序号为收到的序号加1。和SYN一样，一个 FIN 将占用一个序号服务器 B 关闭与服务器 A 的连接，发送一个 FIN 给服务器A服务器 A 发回 ACK 报文确认，并将确认序号设置为收到序号加1；</span><br></pre></td></tr></table></figure>
+
+<h3 id="tcp和udp的区别"><a href="#tcp和udp的区别" class="headerlink" title="tcp和udp的区别"></a>tcp和udp的区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TCP 和 UDP 都是 OSI 模型中运输层的协议。TCP 提供可靠的通信传输，而UDP 则常被用于广播和细节控制交给应用的通信传输。UDP 不提供复杂的控制机制，利用 IP 提供面向无连接的通信服务。TCP 充分实现了数据传输时各种控制功能，可以进行丢包的重发控制，还可以对次序乱掉的分包进行顺序控制</span><br><span class="line"></span><br><span class="line">TCP 应用：FTP 传输，点对点短信等</span><br><span class="line">UDP 应用：媒体流等</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是socket"><a href="#什么是socket" class="headerlink" title="什么是socket"></a>什么是socket</h3><p>socket 是对 TCP&#x2F;IP 协议的封装，它的出现只是使得程序员更方便地使用 TCP&#x2F;IP 协议栈而已。socket 本身并不是协议，它是应用层与TCP&#x2F;IP 协议族通信的中间软件抽象层，是一组调用接口（TCP&#x2F;IP 网络的API 函数）；</p>
+<h3 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h3><p>并行：多个 CPU 核心，不同的程序就分配给不同的 CPU 来运行。多个程序同时执行<br>并发：多个任务整体看上去是同时执行，在底层，两个任务被拆成了很多份，然后⼀个⼀个执行，站在更高的角度看来两个任务是同时在执行的</p>
+<h3 id="简述-进程、线程、协程的区别以及应用场景"><a href="#简述-进程、线程、协程的区别以及应用场景" class="headerlink" title="简述 进程、线程、协程的区别以及应用场景"></a>简述 进程、线程、协程的区别以及应用场景</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">进程：是操作系统进行资源分配和调度运行的一个独立单位</span><br><span class="line">线程：是处理器(CPU)任务调度和执行的基本单位</span><br><span class="line">协程是一种用户态的轻量级线程，协程的调度完全由用户控制。协程拥有自己的寄存器上下文和栈</span><br><span class="line"></span><br><span class="line">多进程：密集 CPU 任务，需要充分使用多核 CPU 资源（服务器，大量的并行计算）的时候，用多进程。 缺陷：多个进程之间通信成本高，切换开销大</span><br><span class="line"></span><br><span class="line">多线程：密集 I/O 任务（网络 I/O，磁盘 I/O，数据库I/O）使用多线程合适。缺陷：同一个时间切片只能运行一个线程，不能做到高并行，但是可以做到高并发.</span><br><span class="line"></span><br><span class="line">协程：又称微线程，在单线程上执行多个任务，用函数切换，开销极小。不通过操作系统调度，没有进程、线程的切换开销。缺陷：单线程执行，处理密集CPU和本地磁盘 IO 的时候，性能较低。处理网络 I/O 性能还是比较高.</span><br><span class="line"></span><br><span class="line">多线程请求返回是无序的，哪个线程有数据返回就处理哪个线程，而协程返回的数据是有序的.</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何使用线程池和进程池"><a href="#如何使用线程池和进程池" class="headerlink" title="如何使用线程池和进程池"></a>如何使用线程池和进程池</h3><p>当并发的任务数远远超过了计算机的承受能力时,即无法一次性开启过多的进程数或线程数时,就应该用池的概念将开启的进程数或线程数限制在计算机可承受的范围内;通过multiprocessing.Pool;也可以使用 concurrent.futures 模块提供的功能来实现;</p>
+<h3 id="进程之间如何通信"><a href="#进程之间如何通信" class="headerlink" title="进程之间如何通信"></a>进程之间如何通信</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Manager</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">write</span>(<span class="params">q</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;write(%s), 父进程为(%s)&quot;</span> % (os.getpid(), os.getppid()))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">&quot;Python&quot;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Put %s to Queue&quot;</span> % i)</span><br><span class="line">        q.put(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read</span>(<span class="params">q</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;read(%s), 父进程为(%s)&quot;</span> % (os.getpid(), os.getppid()))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(q.qsize()):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;read 从 Queue 获取到消息： %s&quot;</span> % q.get(<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;(%s) start&quot;</span> % os.getpid())</span><br><span class="line">    q = Manager().Queue()</span><br><span class="line">    pw = Process(target=write, args=(q, ))</span><br><span class="line">    pr = Process(target=read, args=(q, ))</span><br><span class="line">    pw.start()</span><br><span class="line">    pr.start()</span><br><span class="line">    pw.join()</span><br><span class="line">    pr.terminate()</span><br></pre></td></tr></table></figure>
+
+<p>Python 的 multiprocessing 模块包装了底层的机制，提供了Queue、Pipes 等多种方式来交换数据；</p>
+<h3 id="进程锁和线程锁"><a href="#进程锁和线程锁" class="headerlink" title="进程锁和线程锁"></a>进程锁和线程锁</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">进程锁：是为了控制同一操作系统中多个进程访问一个共享资源，只是因为程序的独立性，各个进程是无法控制其他进程对资源的访问的，但是可以使用本地系统的信号量控制。信号量(Semaphore)，有时被称为信号灯，是在多线程环境下使用的一种设施，是可以用来保证两个或多个关键代码段不被并发调用。</span><br><span class="line"></span><br><span class="line">线程锁：当多个线程几乎同时修改一个共享数据的时候，需要进行同步控制，线程同步能够保证多个线程安全的访问竞争资源(全局内容)，最简单的同步机制就是使用互斥锁。某个线程要更改共享数据时，先将其锁定，此时资源的状态为锁定状态，其他线程就不能更改，直到该线程将资源状态改为非锁定状态，也就是释放资源，其他的线程才能再次锁定资源。互斥锁保证了每一次只有一个线程进入写入操作。从而保证了多线程下数据的安全性</span><br></pre></td></tr></table></figure>
+
+<h3 id="threading-local-的作用"><a href="#threading-local-的作用" class="headerlink" title="threading.local 的作用"></a>threading.local 的作用</h3><p>ThreadLocal 叫做线程本地变量，ThreadLocal 在每一个变量中都会创建一个副本，每个线程都可以访问自己内部的副本变量，对其他线程时不可见的，修改之后也不会影响到其他线程</p>
+<h3 id="LVS-是什么及作用"><a href="#LVS-是什么及作用" class="headerlink" title="LVS 是什么及作用"></a>LVS 是什么及作用</h3><p>LVS 是 Linux Virtual Server 的简写，意即Linux虚拟服务器,是一个虚拟的服务器集群系统,即负载均衡服务器</p>
+<h3 id="Nginx的作用"><a href="#Nginx的作用" class="headerlink" title="Nginx的作用"></a>Nginx的作用</h3><p>1、反向代理 :是用来代理服务器的，代理要访问的目标服务器;</p>
+<p>2、负载均衡 ；3、HTTP 服务器（包含动静分离）</p>
+<p>4、正向代理:某些情况下，代理用户去访问服务器</p>
+<h3 id="什么是RPC"><a href="#什么是RPC" class="headerlink" title="什么是RPC"></a>什么是RPC</h3><p>​	RPC 是指远程过程调用，比如两台服务器 A，B，一个应用部署在A服务器上，想要调用 B 服务器上应用提供的函数&#x2F;方法，由于不在一个内存空间，不能直接调用，需要通过网络来表达调用的语义和传达调用的数据;底层则通过构造HTTP请求来调⽤远端的方法，所以，有⼀种说法是RPC协议是HTTP协议之上的⼀种协议.</p>
+<h3 id="什么是CDN"><a href="#什么是CDN" class="headerlink" title="什么是CDN"></a>什么是CDN</h3><p>​	CDN 的全称是 Content Delivery Network，即内容分发网络。CDN 是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN 的关键技术主要有内容存储和分发技术;</p>
+<h3 id="浏览器输入一个网址到展示页面的过程"><a href="#浏览器输入一个网址到展示页面的过程" class="headerlink" title="浏览器输入一个网址到展示页面的过程"></a>浏览器输入一个网址到展示页面的过程</h3><p>①浏览器通过 DNS 服务器查找到域名对应的 IP 地址；②浏览器给 IP 对应的 web 服务器发送 HTTP 请求<br>③web 服务器接收到 HTTP 请求后，返回响应给浏览器浏览器接收到响应后渲染页面。</p>
+<h3 id="消息队列如何保证消息可靠传输"><a href="#消息队列如何保证消息可靠传输" class="headerlink" title="消息队列如何保证消息可靠传输"></a>消息队列如何保证消息可靠传输</h3><p>消息可靠传输代表了两层意思，既不能多也不能少：</p>
+<ol>
+<li>为了保证消息不多，也就是消息不能重复，也就是⽣产者不能重复⽣产消息，或者消费者不能重复消费消息；</li>
+<li>⾸先要确保消息不多发，这个不常出现，也⽐较难控制，因为如果出现了多发，很⼤的原因是⽣产者⾃⼰的原因，如果要避免出现问题，就需要在消费端做控制；</li>
+<li>要避免不重复消费，最保险的机制就是消费者实现幂等性，保证就算重复消费，也不会有问题，通过幂等性，也能解决⽣产者重复发送消息的问题；</li>
+<li>消息不能少，意思就是消息不能丢失，⽣产者发送的消息，消费者⼀定要能消费到，对于这个问题，就要考虑两个方面：</li>
+<li>⽣产者发送消息时，要确认broker确实收到并持久化了这条消息，⽐如RabbitMQ的confirm制，Kafka的ack机制都可以保证⽣产者能正确的将消息发送给broker；</li>
+<li>broker要等待消费者真正确认消费到了消息时才删除掉消息，这⾥通常就是消费端ack机制，消费者接收到⼀条消息后，如果确认没问题了，就可以给broker发送⼀个ack，broker接收到ack后才会删除消息</li>
+</ol>
+<h3 id="uwsgi、uWSGI-和-WSGI-的区别"><a href="#uwsgi、uWSGI-和-WSGI-的区别" class="headerlink" title="uwsgi、uWSGI 和 WSGI 的区别"></a>uwsgi、uWSGI 和 WSGI 的区别</h3><p>uwsgi：是服务器和服务端应用程序的一种协议，规定了怎么把请求转发给应用程序和返回; uwsgi 是一种线路协议而不是通信协议，在此常用于在uWSGI 服务器与其他网络服务器的数据通信</p>
+<p>uWSGI：是一个 Web 服务器，它实现了 WSGI 协议、uwsgi、http 等协议。Nginx 中 HttpUwsgiModule 的作用是与 uWSGI 服务器进行交换</p>
+<p>WSGI：全称是 Web Server Gateway Interface，是一种描述web server 如何与web application 通信的规范。django，flask 等都遵循该协议</p>
+<h3 id="实现接口幂等性"><a href="#实现接口幂等性" class="headerlink" title="实现接口幂等性"></a>实现接口幂等性</h3><p>1.唯⼀id。每次操作，都根据操作和内容⽣成唯⼀的id，在执⾏之前先判断id是否存在，如果不存在则执⾏后续操作，并且保存到数据库或者redis等。</p>
+<p>2.服务端提供发送token的接口,业务调⽤接⼝前先获取token,然后调⽤业务接⼝请求时,把token携带过去,务器判断token是否存在redis中,存在表示第⼀次请求,可以继续执⾏业务,执⾏业务完成后，最后需要把redis中的token删除</p>
+<p>3.建去重表。将业务中有唯⼀标识的字段保存到去重表，如果表中存在，则表示已经处理过了</p>
+<p>4.版本控制。增加版本号，当版本号符合时，才能更新数据</p>
+<p>5.状态控制。例如订单有状态已⽀付 未⽀付 ⽀付中 ⽀付失败，当处于未⽀付的时候才允许修改为⽀付中等</p>
+<h2 id="数据库篇"><a href="#数据库篇" class="headerlink" title="数据库篇"></a>数据库篇</h2><h3 id="什么是数据库事务"><a href="#什么是数据库事务" class="headerlink" title="什么是数据库事务"></a>什么是数据库事务</h3><p>事务（Transaction）是并发控制的基本单位。所谓的事务，它是一个操作序列，这些操作要么都执行，要么都不执行，它是一个不可分割的工作单位</p>
+<h3 id="Mysql锁有哪些？"><a href="#Mysql锁有哪些？" class="headerlink" title="Mysql锁有哪些？"></a>Mysql锁有哪些？</h3><p>按锁粒度分类：行锁：锁某行数据，锁粒度最小，并发度高；表锁：锁整张表，锁粒度最⼤，并发度低</p>
+<p>间隙锁：锁的是⼀个区间</p>
+<p>共享锁：也就是读锁，⼀个事务给某⾏数据加了读锁，其他事务也可以读，但是不能写</p>
+<p>排它锁：也就是写锁，⼀个事务给某⾏数据加了写锁，其他事务不能读，也不能写</p>
+<p>乐观锁：并不会真正的去锁某行记录，⽽是通过⼀个版本号来实现的</p>
+<p>悲观锁：上⾯所说的行锁、表锁等都是悲观锁<br>在事务的隔离级别实现中，就需要利用锁来解决幻读</p>
+<h3 id="事务的基本特性和隔离级别"><a href="#事务的基本特性和隔离级别" class="headerlink" title="事务的基本特性和隔离级别"></a>事务的基本特性和隔离级别</h3><p><strong>事务基本特性ACID分别是：</strong><br>原子性：指的是⼀个事务中的操作要么全部成功，要么全部失败。<br>⼀致性：指的是数据库总是从⼀个⼀致性的状态转换到另外⼀个⼀致性的状态。比如A转账给B100块钱，假设A只有90块，⽀付之前我们数据库⾥的数据都是符合约束的,但是如果事务执⾏成功了,我们的数据库数据就破坏约束了,因此事务不能成功,这⾥我们说事务提供了⼀致性的保证<br>隔离性：指的是⼀个事务的修改在最终提交前，对其他事务是不可见的。<br>持久性：指的是⼀旦事务提交，所做的修改就会永久保存到数据库中。</p>
+<p><strong>隔离性有4个隔离级别，分别是：</strong></p>
+<p><strong>read uncommit 读未提交</strong>，可能会读到其他事务未提交的数据，也叫做脏读。⽤户本来应该读取到id&#x3D;1的⽤户age应该是10，结果读取到了其他事务还没有提交的事务，结果读取结果age&#x3D;20，这就是脏读。</p>
+<p><strong>read commit 读已提交</strong>，两次读取结果不⼀致，叫做不可重复读。不可重复读解决了脏读的问题，他只会读取已经提交的事务。⽤户开启事务读取id&#x3D;1⽤户，查询到age&#x3D;10，再次读取发现结果&#x3D;20，在同⼀个事务⾥同⼀个查询读取到不同的结果叫做不可重复读。</p>
+<p><strong>repeatable read 可重复复读</strong>，这是mysql的默认级别，就是每次读取结果都⼀样，但是有可能产⽣幻读。<br><strong>serializable 串行</strong>，⼀般是不会使⽤的，他会给每⼀⾏读取的数据加锁，会导致⼤量超时和锁竞争的问题。</p>
+<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>MVCC(Multi-Version Concurrency Control ，多版本并发控制)指的就是在使⽤READ COMMITTD、REPEATABLE READ这两种隔离级别的事务在执行普通的SEELCT操作时访问记录的版本链的过程。可以使不同事务的读-写、写-读操作并发执⾏，从⽽提升系统性能。READCOMMITTD、REPEATABLE READ这两个隔离级别的⼀个很⼤不同就是：生成ReadView的时机不同，READ COMMITTD在每⼀次进行普通SELECT操作前都会⽣成⼀个ReadView，而REPEATABLE READ只在第⼀次进⾏普通SELECT操作前⽣成⼀个ReadView，之后的查询操作都重复使⽤这个<br>ReadView就好了</p>
+<p>MVCC主要解决了三个问题:</p>
+<p>①通过 MVCC 可以解决读写并发阻塞问题从而提升数据并发处理能力</p>
+<p>②MVCC 采用了乐观锁的方式实现，降低了死锁的概率</p>
+<p>③解决了一致性读的问题也就是事务启动时根据某个条件读取到的数据，直到事务结束时，再次执行相同条件，还是读到同一份数据，不会发生变化。</p>
+<p>而我们在使用 MVCC 时一般会根据业务场景来选择组合搭配乐观锁或悲观锁。</p>
+<h3 id="简述触发器、函数、视图、存储过程"><a href="#简述触发器、函数、视图、存储过程" class="headerlink" title="简述触发器、函数、视图、存储过程"></a>简述触发器、函数、视图、存储过程</h3><p>触发器：触发器是一个特殊的存储过程，它是数据库在insert、update、delete的时候自动执行的代码块</p>
+<p>函数：数据库中提供了许多内置函数，还可以自定义函数，实现sql 逻辑</p>
+<p>视图：视图是由查询结果形成的一张虚拟表，是表通过某种运算得到的一个投影</p>
+<p>存储过程：把一段代码封装起来，当要执行这一段代码的时候，可以通过调用该存储过程来实现（经过第一次编译后再次调用不需要再次编译，比一个个执行sql 语句效率高）</p>
+<h3 id="char-和-varchar-的区别"><a href="#char-和-varchar-的区别" class="headerlink" title="char 和 varchar 的区别"></a>char 和 varchar 的区别</h3><p>char：存储定长数据很方便,CHAR 字段上的索引效率很高,必须在括号里定义长度,可以有默认值,比如定义 char(10)<br>varchar：存储变长数据，但存储效率没有 CHAR 高，必须在括号里定义长度，可以有默认值</p>
+<h3 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h3><p>实现快速定位数据的一种存储结构，其设计思想是以空间换时间。索引的原理：就是把无序的数据变成有序的查询</p>
+<h3 id="常见索引种类"><a href="#常见索引种类" class="headerlink" title="常见索引种类"></a>常见索引种类</h3><p><strong>聚簇索引</strong>：创建一张表时会默认为主键创建聚簇索引，B+树将表中所有的数据组织起来，即数据就是索引主键所以在InnoDB里，主键索引也被称为聚簇索引，索引的叶子节点存的是整行数据</p>
+<p><strong>二级索引</strong>：而除了聚簇索引以外的所有索引都称为二级索引，二级索引的叶子节点内容是主键的值</p>
+<p><strong>单列索引</strong>：现在对name字段加了一个普通非唯一索引,那么name就是索引列,同时name这个索引也就是单列索引</p>
+<p><strong>覆盖索引</strong>：需要查询的字段都在索引列中的情况就被称为覆盖索引</p>
+<p><strong>联合索引</strong>：联合索引其实也是一样的，只不过索引页存的数据就多了一些索引列</p>
+<p><strong>唯一索引</strong>：索引列的值必须唯一，但允许有空值。</p>
+<h3 id="最左前缀原则"><a href="#最左前缀原则" class="headerlink" title="最左前缀原则"></a>最左前缀原则</h3><p>顾名思义是最左优先，以最左边的为起点任何连续的索引都能匹配上。如果没有第一列的话，直接访问第二列，那第二列肯定是无序的，直接访问后面的列就用不到索引了当创建(a,b,c)复合索引时，想要索引生效的话，只能使用 a和ab、ac和abc组合！</p>
+<h3 id="常见索引数据结构和区别"><a href="#常见索引数据结构和区别" class="headerlink" title="常见索引数据结构和区别"></a>常见索引数据结构和区别</h3><p><strong>二叉树：</strong>每个节点最多有两个子节,大在右,小在左,数据随机性情况下树杈越明显；如果数据是按顺序依次进入树的高度则会很高(相当于一个链表结构)；极端的情况下 就是一个链表结构</p>
+<p><strong>红黑树(平衡二叉树)：</strong>虽通过自旋平衡，子节点会自动分叉为2个分支，从而减少树的高度，当数据有序插入时比二叉树数据检索性能更佳. 但是如果数据量过大，节点个数就越多，树高度也会增高（也就是树的深度越深），增加磁盘I&#x2F;O次数，影响查询效率.</p>
+<p><strong>B-树：</strong>它不再限制一个父节点中只能有两个子节点,而是允许 M 个子节点（M &gt; 2）。不仅如此，B树的一个节点可以存储多个元素，相比较于前面的那些二叉树数据结构又将整体的树高度降低了。B 树的节点可以包含有多个子节点，所以 B树是一棵多叉树，它的每一个节点包含的最多子节点数量的称为B树的阶；</p>
+<p><strong>B+树：</strong>B+tree 是在B树基础上的一种优化，其更适合做存储索引结构。在 B+tree 中,非叶子节点上仅存储键值，不存储数据；而所有数据记录均存储在叶子节点上，并且数据是按照顺序排列的。此外在 B+tree 中各个数据页之间是通过双向链表连接的。</p>
+<h3 id="MySQL中为什么会选用B-tree做索引结构"><a href="#MySQL中为什么会选用B-tree做索引结构" class="headerlink" title="MySQL中为什么会选用B+tree做索引结构"></a>MySQL中为什么会选用B+tree做索引结构</h3><p>① 非叶子节点上可以存储更多的键值（索引），相应的树的阶数（节点的子节点树）就会更大，树也就会变得更矮更胖。这样一来我们查找数据进行磁盘I&#x2F;O的次数就会大大减少，数据查询的效率也会更快。</p>
+<p>②所有数据记录都有序存储在叶子节点上，就会使得范围查找，排序查找，分组查找以及去重查找变得异常简单。</p>
+<p>③数据页之间、数据记录之间都是通过链表链接的，有了这个结构的支持就可以方便的在数据查询后进行升序或者降序操作。</p>
+<p>④因为叶子节点存储所有数据，所以 B+树的全局扫描能力更强一些，因为它只需要扫描叶子节点。但是 B 树需要遍历整个树。</p>
+<p>⑤在数据检索方面，由于所有的数据都存储在叶子节点，所以B+树的IO次数会更加稳定一些。</p>
+<h3 id="数据库读写分离"><a href="#数据库读写分离" class="headerlink" title="数据库读写分离"></a>数据库读写分离</h3><p>读写分离，就是将数据库分为了主从库，一个主库用于写数据，多个从库完成读数据的操作，主从库之间通过某种机制进行数据的同步，是一种常见的数据库架构;</p>
+<h3 id="MySQL-数据库备份命令"><a href="#MySQL-数据库备份命令" class="headerlink" title="MySQL 数据库备份命令"></a>MySQL 数据库备份命令</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump <span class="operator">-</span>u 用户名 <span class="operator">-</span>p 数据库名 <span class="operator">&gt;</span> 导出的文件名</span><br></pre></td></tr></table></figure>
+
+<h3 id="MySql存储引擎InnoDB与MyISAM有什么区别"><a href="#MySql存储引擎InnoDB与MyISAM有什么区别" class="headerlink" title="MySql存储引擎InnoDB与MyISAM有什么区别"></a>MySql存储引擎InnoDB与MyISAM有什么区别</h3><p>1.数据存储的方式不同,MyISAM中的数据和索引是分开存储的,而 InnoDB是把索引和数据存储在同一个文件里面。</p>
+<p>2.对于事务的支持不同，MyISAM 不支持事务，但是每次查询都是原子的；而 InnoDB 支持ACID特性的事务处理</p>
+<p>3.对于锁的支持不同，MyISAM 只支持表锁，而 InnoDB 可以根据不同的情况，支持行锁，表锁，间隙锁，临键锁</p>
+<p>4.MyISAM 不支持外键，InnoDB 支持外键</p>
+<h3 id="innoDB-如何解决幻读"><a href="#innoDB-如何解决幻读" class="headerlink" title="innoDB 如何解决幻读"></a>innoDB 如何解决幻读</h3><p>虽然 InnoDB 中通过间隙锁的方式解决了幻读问题，但是加锁之后一定会影响到并发性能，因此，如果对性能要求较高的业务场景中，可以把隔离级别设置成RC，这个级别中不存在间隙锁。</p>
+<h3 id="Explain语句结果中各个字段分别表示什么"><a href="#Explain语句结果中各个字段分别表示什么" class="headerlink" title="Explain语句结果中各个字段分别表示什么"></a>Explain语句结果中各个字段分别表示什么</h3><table>
+<thead>
+<tr>
+<th>列名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>查询语句中每出现⼀个SELECT关键字，MySQL就会为它分配⼀个唯⼀的id值，某些⼦查询会被优化为join查询，那么出现的id会⼀样</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td>SELECT关键字对应的那个查询的类型</td>
+</tr>
+<tr>
+<td>table</td>
+<td>表名</td>
+</tr>
+<tr>
+<td>partitions</td>
+<td>匹配的分区信息</td>
+</tr>
+<tr>
+<td>type</td>
+<td>针对单表的查询⽅式（全表扫描、索引）</td>
+</tr>
+<tr>
+<td>possible_keys</td>
+<td>可能⽤到的索引</td>
+</tr>
+<tr>
+<td>key</td>
+<td>实际使⽤到的索引</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td>实际使⽤到的索引⻓度</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>当使⽤索引列等值查询时，与索引列进⾏等值匹配的对象信息</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>预估的需要读取的记录条数</td>
+</tr>
+<tr>
+<td>filtered</td>
+<td>某个表经过搜索条件过滤后剩余记录条数的百分⽐</td>
+</tr>
+<tr>
+<td>Extra</td>
+<td>⼀些额外的信息，⽐如排序等</td>
+</tr>
+</tbody></table>
+<h3 id="索引在什么情况下会失效"><a href="#索引在什么情况下会失效" class="headerlink" title="索引在什么情况下会失效"></a>索引在什么情况下会失效</h3><p>①在索引列上做运算，比如使用函数，Mysql 在生成执行计划的时候,它是根据统计信息来判断是否要使用索引的。而在索引列上加函数运算，导致 Mysql 无法识别索引列，也就不会再走索引了。不过从 Mysql8 开始，增加了函数索引可以解决这个问题。</p>
+<p>②在一个由多列构成的组合索引中，需要按照最左匹配法则，也就是从索引的最左列开始顺序检索，否则不会走索引。在组合索引中，索引的存储结构是按照索引列的顺序来存储的，因此在sql 中也需要按照这个顺序才能进行逐一匹配。否则 InnoDB 无法识别索引导致索引失效。</p>
+<p>③当索引列存在隐式转化的时候， 比如索引列是字符串类型，但是在sql 查询中没有使用引号。那么 Mysql 会自动进行类型转化，从而导致索引失效</p>
+<p>④在索引列使用不等于号、not 查询的时候,由于索引数据的检索效率非常低,因此Mysql 引擎会判断不走索引。</p>
+<p>⑤使用 like 通配符匹配后缀%xxx 的时候，由于这种方式不符合索引的最左匹配原则，所以也不会走索引。但是反过来，如果通配符匹配的是前缀 xxx%，符合最左匹配，也会走索引。</p>
+<p>⑥使用 or 连接查询的时候，or 语句前后没有同时使用索引，那么索引会失效。只有or 左右查询字段都是索引列的时候，才会生效。</p>
+<h3 id="索引的优缺点，什么时候该用和不该用"><a href="#索引的优缺点，什么时候该用和不该用" class="headerlink" title="索引的优缺点，什么时候该用和不该用"></a>索引的优缺点，什么时候该用和不该用</h3><p><strong>优点：</strong>提高检索效率；降低排序成本，索引对应的字段是会有一个自动排序功能的，默认是升序asc。</p>
+<p><strong>缺点:</strong></p>
+<ol>
+<li>创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加。</li>
+<li>索引需要占用物理空间，数据量越大，占用空间越大</li>
+<li>会降低表的增删改的效率，因为每次增删改索引，都需要进行动态维护</li>
+</ol>
+<p><strong>适合：</strong>较频繁的作为查询条件的字段应该创建索引</p>
+<p><strong>不适合：</strong></p>
+<ol>
+<li>字段值的唯一性太差不适合单独做索引</li>
+<li>更新非常频繁的字段不适合</li>
+<li>不会出现在where句中的字段不适合。</li>
+</ol>
+<h3 id="MySQL查询慢如何优化"><a href="#MySQL查询慢如何优化" class="headerlink" title="MySQL查询慢如何优化"></a>MySQL查询慢如何优化</h3><ol>
+<li>检查是否走了索引，如果没有则优化SQL利⽤索引</li>
+<li>检查所利⽤的索引，是否是最优索引</li>
+<li>检查所查字段是否都是必须的，是否查询了过多字段，查出了多余数据</li>
+<li>检查表中数据是否过多，是否应该进⾏分库分表了</li>
+<li>检查数据库实例所在机器的性能配置，是否太低，是否可以适当增加资源</li>
+</ol>
+<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><p>内连接：INNER JOIN， 可以省略 INNER 获取交集<br>左外连接：LEFT JOIN  获取左边的所有记录和交集<br>右外连接：RIGHT JOIN 获取右边的所有记录和交集<br>全外连接：FULL JOIN  获取并集；MySQL不支持；用得也比较少<br>交叉连接：CROSS JOIN 笛卡儿积</p>
+<h3 id="雪花ID"><a href="#雪花ID" class="headerlink" title="雪花ID"></a>雪花ID</h3><p>第⼀位符号位固定为0，41位时间戳，10位workId，12位序列号，位数可以有不同实现。</p>
+<p>优点：每个毫秒值包含的ID值很多，不够可以变动位数来增加，性能佳(依赖workId的实现);时间戳值在高位，中间是固定的机器码，自增的序列在低位，整个ID是趋势递增的。能够根据业务场景数据库节点布置灵活调整bit位划分，灵活度高。<br>缺点：强依赖于机器时钟，如果时钟回拨，会导致重复的ID⽣成，所以⼀般基于此的算法发现时钟回拨，都会抛异常处理，阻止ID生成，这可能导致服务不可用。</p>
+<h2 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h2><h3 id="Redis有哪些数据结构"><a href="#Redis有哪些数据结构" class="headerlink" title="Redis有哪些数据结构"></a>Redis有哪些数据结构</h3><ol>
+<li>字符串：可以⽤来做最简单的数据，可以缓存某个简单的字符串，也可以缓存某个json格式的字符串，Redis分布式锁的实现就利⽤了这种数据结构，还包括可以实现计数器、Session共享、分布式ID</li>
+<li>哈希表：可以⽤来存储⼀些key-value对，更适合⽤来存储对象</li>
+<li>列表：Redis的列表通过命令的组合，既可以当做栈，也可以当做队列来使⽤，可以⽤来缓存类似微信公号、微博等消息流数据</li>
+<li>集合：和列表类似，也可以存储多个元素，但是不能重复，集合可以进⾏交集、并集、差集操作，从⽽可以实现类似，我和某⼈共同关注的⼈、朋友圈点赞等功能</li>
+<li>有序集合：集合是⽆序的，有序集合可以设置顺序，可以⽤来实现排行榜功能</li>
+</ol>
+<h3 id="高效的找到redis中的某个KEY"><a href="#高效的找到redis中的某个KEY" class="headerlink" title="高效的找到redis中的某个KEY"></a>高效的找到redis中的某个KEY</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">con = redis.Redis()</span><br><span class="line">con.keys(pattern=<span class="string">&#x27;key*&#x27;</span>)  <span class="comment"># * 代表通配符</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">RDB：Redis DataBase，在指定的时间间隔内将内存中的数据集快照写⼊磁盘，实际操作过程是fork⼀个子进程，先将数据集写⼊临时⽂件，写⼊成功后，再替换之前的⽂件，用⼆进制压缩存储。</span><br><span class="line">优点：1.整个Redis数据库将只包含⼀个文件 dump.rdb，⽅便持久化。容灾性好，⽅便备份。</span><br><span class="line">2.性能最大化，fork ⼦进程来完成写操作，让主进程继续处理命令，所以是 IO 最⼤化。使用单独子进程来进⾏持久化，主进程不会进行任何 IO 操作，保证了 redis 的高性能</span><br><span class="line">3.相对于数据集大时，比 AOF 的启动效率更高。</span><br><span class="line"></span><br><span class="line">缺点：1.数据安全性低。RDB 是间隔⼀段时间进行持久化，如果持久化之间 redis 发⽣故障，会发⽣数据丢失。</span><br><span class="line">2.由于RDB是通过fork⼦进程来协助完成数据持久化⼯作的，因此，如果当数据集较大时，可能会导致整个服务器停⽌服务几百毫秒，甚⾄是1秒钟。</span><br><span class="line"></span><br><span class="line">AOF：Append Only File，以日志的形式记录服务器所处理的每⼀个写、删除操作，查询操作不会记录，以⽂本的⽅式记录，可以打开⽂件看到详细的操作记录</span><br><span class="line">优点：</span><br><span class="line">1. 数据安全，Redis中提供了3中同步策略，即每秒同步、每修改同步和不同步。事实上，每秒同步也是异步完成的，其效率也是⾮常⾼的，所差的是⼀旦系统出现宕机现象，那么这⼀秒钟之内修改的数据将会丢失。而每修改同步，我们可以将其视为同步持久化，即每次发生的数据变化都会被⽴即记录到磁盘中。。</span><br><span class="line">2. 通过 append 模式写⽂件，即使中途服务器宕机也不会破坏已经存在的内容，可以通过 redis-check-aof ⼯具解决数据⼀致性问题。</span><br><span class="line">3. AOF 机制的 rewrite 模式。定期对AOF⽂件进⾏重写，以达到压缩的⽬的</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1. AOF 文件比 RDB ⽂件大，且恢复速度慢。</span><br><span class="line">2. 数据集⼤的时候，比 rdb 启动效率低。</span><br><span class="line">3. 运⾏效率没有RDB高</span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis事务实现"><a href="#Redis事务实现" class="headerlink" title="Redis事务实现"></a>Redis事务实现</h3><p>1、事务开始<br>MULTI命令的执行，标识着⼀个事务的开始。MULTI命令会将客户端状态的 flags 属性中打开REDIS_MULTI 标识来完成的。</p>
+<p>2、命令⼊队<br>当⼀个客户端切换到事务状态之后，服务器会根据这个客户端发送来的命令来执⾏不同的操作。如果客户端发送的命令为MULTI、EXEC、WATCH、DISCARD中的⼀个，⽴即执⾏这个命令，否则将命令放⼊⼀个事务队列⾥⾯，然后向客户端返回 QUEUED 回复</p>
+<ul>
+<li>如果客户端发送的命令为 EXEC、DISCARD、WATCH、MULTI 四个命令的其中⼀个，那么服务器⽴即执⾏这个命令。</li>
+<li>如果客户端发送的是四个命令以外的其他命令，那么服务器并不⽴即执⾏这个命令。⾸先检查此命令的格式是否正确，如果不正确，服务器会在客户端状态（redisClient）的 flags 属性关闭 REDIS_MULTI 标识，并且返回错误信息给客户端。如果正确，将这个命令放⼊⼀个事务队列⾥⾯，然后向客户端返回 QUEUED 回复</li>
+</ul>
+<p>事务队列是按照FIFO的⽅式保存⼊队的命令</p>
+<p>3、事务执⾏<br>客户端发送 EXEC 命令，服务器执⾏ EXEC 命令逻辑。</p>
+<ul>
+<li>如果客户端状态的 flags 属性不包含 REDIS_MULTI 标识，或者包含 REDIS_DIRTY_CAS 或者REDIS_DIRTY_EXEC 标识，那么就直接取消事务的执⾏。</li>
+<li>否则客户端处于事务状态（flags 有 REDIS_MULTI 标识），服务器会遍历客户端的事务队列，然后执⾏事务队列中的所有命令，最后将返回结果全部返回给客户端；</li>
+</ul>
+<p>redis 不⽀持事务回滚机制，但是它会检查每⼀个事务中的命令是否错误。Redis 事务不⽀持检查那些程序员⾃⼰逻辑错误。例如对 String 类型的数据库键执⾏对 HashMap 类型的操作！</p>
+<ul>
+<li>WATCH 命令是⼀个乐观锁，可以为 Redis 事务提供 check-and-set （CAS）⾏为。可以监控⼀个或多个键，⼀旦其中有⼀个键被修改（或删除），之后的事务就不会执⾏，监控⼀直持续到EXEC命令。</li>
+<li>MULTI命令⽤于开启⼀个事务，它总是返回OK。MULTI执⾏之后，客户端可以继续向服务器发送任意多条命令,这些命令不会⽴即被执⾏,⽽是被放到⼀个队列中,当EXEC命令被调⽤时，所有队列中的命令才会被执⾏。</li>
+<li>EXEC：执⾏所有事务块内的命令。返回事务块内所有命令的返回值，按命令执⾏的先后顺序排列。当操作被打断时，返回空值 nil 。通过调⽤DISCARD，客户端可以清空事务队列，并放弃执⾏事务， 并且客户端会从事务状态中退出。</li>
+<li>UNWATCH命令可以取消watch对所有key的监控。</li>
+</ul>
+<h3 id="Redis单线程为什么这么快"><a href="#Redis单线程为什么这么快" class="headerlink" title="Redis单线程为什么这么快"></a>Redis单线程为什么这么快</h3><ol>
+<li>纯内存操作</li>
+<li>核⼼是基于⾮阻塞的IO多路复⽤机制</li>
+<li>单线程反⽽避免了多线程的频繁上下⽂切换带来的性能问题</li>
+</ol>
+<h3 id="Redis主从复制的核心原理"><a href="#Redis主从复制的核心原理" class="headerlink" title="Redis主从复制的核心原理"></a>Redis主从复制的核心原理</h3><p>通过执行slaveof命令或设置slaveof选项，让⼀个服务器去复制另⼀个服务器的数据。主数据库可以进行读写操作，当写操作导致数据变化时会自动将数据同步给从数据库。⽽从数据库⼀般是只读的，并接受主数据库同步过来的数据。⼀个主数据库可以拥有多个从数据库，⽽⼀个从数据库只能拥有⼀个主数据库。</p>
+<p>全量复制：</p>
+<ol>
+<li>主节点通过bgsave命令fork⼦进程进⾏RDB持久化，该过程是⾮常消耗CPU、内存(⻚表复制)、硬盘IO的</li>
+<li>主节点通过⽹络将RDB⽂件发送给从节点，对主从节点的带宽都会带来很⼤的消耗</li>
+<li>从节点清空老数据、载⼊新RDB文件的过程是阻塞的,无法响应客户端的命令;如果从节点执行bgrewriteaof，也会带来额外的消耗</li>
+</ol>
+<p>部分复制：</p>
+<ol>
+<li>复制偏移量：执行复制的双⽅，主从节点，分别会维护⼀个复制偏移量offset</li>
+<li>复制积压缓冲区：主节点内部维护了⼀个固定⻓度的、先进先出(FIFO)队列 作为复制积压缓冲区，当主从节点offset的差距过⼤超过缓冲区⻓度时，将⽆法执⾏部分复制，只能执⾏全量复制。</li>
+<li>服务器运行ID(runid)：每个Redis节点，都有其运⾏ID，运⾏ID由节点在启动时⾃动⽣成，主节点会将⾃⼰的运⾏ID发送给从节点，从节点会将主节点的运⾏ID存起来。 从节点Redis断开重连的时候，就是根据运⾏ID来判断同步的进度：</li>
+</ol>
+<ul>
+<li>如果从节点保存的runid与主节点现在的runid相同，说明主从节点之前同步过，主节点会继续尝试使⽤部分复制(到底能不能部分复制还要看offset和复制积压缓冲区的情况)；</li>
+<li>如果从节点保存的runid与主节点现在的runid不同，说明从节点在断线前同步的Redis节点并不是当前的主节点，只能进行全量复制。</li>
+</ul>
+<h3 id="Redis集群策略"><a href="#Redis集群策略" class="headerlink" title="Redis集群策略"></a>Redis集群策略</h3><ol>
+<li>主从模式：这种模式⽐较简单，主库可以读写，并且会和从库进⾏数据同步，这种模式下，客户端直接连主库或某个从库，但是但主库或从库宕机后，客户端需要⼿动修改IP，另外，这种模式也⽐较难进⾏扩容，整个集群所能存储的数据受到某台机器的内存容量，所以不可能⽀持特⼤数据量</li>
+<li>哨兵模式：这种模式在主从的基础上新增了哨兵节点，但主库节点宕机后，哨兵会发现主库节点宕机，然后在从库中选择⼀个库作为进的主库，另外哨兵也可以做集群，从⽽可以保证但某⼀个哨兵节点宕机后，还有其他哨兵节点可以继续⼯作，这种模式可以⽐较好的保证Redis集群的⾼可⽤，但是仍然不能很好的解决Redis的容量上限问题。</li>
+<li>Cluster模式：Cluster模式是⽤得⽐较多的模式，它⽀持多主多从，这种模式会按照key进⾏槽位的分配，可以使得不同的key分散到不同的主节点上，利⽤这种模式可以使得整个集群⽀持更⼤的数据容量，同时每个主节点可以拥有⾃⼰的多个从节点，如果该主节点宕机，会从它的从节点中选举⼀个新的主节点。</li>
+</ol>
+<p>对于这三种模式，如果Redis要存的数据量不⼤，可以选择哨兵模式，如果Redis要存的数据量⼤，并且需要持续的扩容，那么选择Cluster模式。</p>
+<h3 id="缓存穿透、缓存击穿、缓存雪崩"><a href="#缓存穿透、缓存击穿、缓存雪崩" class="headerlink" title="缓存穿透、缓存击穿、缓存雪崩"></a>缓存穿透、缓存击穿、缓存雪崩</h3><p>缓存中存放的⼤多都是热点数据，⽬的就是防⽌请求可以直接从缓存中获取到数据，⽽不⽤访问Mysql。</p>
+<ol>
+<li>缓存雪崩：如果缓存中某⼀时刻⼤批热点数据同时过期，那么就可能导致⼤量请求直接访问Mysql了，解决办法就是在过期时间上增加⼀点随机值，另外如果搭建⼀个⾼可⽤的Redis集群也是防⽌缓存雪崩的有效⼿段</li>
+<li>缓存穿透：假如某⼀时刻访问redis的⼤量key都在redis中不存在（⽐如⿊客故意伪造⼀些乱七⼋糟的key）那么也会给数据造成压⼒，这就是缓存穿透，解决⽅案是使⽤布隆过滤器，它的作⽤就是如果它认为⼀个key不存在，那么这个key就肯定不存在，所以可以在缓存之前加⼀层布隆过滤器来拦截不存在的key</li>
+<li>缓存击穿：和缓存雪崩类似，缓存雪崩是⼤批热点数据失效，⽽缓存击穿是指某⼀个热点key突然失效，也导致了⼤量请求直接访问Mysql数据库，这就是缓存击穿，解决⽅案就是考虑这个热点key不设过期时间</li>
+</ol>
+<h3 id="如何避免缓存穿透、缓存击穿、缓存雪崩"><a href="#如何避免缓存穿透、缓存击穿、缓存雪崩" class="headerlink" title="如何避免缓存穿透、缓存击穿、缓存雪崩"></a>如何避免缓存穿透、缓存击穿、缓存雪崩</h3><p><strong>缓存雪崩：</strong>1.缓存数据的过期时间设置随机，防⽌同⼀时间⼤量数据过期现象发⽣；2.给每⼀个缓存数据增加相应的缓存标记，记录缓存是否失效，如果缓存标记失效，则更新数据缓存。3.缓存预热互斥锁</p>
+<p><strong>缓存穿透：</strong>1.接⼝层增加校验，如⽤户鉴权校验，id做基础校验，id&lt;&#x3D;0的直接拦截；2.从缓存取不到的数据，在数据库中也没有取到，这时也可以将key-value对写为key-null，缓存有效时间可以设置短点，如30秒（设置太⻓会导致正常情况也没法使⽤）。这样可以防⽌攻击⽤户反复⽤同⼀个id暴⼒攻击；3.采⽤布隆过滤器，将所有可能存在的数据哈希到⼀个⾜够⼤的 bitmap 中，⼀个⼀定不存在的数据会被这个 bitmap 拦截掉，从⽽避免了对底层存储系统的查询压⼒</p>
+<p><strong>缓存击穿：</strong>设置热点数据永远不过期。加互斥锁</p>
+<h3 id="布隆过滤器原理，优缺点"><a href="#布隆过滤器原理，优缺点" class="headerlink" title="布隆过滤器原理，优缺点"></a>布隆过滤器原理，优缺点</h3><p><strong>原理：</strong>当一个元素被加入集合时,通过 K 个散列函数将这个元素映射成一个位数组中的 K 个点,把它们置为 1。检索的时候,使用同样的方式去映射,只要看到每个映射的位置的值是不是1,就可以大概知道该元素是否存在集合中了。</p>
+<p><strong>位图</strong>：int[10]，每个int类型的整数是4*8&#x3D;32个bit，则int[10]⼀共有320 bit，每个bit⾮0即1，初始化时都是0。</p>
+<p><strong>添加数据时：</strong>将数据进⾏hash得到hash值，对应到bit位，将该bit改为1，hash函数可以定义多个，则 ⼀个数据添加会将多个（hash函数个数）bit改为1，多个hash函数的⽬的是减少hash碰撞的概率。</p>
+<p><strong>查询数据：</strong>hash函数计算得到hash值，对应到bit中，如果有⼀个为0，则说明数据不在bit中，如果都为1，则该数据可能在bit中。</p>
+<p>优点：</p>
+<p>1.占⽤内存⼩；增加和查询元素的时间复杂度为：O(K), (K为哈希函数的个数，⼀般⽐较⼩)，与数据量⼤⼩⽆关哈希函数相互之间没有关系，⽅便硬件并⾏运算。</p>
+<p>2.布隆过滤器不需要存储元素本身，在某些对保密要求⽐较严格的场合有很⼤优势 数据量很⼤时，布隆过滤器可以表示全集；使⽤同⼀组散列函数的布隆过滤器可以进⾏交、并、差运算</p>
+<p>缺点：</p>
+<p>1.误判率，即存在假阳性(False Position)，不能准确判断元素是否在集合中不能获取元素本身</p>
+<p>2.⼀般情况下不能从布隆过滤器中删除元素</p>
+<h3 id="Redis分布式锁底层是如何实现的"><a href="#Redis分布式锁底层是如何实现的" class="headerlink" title="Redis分布式锁底层是如何实现的"></a>Redis分布式锁底层是如何实现的</h3><p>分布式锁，是一种跨进程的跨机器节点的互斥锁，它可以用来保证多机器节点对于共享资源访问的排他性。</p>
+<ol>
+<li>⾸先利⽤setnx来保证：如果key不存在才能获取到锁，如果key存在，则获取不到锁；还可以用 expire 命令设置锁的失效时间，从而避免死锁问题</li>
+<li>然后还要利⽤lua脚本来保证多个redis操作的原⼦性</li>
+<li>同时还要考虑到锁过期，所以需要额外的⼀个看⻔狗定时任务来监听锁是否需要续约</li>
+<li>同时还要考虑到redis节点挂掉后的情况，所以需要采⽤红锁的⽅式来同时向N&#x2F;2+1个节点申请锁，都申请到了才证明获取锁成功，这样就算其中某个redis节点挂掉了，锁也不能被其他客户端获取到</li>
+</ol>
+<h3 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h3><p><strong>定时过期：</strong>是指每个设置过期时间的 key 都需要创建一个定时器，到过期时间就会立即对 key 进行清除。该策略可以立即清除过期的数据，对内存很友好；但是会占用大量的CPU资源去处理过期的数据，从而影响缓存的响应时间和吞吐量</p>
+<p><strong>惰性过期：</strong>是指被动访问某个 key 的时候，才会判断 key 是否已过期，过期则清除。该策略可以最大化地节省CPU 资源，却对内存非常不友好。极端情况可能出现大量的过期 key 没有再次被访问，从而不会被清除，占用大量内存。</p>
+<p><strong>定期过期：</strong>每隔⼀定的时间，会扫描⼀定数量的数据库的expires字典中⼀定数量的key，并清除其中已过期的key。该策略是⼀个折中⽅案。通过调整定时扫描的时间间隔和每次扫描的限定耗时，可以在不同情况下使得CPU和内存资源达到最优的平衡效果。</p>
+<p><strong>分桶策略：</strong>定期过期的优化，将过期时间点相近的key放在⼀起，按时间扫描分桶。</p>
+<p><strong>Redis 中同时使用了惰性过期和定期过期两种过期策略。</strong></p>
+<h3 id="常见缓存淘汰算法"><a href="#常见缓存淘汰算法" class="headerlink" title="常见缓存淘汰算法"></a>常见缓存淘汰算法</h3><ol>
+<li>LRU（LeastRecentlyUsed，最近最少使⽤），根据最近被使⽤的时间，离当前最远的数据优先被淘汰；</li>
+<li>LFU（LeastFrequentlyUsed，最不经常使⽤），在⼀段时间内，缓存数据被使⽤次数最少的会被淘汰。</li>
+<li>FIFO（First In First Out，先进先出），根据缓存被存储的时间，离当前最远的数据优先被淘汰；</li>
+</ol>
+<h3 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h3><p>CAP理论是分布式领域中⾮常重要的⼀个指导理论，C（Consistency）表示强⼀致性，A（Availability）表示可⽤性，P（Partition Tolerance）表示分区容错性，CAP理论指出在⽬前的硬件条件下，⼀个分布式系统是必须要保证分区容错性的，⽽在这个前提下，分布式系统要么保证CP，要么保证AP，⽆法同时保证CAP。</p>
+<p>分区容错性表示，⼀个系统虽然是分布式的，但是对外看上去应该是⼀个整体，不能由于分布式系统内部的某个结点挂点，或⽹络出现了故障，⽽导致系统对外出现异常。所以，对于分布式系统⽽⾔是⼀定要保证分区容错性的。</p>
+<p>强⼀致性表示,⼀个分布式系统中各个结点之间能及时的同步数据,在数据同步过程中,是不能对外提供服务的，不然就会造成数据不⼀致,所以强⼀致性和可⽤性是不能同时满⾜的。可⽤性表示,⼀个分布式系统对外要保证可⽤。</p>
+<h3 id="数据⼀致性模型有哪些"><a href="#数据⼀致性模型有哪些" class="headerlink" title="数据⼀致性模型有哪些"></a>数据⼀致性模型有哪些</h3><p><strong>强⼀致性：</strong>当更新操作完成之后，任何多个后续进程的访问都会返回最新的更新过的值，这种是对⽤户 最友好的，就是⽤户上⼀次写什么，下⼀次就保证能读到什么。根据 CAP理论，这种实现需要牺牲可⽤性。</p>
+<p><strong>弱⼀致性：</strong>系统在数据写⼊成功之后，不承诺⽴即可以读到最新写⼊的值，也不会具体的承诺多久之后 可以读到。⽤户读到某⼀操作对系统数据的更新需要⼀段时间，我们称这段时间为“不⼀致性窗⼝”。</p>
+<p><strong>最终⼀致性：</strong>最终⼀致性是弱⼀致性的特例，强调的是所有的数据副本，在经过⼀段时间的同步之后， 最终都能够达到⼀个⼀致的状态。因此，最终⼀致性的本质是需要系统保证最终数据能够达到⼀致，⽽ 不需要实时保证系统数据的强⼀致性。到达最终⼀致性的时间 ，就是不⼀致窗⼝时间，在没有故障发⽣的前提下，不⼀致窗⼝的时间主要受通信延迟，系统负载和复制副本的个数影响。最终⼀致性模型根据其提供的不同保证可以划分为更多的模型，包括因果⼀致性和会话⼀致性等</p>
+<h3 id="Redis和MySQL如何保证数据一致性"><a href="#Redis和MySQL如何保证数据一致性" class="headerlink" title="Redis和MySQL如何保证数据一致性"></a>Redis和MySQL如何保证数据一致性</h3><p>1.先更新数据库，再更新缓存</p>
+<ul>
+<li>如果先更新数据库，再更新缓存，如果缓存更新失败，就会导致数据库和Redis 中的数据不一致。</li>
+</ul>
+<p>2.先删除缓存，再更新数据库</p>
+<ul>
+<li>如果是先删除缓存，再更新数据库，理想情况是应用下次访问 Redis 的时候，发现Redis里面的数据是空的就从数据库加载保存到 Redis 里面，那么数据是一致的。但是在极端情况下，由于删除 Redis 和更新数据库这两个操作并不是原子的，所以这个过程如果有其他线程来访问，还是会存在数据不一致问题。</li>
+</ul>
+<p>所以，如果需要在极端情况下仍然保证 Redis 和 Mysql 的数据一致性，就只能采用最终一致性方案。比如基于 RocketMQ 的可靠性消息通信，来实现最终一致性;还可以直接通过 Canal 组件，监控 Mysql 中 binlog 的日志，把更新后的数据同步到 Redis 里面。</p>
+<p>因为这里是基于最终一致性来实现的，如果业务场景不能接受数据的短期不一致性，那我们可以通过读写锁的方式来保证强一致性;在数据更新的时候，其他任何请求都无法访问缓存中的数据，直到数据更新完毕，从而保证了数据的强一致性但是这种方式由于增加了锁的操作，所以在性能上会存在一定的影响。</p>
+<h3 id="Redis和MySQL如何保证数据一致性-1"><a href="#Redis和MySQL如何保证数据一致性-1" class="headerlink" title="Redis和MySQL如何保证数据一致性"></a>Redis和MySQL如何保证数据一致性</h3><ol>
+<li>先更新Mysql，再更新Redis，如果更新Redis失败，可能仍然不⼀致</li>
+<li>先删除Redis缓存数据，再更新Mysql，再次查询的时候在将数据添加到缓存中，这种⽅案能解决1⽅案的问题，但是在⾼并发下性能较低，⽽且仍然会出现数据不⼀致的问题，⽐如线程1删除了Redis缓存数据，正在更新Mysql，此时另外⼀个查询再查询，那么就会把Mysql中⽼数据⼜查到Redis中</li>
+<li>延时双删，步骤是：先删除Redis缓存数据，再更新Mysql，延迟⼏百毫秒再删除Redis缓存数据，这样就算在更新Mysql时，有其他线程读了Mysql，把⽼数据读到了Redis中，那么也会被删除掉，从⽽把数据保持⼀致。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">HuaYe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/">http://example.com/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Python历程</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a></div><div class="post_share"><div class="social-share" data-image="/img/earth.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/" title="MySQL调优实践"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL调优实践</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="排序算法"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">排序算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/05/15/Python%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" title="Python发送邮件"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-15</div><div class="title">Python发送邮件</div></div></a></div><div><a href="/2022/04/08/%E5%85%83%E7%B1%BB/" title="元类"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-08</div><div class="title">元类</div></div></a></div><div><a href="/2022/05/08/%E5%86%8D%E8%AE%BA%E5%85%83%E7%B1%BB/" title="再论元类"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-08</div><div class="title">再论元类</div></div></a></div><div><a href="/2023/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="排序算法"><img class="cover" src="/img/loading.gif" data-original="/img/earth.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-23</div><div class="title">排序算法</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/loading.gif" data-original="/img/img.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">HuaYe</div><div class="author-info__description">Good Luck!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/django/"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="toc-number">1.</span> <span class="toc-text">基础篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#is-%E5%92%8C-x3D-x3D-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">is 和 &#x3D;&#x3D; 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python-%E7%9A%84%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="toc-number">1.2.</span> <span class="toc-text">Python 的深浅拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filter%E3%80%81map%E3%80%81reduce-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">filter、map、reduce 的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re%E4%B8%ADmatch%E5%92%8Csearch%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.4.</span> <span class="toc-text">re中match和search的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%AD-new-%E5%92%8C-init-%E5%8C%BA%E5%88%AB"><span class="toc-number">1.5.</span> <span class="toc-text">面向对象中__new__ 和 __init__ 区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zip-%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95"><span class="toc-number">1.6.</span> <span class="toc-text">zip 函数用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E6%8E%A8%E5%AF%BC%E5%BC%8F%E3%80%81%E5%AD%97%E5%85%B8%E6%8E%A8%E5%AF%BC%E5%BC%8F"><span class="toc-number">1.7.</span> <span class="toc-text">列表推导式、字典推导式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#read%E3%80%81readline%E3%80%81readlines-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.8.</span> <span class="toc-text">read、readline、readlines 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%B3%95%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9C%A8%E5%BA%8F%E5%88%97%E4%B8%AD"><span class="toc-number">1.9.</span> <span class="toc-text">二分法查找函数判断是否在序列中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E3%80%81%E7%B1%BB%E6%96%B9%E6%B3%95%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-number">1.10.</span> <span class="toc-text">实例方法、类方法和静态方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">1.11.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#metaclass-%E5%85%83%E7%B1%BB"><span class="toc-number">1.12.</span> <span class="toc-text">metaclass 元类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sort-%E5%92%8C-sorted-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.13.</span> <span class="toc-text">sort 和 sorted 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#any%E5%92%8Call"><span class="toc-number">1.14.</span> <span class="toc-text">any和all</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E5%92%8C%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-number">1.15.</span> <span class="toc-text">闭包和装饰器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yield"><span class="toc-number">1.16.</span> <span class="toc-text">yield</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">1.17.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">1.18.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#enumerate"><span class="toc-number">1.19.</span> <span class="toc-text">enumerate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#json%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%B6%E4%BF%9D%E7%95%99%E4%B8%AD%E6%96%87"><span class="toc-number">1.20.</span> <span class="toc-text">json序列化时保留中文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0%E6%96%AD%E8%A8%80"><span class="toc-number">1.21.</span> <span class="toc-text">简述断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99-re-complie-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.22.</span> <span class="toc-text">正则 re.complie 的作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E7%BD%91%E7%BB%9C%E7%AF%87"><span class="toc-number">2.</span> <span class="toc-text">综合网络篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.1.</span> <span class="toc-text">OSI七层协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">2.2.</span> <span class="toc-text">三次握手四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp%E5%92%8Cudp%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.3.</span> <span class="toc-text">tcp和udp的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFsocket"><span class="toc-number">2.4.</span> <span class="toc-text">什么是socket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C"><span class="toc-number">2.5.</span> <span class="toc-text">并发和并行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0-%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.6.</span> <span class="toc-text">简述 进程、线程、协程的区别以及应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%92%8C%E8%BF%9B%E7%A8%8B%E6%B1%A0"><span class="toc-number">2.7.</span> <span class="toc-text">如何使用线程池和进程池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E9%80%9A%E4%BF%A1"><span class="toc-number">2.8.</span> <span class="toc-text">进程之间如何通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%94%81%E5%92%8C%E7%BA%BF%E7%A8%8B%E9%94%81"><span class="toc-number">2.9.</span> <span class="toc-text">进程锁和线程锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#threading-local-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.10.</span> <span class="toc-text">threading.local 的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LVS-%E6%98%AF%E4%BB%80%E4%B9%88%E5%8F%8A%E4%BD%9C%E7%94%A8"><span class="toc-number">2.11.</span> <span class="toc-text">LVS 是什么及作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.12.</span> <span class="toc-text">Nginx的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRPC"><span class="toc-number">2.13.</span> <span class="toc-text">什么是RPC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFCDN"><span class="toc-number">2.14.</span> <span class="toc-text">什么是CDN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA%E7%BD%91%E5%9D%80%E5%88%B0%E5%B1%95%E7%A4%BA%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">2.15.</span> <span class="toc-text">浏览器输入一个网址到展示页面的过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="toc-number">2.16.</span> <span class="toc-text">消息队列如何保证消息可靠传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uwsgi%E3%80%81uWSGI-%E5%92%8C-WSGI-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.17.</span> <span class="toc-text">uwsgi、uWSGI 和 WSGI 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7"><span class="toc-number">2.18.</span> <span class="toc-text">实现接口幂等性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%87"><span class="toc-number">3.</span> <span class="toc-text">数据库篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1"><span class="toc-number">3.1.</span> <span class="toc-text">什么是数据库事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysql%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">3.2.</span> <span class="toc-text">Mysql锁有哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">3.3.</span> <span class="toc-text">事务的基本特性和隔离级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVCC"><span class="toc-number">3.4.</span> <span class="toc-text">MVCC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0%E8%A7%A6%E5%8F%91%E5%99%A8%E3%80%81%E5%87%BD%E6%95%B0%E3%80%81%E8%A7%86%E5%9B%BE%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">3.5.</span> <span class="toc-text">简述触发器、函数、视图、存储过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char-%E5%92%8C-varchar-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.6.</span> <span class="toc-text">char 和 varchar 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B4%A2%E5%BC%95"><span class="toc-number">3.7.</span> <span class="toc-text">什么是索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%B4%A2%E5%BC%95%E7%A7%8D%E7%B1%BB"><span class="toc-number">3.8.</span> <span class="toc-text">常见索引种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E5%8E%9F%E5%88%99"><span class="toc-number">3.9.</span> <span class="toc-text">最左前缀原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%8C%BA%E5%88%AB"><span class="toc-number">3.10.</span> <span class="toc-text">常见索引数据结构和区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E9%80%89%E7%94%A8B-tree%E5%81%9A%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="toc-number">3.11.</span> <span class="toc-text">MySQL中为什么会选用B+tree做索引结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="toc-number">3.12.</span> <span class="toc-text">数据库读写分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E5%91%BD%E4%BB%A4"><span class="toc-number">3.13.</span> <span class="toc-text">MySQL 数据库备份命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8EInnoDB%E4%B8%8EMyISAM%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-number">3.14.</span> <span class="toc-text">MySql存储引擎InnoDB与MyISAM有什么区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#innoDB-%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%B9%BB%E8%AF%BB"><span class="toc-number">3.15.</span> <span class="toc-text">innoDB 如何解决幻读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Explain%E8%AF%AD%E5%8F%A5%E7%BB%93%E6%9E%9C%E4%B8%AD%E5%90%84%E4%B8%AA%E5%AD%97%E6%AE%B5%E5%88%86%E5%88%AB%E8%A1%A8%E7%A4%BA%E4%BB%80%E4%B9%88"><span class="toc-number">3.16.</span> <span class="toc-text">Explain语句结果中各个字段分别表示什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%9C%A8%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%A4%B1%E6%95%88"><span class="toc-number">3.17.</span> <span class="toc-text">索引在什么情况下会失效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%8C%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%AF%A5%E7%94%A8%E5%92%8C%E4%B8%8D%E8%AF%A5%E7%94%A8"><span class="toc-number">3.18.</span> <span class="toc-text">索引的优缺点，什么时候该用和不该用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL%E6%9F%A5%E8%AF%A2%E6%85%A2%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96"><span class="toc-number">3.19.</span> <span class="toc-text">MySQL查询慢如何优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.20.</span> <span class="toc-text">连接查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%AA%E8%8A%B1ID"><span class="toc-number">3.21.</span> <span class="toc-text">雪花ID</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E7%AF%87"><span class="toc-number">4.</span> <span class="toc-text">Redis篇</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E6%9C%89%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">Redis有哪些数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%95%88%E7%9A%84%E6%89%BE%E5%88%B0redis%E4%B8%AD%E7%9A%84%E6%9F%90%E4%B8%AAKEY"><span class="toc-number">4.2.</span> <span class="toc-text">高效的找到redis中的某个KEY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="toc-number">4.3.</span> <span class="toc-text">Redis持久化机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.4.</span> <span class="toc-text">Redis事务实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E5%BF%AB"><span class="toc-number">4.5.</span> <span class="toc-text">Redis单线程为什么这么快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86"><span class="toc-number">4.6.</span> <span class="toc-text">Redis主从复制的核心原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E9%9B%86%E7%BE%A4%E7%AD%96%E7%95%A5"><span class="toc-number">4.7.</span> <span class="toc-text">Redis集群策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">4.8.</span> <span class="toc-text">缓存穿透、缓存击穿、缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">4.9.</span> <span class="toc-text">如何避免缓存穿透、缓存击穿、缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">4.10.</span> <span class="toc-text">布隆过滤器原理，优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%BA%95%E5%B1%82%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="toc-number">4.11.</span> <span class="toc-text">Redis分布式锁底层是如何实现的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5"><span class="toc-number">4.12.</span> <span class="toc-text">缓存过期策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AE%97%E6%B3%95"><span class="toc-number">4.13.</span> <span class="toc-text">常见缓存淘汰算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAP%E7%90%86%E8%AE%BA"><span class="toc-number">4.14.</span> <span class="toc-text">CAP理论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E2%BC%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-number">4.15.</span> <span class="toc-text">数据⼀致性模型有哪些</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E5%92%8CMySQL%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">4.16.</span> <span class="toc-text">Redis和MySQL如何保证数据一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E5%92%8CMySQL%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7-1"><span class="toc-number">4.17.</span> <span class="toc-text">Redis和MySQL如何保证数据一致性</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/" title="MySQL调优实践"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL调优实践"/></a><div class="content"><a class="title" href="/2099/01/01/MySQL%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5/" title="MySQL调优实践">MySQL调优实践</a><time datetime="2099-01-01T13:46:34.000Z" title="发表于 2099-01-01 21:46:34">2099-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/" title="八股文面试题"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="八股文面试题"/></a><div class="content"><a class="title" href="/2077/07/07/%E5%85%AB%E8%82%A1%E6%96%87%E9%9D%A2%E8%AF%95%E9%A2%98/" title="八股文面试题">八股文面试题</a><time datetime="2077-07-06T23:07:07.000Z" title="发表于 2077-07-07 07:07:07">2077-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="排序算法"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="排序算法"/></a><div class="content"><a class="title" href="/2023/03/23/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="排序算法">排序算法</a><time datetime="2023-03-23T09:43:44.000Z" title="发表于 2023-03-23 17:43:44">2023-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/12/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="分布式锁"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="分布式锁"/></a><div class="content"><a class="title" href="/2023/01/12/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="分布式锁">分布式锁</a><time datetime="2023-01-12T13:15:16.000Z" title="发表于 2023-01-12 21:15:16">2023-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/07/Redis%E4%B8%8EMysql%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88/" title="Redis与Mysql双写一致性方案"><img src="/img/loading.gif" data-original="/img/earth.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Redis与Mysql双写一致性方案"/></a><div class="content"><a class="title" href="/2023/01/07/Redis%E4%B8%8EMysql%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88/" title="Redis与Mysql双写一致性方案">Redis与Mysql双写一致性方案</a><time datetime="2023-01-07T12:14:28.000Z" title="发表于 2023-01-07 20:14:28">2023-01-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By HuaYe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
